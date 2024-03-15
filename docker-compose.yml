@@ -1,0 +1,68 @@
+version: "3.8"
+
+volumes:
+  db:
+  node_modules:
+
+services:
+  backend:
+    build:
+      context: ./services/backend
+      dockerfile: Dockerfile
+    entrypoint: ["sh", "/usr/src/Music_March_Madness_App/entrypoint.sh"] # new
+    volumes:
+      - "./services/backend:/usr/src/Music_March_Madness_App"
+    ports:
+      - 5004:5000
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=app.config.DevelopmentConfig
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/app_dev
+      - SECRET_KEY=secret
+    depends_on:
+      - db
+
+  db:
+    build:
+      context: ./services/db
+      dockerfile: Dockerfile
+    expose:
+      - 5432
+    volumes:
+      - "db:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  frontend:
+    build:
+      context: ./services/frontend
+      dockerfile: Dockerfile
+    volumes:
+      - "./services/frontend:/usr/src/Music_March_Madness_App"
+      - "node_modules:/usr/src/Music_March_Madness_App/node_modules"
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_BACKEND_SERVICE_URL=http://localhost:5004
+      - REACT_APP_WEBSOCKET_SERVICE_URL=http://localhost:5001
+    depends_on:
+      - backend
+
+  websocket:
+    build:
+      context: ./services/websocket
+      dockerfile: Dockerfile
+    entrypoint: ["sh", "/usr/src/Music_March_Madness_App/entrypoint_socket.sh"] # new
+    volumes:
+      - "./services/websocket:/usr/src/Music_March_Madness_App"
+    ports:
+      - 5001:5001
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=app.config_socket.DevelopmentConfig
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/app_dev
+      - SECRET_KEY=secret
+    depends_on:
+      - db

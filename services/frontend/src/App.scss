@@ -1,0 +1,51 @@
+.App {
+  text-align: center;
+}
+
+
+.app-container {
+  text-align: left;
+}
+
+
+.list-container {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.227);
+  margin: 20px auto;
+  width: 50%;
+  text-align: left;
+
+  > a {
+    text-decoration: none;
+  }
+}
+
+#add_comment_form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0px auto;
+  border-top: 1px solid black;
+  padding: 20px;
+}
+
+.login_page {
+  margin: 0px auto;
+  width: 50%;
+}
+
+.error {
+  color: red;
+}
+.results_container {
+  display: flex;
+  flex-wrap: wrap;
+
+  .box {
+    text-align: left;
+    border: black ridge 1px;
+    border-radius: 10px;
+    margin: 3px;
+    width: 32%;
+    padding-left: 10px;
+  }
+}
