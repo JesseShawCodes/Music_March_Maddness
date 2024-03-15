@@ -17,15 +17,37 @@ import ArtistSearch from './pages/ArtistSearch';
 import HookTest from './pages/HookTest';
 import Category from './pages/Category';
 import Categories from './pages/Categories';
-
-
 function App() {
-
-
   return (
-    <div className="App">
-      <h1>Test</h1>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <NavBar />
+        <>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+
+            {/* Test Page */}
+            {/*<!----- Test Search Page ---->*/}
+            {/*Test Hooks */}
+            {/*Test RTK SEARCH */}
+            {/* Test CRUD search*/}
+            <Route path="/music_search" element={<ArtistSearch />} />
+            <Route path="/hooks_test" element={<HookTest />} />
+            {/* End Test Pages */}
+            <Route path="/artist/:handle" element={<ArtistPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/create_account" element={<CreateAccountPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+
+            {/* Nested Route Example */}
+            <Route path="categories" element={<Categories />} >
+              <Route path="category" element={<Category />} />
+            </Route>
+          </Routes>
+        </>
+      </div>
+    </BrowserRouter>
   );
 }
 
