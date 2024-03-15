@@ -29,8 +29,6 @@ root.render(
   <React.StrictMode>
     <Provider store={store} >
       <App />
-      <h2>{process.env.NODE_ENV}</h2>
-      <h2>{process.env.REACT_APP_WEBSITE_NAME} saf</h2>
     </Provider>
   </React.StrictMode>
 );
