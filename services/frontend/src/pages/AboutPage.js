@@ -1,4 +1,4 @@
-const ArticleListPage = () =>
+const AboutPage = () =>
 (
     <div className="container app-container">
     <h1>This is the About Page</h1>
@@ -15,4 +15,4 @@ const ArticleListPage = () =>
 )
 
 
-export default ArticleListPage;
+export default AboutPage;

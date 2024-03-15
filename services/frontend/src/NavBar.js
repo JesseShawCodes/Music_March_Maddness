@@ -1,4 +1,3 @@
-
 import { Link, useNavigate } from 'react-router-dom';
 import useUser from './hooks/useUser';
 import { getAuth, signOut } from 'firebase/auth';
