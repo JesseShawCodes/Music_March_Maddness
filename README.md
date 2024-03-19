@@ -8,6 +8,24 @@ This is the foundation for a March Madness Music App, but is also used as a plac
 
 Backend of application built using Flask Framework. Work in Progress
 
+### DB
+
+Database Service using postgresql
+
+### Front End
+
+Front end React Application
+
+### MySQL
+
+MySQL Database. Currently being used by FastAPi test app.
+
+After starting MySQL container, run this command in the container
+
+```
+GRANT ALL PRIVILEGES ON *.* TO 'user'@'%' IDENTIFIED BY "password";
+```
+
 ### Fastapi
 
 Really simple FAST Api set up for a book database.
