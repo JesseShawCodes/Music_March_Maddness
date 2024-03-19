@@ -4,6 +4,10 @@ This is the foundation for a March Madness Music App, but is also used as a plac
 
 ## Services
 
+### Backend
+
+Backend of application built using Flask Framework. Work in Progress
+
 ### Fastapi
 
 Really simple FAST Api set up for a book database.
