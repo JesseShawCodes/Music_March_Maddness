@@ -6,6 +6,7 @@ WORKDIR /usr/src/Music_March_Madness_App
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV FLASK_APP=app
 
 # install system dependencies
 RUN apt-get update \
@@ -24,4 +25,4 @@ RUN chmod +x /usr/src/Music_March_Madness_App/entrypoint.sh
 # add app
 COPY . .
 
-RUN python manage.py reset_db
+CMD ["python","app.py"]
