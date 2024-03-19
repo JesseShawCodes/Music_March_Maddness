@@ -27,6 +27,8 @@ export default function ArtistSearch() {
     const handleChange = event => {
         navigate(`${location.pathname}?q=${event.target.value}`)
         if (event.target.value.length > 0) {
+            console.log(location.pathname)
+            console.log("Searching...")
             setSearchTerm(event.target.value)
             setArtist(event.target.value)
             setSkip(false)

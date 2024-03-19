@@ -21,6 +21,9 @@ const NavBar = () => {
                     <li className='nav-item'>
                         <Link to="/music_search" className='nav-link active'>Music Search</Link>
                     </li>
+                    <li className='nav-item'>
+                        <Link to="/flask_test" className='nav-link active'>Flask Test</Link>
+                    </li>
                 </ul>
                 <ul className='navbar-nav'>
                     {
