@@ -62,3 +62,46 @@ Use Postman to make post requests using Raw JSON with the following structure:
     }
 }
 ```
+
+### Pandas Virtual Environment (pandas_venv)
+
+```
+python3 -m venv pandas-workspace
+```
+
+Start Envionment
+
+```
+source bin/activate
+```
+
+install dependencies
+```
+pip3 install pandas
+```
+
+```
+pip3 install jupyter
+```
+
+```
+pip3 install matplotlib
+```
+
+```
+pip3 install sqlalchemy
+```
+
+Start up Jupyter Notebook
+```
+jupyter notebook
+```
+
+1. Navigate to one of the urls listed in the log
+2. Create New Python3 to open a new notebook.
+
+#### Set DB Environment Variable for sqlite file
+
+```
+export DB_URI="sqlite:///filename.sqlite"
+```
