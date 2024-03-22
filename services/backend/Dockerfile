@@ -17,6 +17,9 @@ RUN apt-get update \
 COPY ./requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+RUN pip3 install psycopg2-binary
+RUN pip3 install sqlalchemy
+
 
 # add entrypoint.sh
 COPY ./entrypoint.sh /usr/src/Music_March_Madness_App/entrypoint.sh
