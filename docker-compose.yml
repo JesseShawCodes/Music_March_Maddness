@@ -16,18 +16,18 @@ services:
     ports:
       - 5004:5000
     environment:
-      - FLASK_ENV=development
+      - FLASK_ENV=${environment}
+      - APP_TITLE=${title}
       - APP_SETTINGS=app.config.DevelopmentConfig
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/app_dev
+      - DATABASE_URL=${database_url}
       - SECRET_KEY=secret
     depends_on:
       - db
-  
+
   mysql:
     build:
       context: ./services/mysql
       dockerfile: Dockerfile
-    restart: always
     environment:
       MYSQL_DATABASE: 'db'
       # So you don't have to use root, but you can if you like
@@ -50,6 +50,8 @@ services:
     build:
       context: ./services/db
       dockerfile: Dockerfile
+    ports:
+      - '5432:5432'
     expose:
       - 5432
     volumes:
