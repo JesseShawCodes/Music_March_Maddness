@@ -1,4 +1,4 @@
-FROM python:3.9-slim-buster
+FROM python:3.10.14-slim-bullseye
 
 # set working directory
 WORKDIR /usr/src/Music_March_Madness_App
