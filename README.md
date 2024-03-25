@@ -8,6 +8,9 @@ This is the foundation for a March Madness Music App, but is also used as a plac
 
 Backend of application built using Flask Framework. Work in Progress
 
+Tutorial for utilizing pytest in Flask
+https://circleci.com/blog/testing-flask-framework-with-pytest/
+
 ### DB
 
 Database Service using postgresql
