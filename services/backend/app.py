@@ -1,11 +1,56 @@
 # app.py
-from flask import Flask, request, jsonify, render_template, request, flash, url_for, redirect
+from flask import Flask, request, jsonify, render_template, request, flash, url_for, redirect, abort, make_response
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"]="postgresql://postgres:postgres@db:5432/project_tracker"
 app.config["SECRET_KEY"] = "b'}F\x009\x80\xb9\xb5\x8a\x86\xc0\xe4 9$s\x86\x12\xd2&\x9bB\x0b\xdc"
 db = SQLAlchemy(app)
+
+#an a array that will hodl for books.
+books = [
+    {
+        "id": 1,
+        "title": "CS50",
+        "description": "Intro to CS and art of programming!",
+        "author": "Havard",
+        "borrowed": False
+    },
+    {
+        "id": 2,
+        "title": "Python 101",
+        "description": "little python code book.",
+        "author": "Will",
+        "borrowed": False
+    }
+]
+    
+# get and jsonify the data
+@app.route("/bookapi/books")
+def get_books():
+    """ function to get all books """
+    return jsonify({"Books": books})
+
+
+# get book by provided 'id'
+@app.route("/bookapi/books/<int:book_id>", methods=['GET'])
+def get_by_id(book_id):
+    book = [book for book in books if book['id'] == book_id]
+    if len(book) == 0:
+        abort(404)
+    return jsonify({"Book": books[0]})
+
+
+#error handling
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({"error": "not found!"}), 404)
+
+@app.errorhandler(400)
+def not_found(error):
+    return make_response(jsonify({"error": "Bad request!"}), 400)
+
 
 class Project(db.Model):
     __tablename__ = 'projects'
