@@ -2,6 +2,7 @@
 from flask import Flask, request, jsonify, render_template, request, flash, url_for, redirect, abort, make_response
 from flask_sqlalchemy import SQLAlchemy
 import os
+import requests
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"]="postgresql://postgres:postgres@db:5432/project_tracker"
@@ -25,12 +26,32 @@ books = [
         "borrowed": False
     }
 ]
-    
+
 # get and jsonify the data
-@app.route("/bookapi/books")
-def get_books():
-    """ function to get all books """
-    return jsonify({"Books": books})
+@app.route("/artists/")
+def get_artist_list():
+    """ function to get artists """
+    r = requests.get('https://httpbin.org/basic-auth/user/pass', auth=('user', 'pass'))
+    return jsonify(r.json())
+
+# get and jsonify the data
+@app.route("/artists/<artist_name>")
+def get_artist_details(artist_name):
+    """ function to get artists """
+    headers = {'Authorization': "Bearer  BQBAwnJkpNOEvcZAC6OgBm8kbdJBPSW2UrjHmFST6monPYlazefK5R1yKJc4ktZ1ps6vKvSS-Xvq-9DotfV3ULjItoFWzg-WYUa7qePG2VCFkQvWf8U"}
+    r = requests.get("https://api.spotify.com/v1/search?query='deftones'&type=artist", headers=headers)
+    print(r.json())
+    return jsonify({"Artist": artist_name})
+
+'''
+Spotify Authorizations
+'''
+
+@app.route("/get_auth_token")
+def get_auth_token():
+    d = {'grant_type': 'client_credentials', 'client_id': os.environ["SPOTIFY_CLIENT_ID"], 'client_secret': os.environ["SPOTIFY_CLIENT_SECRET"]}
+    return requests.post("https://accounts.spotify.com/api/token", data=d).json()
+    # return r
 
 
 # get book by provided 'id'
