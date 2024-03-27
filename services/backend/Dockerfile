@@ -1,4 +1,4 @@
-FROM python:3.9-slim-buster
+FROM python:3.10.14-slim-bullseye
 
 # set working directory
 WORKDIR /usr/src/Music_March_Madness_App
@@ -18,7 +18,6 @@ COPY ./requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 RUN pip3 install psycopg2-binary
-RUN pip3 install sqlalchemy
 
 
 # add entrypoint.sh
