@@ -1,43 +1,63 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey 
+import os
+
+print(os.environ["DATABASE_URL"])
+
+from sqlalchemy import Column, String, Integer, ForeignKey, create_engine, DateTime
 from sqlalchemy.orm import registry, relationship, Session
-
-
-engine = create_engine(
-    'postgresql://postgres:postgres@db:5432/project_tracker',
-    echo=True)
+from sqlalchemy.sql import func
+engine = create_engine(os.environ["DATABASE_ENGINE"],
+	echo=True)
 
 mapper_registry = registry()
 
 Base = mapper_registry.generate_base()
 
 class Project(Base):
-   __tablename__ = 'projects'
+	__tablename__ = 'projects'
+	project_id = Column(Integer, primary_key=True)
+	title = Column(String(length=50))
+	description = Column(String(length=50))
 
-   project_id = Column(Integer, primary_key=True)
-   title = Column(String(length=50))
-
-   def __repr__(self):
-      return "<Project(project_id='{0}', title='{1}')>".format(self.project_id, self.title)
+	def __repr__(self):
+		return "<Project(title='{0}, description='{1}')>".format(
+			self.title, self.description)
 
 class Task(Base):
-   __tablename__ = 'tasks'
+	__tablename__ = 'tasks'
+	task_id = Column(Integer, primary_key=True)
+	project_id = Column(Integer, ForeignKey('projects.project_id'))
+	description = Column(String(length=50))
 
-   task_id = Column(Integer, primary_key=True)
-   project_id = Column(Integer, ForeignKey('projects.project_id'))
-   description = Column(String(length=50))
+	project = relationship("Project")
 
-   project = relationship("Project")
+	def __repr__(self):
+		return "<Task(description='{0}')>".format(self.description)
+
+class SpotifyAuth(Base):
+   __tablename__ = 'spotify_auth'
+
+   auth_id = Column(Integer, primary_key=True)
+   auth = Column(String(length=1000))
+
+   time_created = Column(DateTime(timezone=True), server_default=func.now())
 
    def __repr__(self):
-      return "<Task(description='{0}')>".format(self.description)
+	   return "<SpotifyAuth(auth='{0}')>".format(self.auth)
 
 Base.metadata.create_all(engine)
 
 with Session(engine) as session:
-   clean_house_project = Project(title="Clean house")
-   session.add(clean_house_project)
-   session.flush()
-   
-   task = Task(description="Clean bedroom", project_id=clean_house_project.project_id)
-   session.add(task)
+
+   initial_spotify_auth = SpotifyAuth(auth="test_auth")
+   session.add(initial_spotify_auth)
    session.commit()
+   
+
+
+
+
+
+
+
+
+
