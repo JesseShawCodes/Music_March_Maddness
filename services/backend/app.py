@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 import requests
 
+from spotify import *
+
 app = Flask(__name__)
 
 # get and jsonify the data
@@ -27,10 +29,8 @@ Spotify Authorizations
 '''
 
 @app.route("/get_auth_token")
-def get_auth_token():
-    d = {'grant_type': 'client_credentials', 'client_id': os.environ["SPOTIFY_CLIENT_ID"], 'client_secret': os.environ["SPOTIFY_CLIENT_SECRET"]}
-    return requests.post("https://accounts.spotify.com/api/token", data=d).json()
-    # return r
+def get_auth_token_route():
+    return get_auth_token()
 
 
 #error handling
