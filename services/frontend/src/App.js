@@ -17,7 +17,7 @@ import ArtistSearch from './pages/ArtistSearch';
 import HookTest from './pages/HookTest';
 import Category from './pages/Category';
 import Categories from './pages/Categories';
-import FlaskTest from './pages/FlaskTest';
+import BracketTest from './pages/BracketTest';
 function App() {
   return (
     <BrowserRouter>
@@ -28,7 +28,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/music_search" element={<ArtistSearch />} />
-            <Route path="/flask_test" element={<FlaskTest />} />
+            <Route path="/bracket_test" element={<BracketTest />} />
             <Route path="/hooks_test" element={<HookTest />} />
             {/* End Test Pages */}
             <Route path="/artist/:handle" element={<ArtistPage />} />

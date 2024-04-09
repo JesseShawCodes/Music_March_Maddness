@@ -1,10 +1,12 @@
 import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 
-const FlaskTest = () =>
+import { SingleEliminationBracket, DoubleEliminationBracket, Match, MATCH_STATES, SVGViewer } from '@g-loot/react-tournament-brackets';
+
+const BracketTest = () =>
 (
     <div className="container app-container">
-    <h1>This is the Flask Test Page</h1>
+    <h1>This is the Bracket Test Page</h1>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dictum non eros nec faucibus. Proin sollicitudin turpis suscipit orci placerat auctor. Integer sit amet tellus ultrices, hendrerit lacus ut, finibus sapien. Nunc ultricies dolor a sodales venenatis. Integer porttitor, enim sit amet sagittis viverra, risus massa pulvinar neque, a pretium turpis ante eu neque. Cras interdum nunc in hendrerit porttitor. Nam varius rutrum diam ac facilisis. Nulla quis finibus orci, eget dignissim libero. Etiam at sapien ut dolor consectetur maximus faucibus nec erat. Curabitur eget nibh volutpat, rhoncus ante eu, gravida lectus. Maecenas a suscipit libero. Etiam faucibus nulla et nisi auctor, sed ultrices ex consectetur. Morbi ut dui purus. Etiam nec accumsan nisi. Morbi finibus interdum magna, sit amet viverra dolor aliquam id.</p>
 
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin volutpat commodo vulputate. Quisque pulvinar felis nec dolor rutrum pretium. Mauris ac nisl sit amet orci tincidunt luctus non ac est. Proin eu sollicitudin mauris. Donec tempus venenatis libero, et lacinia sem condimentum a. Mauris ut ullamcorper odio. In eros sem, vehicula sit amet lorem vel, accumsan posuere orci. Proin hendrerit, metus nec pellentesque finibus, lacus lectus pulvinar elit, nec porttitor dui nunc eu nunc. Vivamus accumsan laoreet dolor vel blandit.</p>
@@ -18,4 +20,4 @@ const FlaskTest = () =>
 )
 
 
-export default FlaskTest;
+export default BracketTest;
