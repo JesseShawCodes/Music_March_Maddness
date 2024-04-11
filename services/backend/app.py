@@ -4,9 +4,14 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 import requests
 
+from flask_cors import CORS, cross_origin
+
 from spotify import *
+from datamanagement import delete_old_records, get_newest_auth
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # get and jsonify the data
 @app.route("/artists/")
@@ -17,12 +22,16 @@ def get_artist_list():
 
 # get and jsonify the data
 @app.route("/artists/<artist_name>")
+@cross_origin()
 def get_artist_details(artist_name):
     """ function to get artists """
-    headers = {'Authorization': "Bearer  BQBAwnJkpNOEvcZAC6OgBm8kbdJBPSW2UrjHmFST6monPYlazefK5R1yKJc4ktZ1ps6vKvSS-Xvq-9DotfV3ULjItoFWzg-WYUa7qePG2VCFkQvWf8U"}
-    r = requests.get("https://api.spotify.com/v1/search?query='deftones'&type=artist", headers=headers)
-    print(r.json())
-    return jsonify({"Artist": artist_name})
+    headers = {'Authorization': "Bearer  BQD0C6roenoH7reC3_FPauoCw8cPsHmSf0iyAcbHxxmL2vAduegDJd7HCny38XqOH1p2xmMuQJjSPto3TJhaT4k-"}
+    r = requests.get(f"https://api.spotify.com/v1/search?query={artist_name}&type=artist", headers=headers)
+    if r.status_code != 200:
+        token = get_auth_token()['access_token']
+        headers = {'Authorization': f"Bearer  {token}"}
+        r = requests.get(f"https://api.spotify.com/v1/search?query={artist_name}&type=artist", headers=headers)
+    return jsonify(r.json())
 
 '''
 Spotify Authorizations
@@ -42,51 +51,9 @@ def not_found(error):
 def not_found(error):
     return make_response(jsonify({"error": "Bad request!"}), 400)
 
-
-@app.route('/query-example')
-def query_example():
-    # if key doesn't exist, returns None
-    language = request.args.get('language')
-
-    # if key doesn't exist, returns a 400, bad request error
-    framework = request.args['framework']
-
-    # if key doesn't exist, returns None
-    website = request.args.get('website')
-
-    return '''
-              <h1>The language value is: {}</h1>
-              <h1>The framework value is: {}</h1>
-              <h1>The website value is: {}'''.format(language, framework, website)
-
-# allow both GET and POST requests
-@app.route('/form-example', methods=['GET', 'POST'])
-def form_example():
-    # handle the POST request
-    if request.method == 'POST':
-        language = request.form.get('language')
-        framework = request.form.get('framework')
-        return '''
-                  <h1>The language value is: {}</h1>
-                  <h1>The framework value is: {}</h1>'''.format(language, framework)
-
-    # otherwise handle the GET request
-    return '''
-           <form method="POST">
-               <div><label>Language: <input type="text" name="language"></label></div>
-               <div><label>Framework: <input type="text" name="framework"></label></div>
-               <input type="submit" value="Submit">
-           </form>'''
-
-# GET requests will be blocked
-@app.route('/json-example', methods=['GET'])
-def json_example():
-    return jsonify(
-        username='g.user.username',
-        email='g.user.email',
-        id='g.user.id'
-    )
-
+@app.route("/remove_old_records")
+def remove_old_records_auth():
+    return delete_old_records()
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

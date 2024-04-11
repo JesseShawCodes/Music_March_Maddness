@@ -1,16 +1,21 @@
 import os
-
-print(os.environ["DATABASE_URL"])
+import requests
 
 from sqlalchemy import Column, String, Integer, ForeignKey, create_engine, DateTime
 from sqlalchemy.orm import registry, relationship, Session
 from sqlalchemy.sql import func
+
 engine = create_engine(os.environ["DATABASE_ENGINE"],
 	echo=True)
 
 mapper_registry = registry()
 
 Base = mapper_registry.generate_base()
+
+def getAuth():
+	d = {'grant_type': 'client_credentials', 'client_id': os.environ["SPOTIFY_CLIENT_ID"], 'client_secret': os.environ["SPOTIFY_CLIENT_SECRET"]}
+	result = requests.post(os.environ["SPOTIFY_AUTH_URL"], data=d).json()
+	return result
 
 class Project(Base):
 	__tablename__ = 'projects'
@@ -48,16 +53,7 @@ Base.metadata.create_all(engine)
 
 with Session(engine) as session:
 
-   initial_spotify_auth = SpotifyAuth(auth="test_auth")
+   initial_spotify_auth = SpotifyAuth(auth=getAuth()['access_token'])
    session.add(initial_spotify_auth)
+   session.flush()
    session.commit()
-   
-
-
-
-
-
-
-
-
-

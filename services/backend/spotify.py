@@ -3,21 +3,11 @@ import requests
 
 from sqlalchemy.orm import registry, relationship, Session
 
+from flask import jsonify
 
 from database import SpotifyAuth, engine
 
-def project_test():
-    print("TEST POST")
-
-    with Session(engine) as session:
-        print("Test 1 ...")
-        me = SpotifyAuth(auth='admin')
-        print("Test 2...")
-        session.add(me)
-        session.commit()
-
 def get_auth_token():
-    print(os)
     d = {'grant_type': 'client_credentials', 'client_id': os.environ["SPOTIFY_CLIENT_ID"], 'client_secret': os.environ["SPOTIFY_CLIENT_SECRET"]}
 
 
