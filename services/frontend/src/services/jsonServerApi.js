@@ -15,7 +15,7 @@ export const jsonServerApi = createApi({
     }),
     getArtistInfo: builder.query({
       query: (artist_id) => ({
-        url: `/artist/${artist_id}`
+        url: `/artist_page/${artist_id}`
       })
     })
   }),
