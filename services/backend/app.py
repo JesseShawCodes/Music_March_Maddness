@@ -12,26 +12,79 @@ from datamanagement import delete_old_records, get_newest_auth
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+from database import ArtistData, engine
 
+'''
 # get and jsonify the data
 @app.route("/artists/")
 def get_artist_list():
     """ function to get artists """
     r = requests.get('https://httpbin.org/basic-auth/user/pass', auth=('user', 'pass'))
     return jsonify(r.json())
-
+'''
 # get and jsonify the data
 @app.route("/artists/<artist_name>")
 @cross_origin()
-def get_artist_details(artist_name):
+def get_artist_list(artist_name):
     """ function to get artists """
-    headers = {'Authorization': "Bearer  BQD0C6roenoH7reC3_FPauoCw8cPsHmSf0iyAcbHxxmL2vAduegDJd7HCny38XqOH1p2xmMuQJjSPto3TJhaT4k-"}
+    headers = {'Authorization': f"Bearer  {get_newest_auth()}"}
     r = requests.get(f"https://api.spotify.com/v1/search?query={artist_name}&type=artist", headers=headers)
     if r.status_code != 200:
-        token = get_auth_token()['access_token']
-        headers = {'Authorization': f"Bearer  {token}"}
+        token = get_auth_token()
+        headers = {'Authorization': f"Bearer  {get_newest_auth()}"}
         r = requests.get(f"https://api.spotify.com/v1/search?query={artist_name}&type=artist", headers=headers)
     return jsonify(r.json())
+
+@app.route("/artist_page/<artist_id>")
+@cross_origin()
+def get_artist_info(artist_id):
+
+        
+    headers = {'Authorization': f"Bearer  {get_newest_auth()}"}
+    artist = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}", headers=headers)
+
+    if artist.status_code != 200:
+        token = get_newest_auth()
+        headers = {'Authorization': f"Bearer  {token}"}
+        artist = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}", headers=headers)
+    
+    artist = artist.json()
+    tracks = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?market=US", headers=headers)
+    albums = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}/albums", headers=headers)
+    albums = albums.json()
+
+
+
+
+    for album in albums["items"]:
+        print(album["id"])
+        url = f"https://api.spotify.com/v1/albums/{album['id']}"
+        print(url)
+        details = requests.get(url, headers=headers)
+        details = details.json()
+        album["popularity"] = details["popularity"]
+    
+    print(artist["id"])
+    
+    with Session(engine) as session:
+        artist_session = ArtistData(artist_spotify_id=artist["id"], artist_name = artist["name"], artist_data = {
+            "artist": artist,
+            "tracks": tracks.json(),
+            "albums": albums
+        })
+        session.add(artist_session)
+        session.commit()
+
+    return jsonify({
+        "artist": artist,
+        "tracks": tracks.json(),
+        "albums": albums
+    })
+'''
+
+'''
+
+
 
 '''
 Spotify Authorizations
@@ -40,6 +93,10 @@ Spotify Authorizations
 @app.route("/get_auth_token")
 def get_auth_token_route():
     return get_auth_token()
+
+@app.route("/get_newest_auth")
+def get_newest_auth_route():
+    return get_newest_auth()
 
 
 #error handling
