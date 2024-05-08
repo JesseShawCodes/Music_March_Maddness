@@ -9,6 +9,7 @@ const BackToTop = () => {
     }
     useEffect(() => {
         const handleScrollButtonVisibility = () => {
+            console.log(window.scrollY)
             window.scrollY > 500 ? setShowButton(true) : setShowButton(false);
         };
         window.addEventListener('scroll', handleScrollButtonVisibility);
