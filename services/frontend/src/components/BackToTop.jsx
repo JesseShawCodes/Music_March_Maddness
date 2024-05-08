@@ -1,4 +1,6 @@
 import { useEffect } from "react"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
 
 const BackToTop = () => {
 
@@ -23,9 +25,9 @@ const BackToTop = () => {
         <>
             {
                 setShowButton && (
-                    <div className={'scrollToTop'}>
-                        <button className="position-fixed fixed-bottom w-25 right-7 z-5 cursor-pointer p-4" onClick={handleScrollToTop}>
-                            BACK TO TOP ffff
+                    <div className={'scrollToTop'} id="back_to_top_container">
+                        <button id="back_to_top" class="btn-secondary" onClick={handleScrollToTop}>
+                            <FontAwesomeIcon icon={faAngleUp  } />
                         </button>
                     </div>
                 )
