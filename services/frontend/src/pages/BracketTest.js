@@ -1,10 +1,10 @@
-import { io } from "socket.io-client";
-import { useEffect, useState } from "react";
+// import { io } from "socket.io-client";
+// import { useEffect, useState } from "react";
 
-import { SingleEliminationBracket, DoubleEliminationBracket, Match, MATCH_STATES, SVGViewer } from '@g-loot/react-tournament-brackets';
+// import { SingleEliminationBracket, DoubleEliminationBracket, Match, MATCH_STATES, SVGViewer } from '@g-loot/react-tournament-brackets';
 
 export default function BracketTest() {
-    console.log(SingleEliminationBracket)
+    /*
     var matches = [
       {
         "id": 19874,
@@ -1676,12 +1676,12 @@ export default function BracketTest() {
         ]
       }
     ]
+    */
     return (
         <div className="container app-container">
             
         <h1>This is the Bracket Test Page</h1>
 
-        <SingleEliminationBracket matches={matches} />
         </div>
     )
 }

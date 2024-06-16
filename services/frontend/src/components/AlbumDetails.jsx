@@ -1,6 +1,6 @@
 const Albums = ({ list_items }) => {
     return (
-        <>
+        <div className="albums_container" style={{maxWidth: '100%'}}>
         {list_items.map((key, index) => (
             <div className="card" style={{ maxWidth: '100%'}} key={index}>
             <img className="card-img-top" src={key.images[1].url} alt={`${key.name} album cover`} style={{maxWidth: '200px'}}/>
@@ -13,7 +13,7 @@ const Albums = ({ list_items }) => {
             </div>
             </div>
         ))}
-        </>
+        </div>
     )
 }
 
