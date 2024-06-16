@@ -108,3 +108,16 @@ jupyter notebook
 ```
 export DB_URI="sqlite:///filename.sqlite"
 ```
+
+
+### Resources
+
+https://github.com/firebase/functions-samples/tree/main/Node-1st-gen/spotify-auth
+
+https://cgarethc.medium.com/using-the-spotify-api-with-firebase-to-build-an-album-centric-music-manager-9a53709b7c4f
+
+https://codesandbox.io/p/sandbox/hackathon-discovery-uvkht?file=%2Fsrc%2Fforms%2Fpayments.js
+
+### New Features
+
+Progress Bar for rating songs
