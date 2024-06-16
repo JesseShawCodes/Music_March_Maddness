@@ -7,6 +7,7 @@ from flask import jsonify
 
 from database import SpotifyAuth, engine
 
+from datamanagement import get_newest_auth
 def get_auth_token():
     d = {'grant_type': 'client_credentials', 'client_id': os.environ["SPOTIFY_CLIENT_ID"], 'client_secret': os.environ["SPOTIFY_CLIENT_SECRET"]}
 
@@ -20,9 +21,20 @@ def get_auth_token():
         session.commit()
     return result
 
-def get_artist_details(artist_name):
+'''
+const getArtist = async (id) => {
+    var auth = await SpotifyAuth.find({token_type: "Bearer"})
+    var data = await spotifyApiRequest(`https://api.spotify.com/v1/artists/${id}`, auth[0].access_token, 'GET')
+    return data
+}
+
+'''
+def get_artist_details(artist_id):
     """ function to get artists """
-    headers = {'Authorization': "Bearer  BQBAwnJkpNOEvcZAC6OgBm8kbdJBPSW2UrjHmFST6monPYlazefK5R1yKJc4ktZ1ps6vKvSS-Xvq-9DotfV3ULjItoFWzg-WYUa7qePG2VCFkQvWf8U"}
-    r = requests.get("https://api.spotify.com/v1/search?query='deftones'&type=artist", headers=headers)
+    headers = {'Authorization': f"Bearer {get_newest_auth()}"}
+    r = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}", headers=headers)
     print(r.json())
-    return jsonify({"Artist": artist_name})
+    return jsonify({"Artist": artist_id})
+
+def check_request_status(status_code):
+    print("Check status code")

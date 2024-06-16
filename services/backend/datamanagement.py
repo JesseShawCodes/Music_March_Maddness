@@ -1,6 +1,7 @@
 import os
 import requests
 
+from sqlalchemy import select, desc
 from sqlalchemy.orm import registry, relationship, Session
 
 from flask import jsonify
@@ -8,11 +9,15 @@ from flask import jsonify
 from database import SpotifyAuth, engine
 
 def get_newest_auth():
-    print("Get Newest Auth")
-    return jsonify({"get_newest_auth": True})
+
+    with Session(engine) as session:
+        smt = select(SpotifyAuth).order_by(desc(SpotifyAuth.time_created)).limit(1)
+        result = session.execute(smt)
+        most_recent_auth = result.scalar()
+
+    return f"{most_recent_auth.auth}"
 
 def delete_old_records():
-    print("Delete Old Records")
     connection = engine.connect()
     records = connection.execute('SELECT * FROM spotify_auth')
 

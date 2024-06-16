@@ -6,6 +6,7 @@ import requests
 
 from flask_cors import CORS, cross_origin
 
+from database import getAuth
 from spotify import *
 from datamanagement import delete_old_records, get_newest_auth
 
@@ -44,45 +45,39 @@ def get_artist_info(artist_id):
     artist = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}", headers=headers)
 
     if artist.status_code != 200:
-        token = get_newest_auth()
+        token = getAuth()
         headers = {'Authorization': f"Bearer  {token}"}
         artist = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}", headers=headers)
     
     artist = artist.json()
     tracks = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?market=US", headers=headers)
     albums = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}/albums", headers=headers)
+    # Use the Get ALBUMS Request
+    # https://developer.spotify.com/documentation/web-api/reference/get-multiple-albums
+    # multiple_albums = requests.get(f"https://api.spotify.com/v1/albums?ids=0VEFy5MsBiq0u2lWL0OwOd", headers=headers)
     albums = albums.json()
 
 
 
-
+    all_tracks = []
     for album in albums["items"]:
-        print(album["id"])
+        # print(album["id"])
         url = f"https://api.spotify.com/v1/albums/{album['id']}"
-        print(url)
         details = requests.get(url, headers=headers)
         details = details.json()
-        album["popularity"] = details["popularity"]
+        all_tracks.append(details)
+        print(details['popularity'])
+        album["popularity"] = details['popularity']
     
     print(artist["id"])
-    
-    with Session(engine) as session:
-        artist_session = ArtistData(artist_spotify_id=artist["id"], artist_name = artist["name"], artist_data = {
-            "artist": artist,
-            "tracks": tracks.json(),
-            "albums": albums
-        })
-        session.add(artist_session)
-        session.commit()
 
     return jsonify({
         "artist": artist,
         "tracks": tracks.json(),
-        "albums": albums
+        "albums": albums,
+        "all_tracks": all_tracks
     })
-'''
 
-'''
 
 
 
