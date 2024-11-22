@@ -9,8 +9,7 @@ services:
       context: ./services/backend
       dockerfile: Dockerfile
     entrypoint: ["sh", "/usr/src/Music_March_Madness_App/entrypoint.sh"] # new
-    volumes:
-      - "./services/backend:/usr/src/Music_March_Madness_App"
+  
     ports:
       - 5004:5000
     environment:
@@ -18,7 +17,7 @@ services:
       - APP_TITLE=${title}
       - APP_SETTINGS=app.config.DevelopmentConfig
       - DATABASE_URL=${database_url}
-      - DATABASE_ENGINE=${postgres_database_engine}
+      - DATABASE_ENGINE=postgresql://postgres:postgres@db/music_march_madness
       - SECRET_KEY=secret
       - OPEN_AI_API_KEY=${open_ai_api_key}
       - SPOTIFY_CLIENT_ID=${spotify_client_id}
@@ -26,6 +25,11 @@ services:
       - SPOTIFY_AUTH_URL=${spotify_auth_url}
     depends_on:
       - db
+    develop:
+      watch:
+        - action: sync
+          path: ./services/backend
+          target: /usr/src/
 
   db:
     build:
@@ -40,19 +44,3 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-
-  frontend:
-    build:
-      context: ./services/frontend
-      dockerfile: Dockerfile
-    volumes:
-      - "./services/frontend:/usr/src/Music_March_Madness_App"
-      - "node_modules:/usr/src/Music_March_Madness_App/node_modules"
-    ports:
-      - 3000:3000
-    environment:
-      - NODE_ENV=development
-      - REACT_APP_BACKEND_SERVICE_URL=http://localhost:5004
-      - REACT_APP_WEBSOCKET_SERVICE_URL=http://localhost:5001
-    depends_on:
-      - backend
