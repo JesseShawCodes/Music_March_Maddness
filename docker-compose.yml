@@ -29,7 +29,7 @@ services:
       watch:
         - action: sync
           path: ./services/backend
-          target: /usr/src/
+          target: /usr/src/Music_March_Madness_App
 
   db:
     build:
