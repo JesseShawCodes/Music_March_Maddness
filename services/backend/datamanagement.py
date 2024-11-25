@@ -8,6 +8,9 @@ from flask import jsonify
 
 from database import SpotifyAuth, engine
 
+# Import date class from datetime module
+from datetime import date
+
 def get_newest_auth():
 
     with Session(engine) as session:
@@ -23,7 +26,7 @@ def delete_old_records():
 
    # Delete all records that are older than a certain date
     for record in records:
-       if record['date'] < '2023-03-29':
+       if record['date'] < date.today() - 14:
            connection.execute('DELETE FROM table WHERE id = {}'.format(record['id']))
 
    # Commit the changes to the database
