@@ -61,25 +61,18 @@ def get_artist_info(artist_id):
 
     all_tracks = []
     for album in albums["items"]:
-        # print(album["id"])
         url = f"https://api.spotify.com/v1/albums/{album['id']}"
         details = requests.get(url, headers=headers)
         details = details.json()
         all_tracks.append(details)
-        print(details['popularity'])
         album["popularity"] = details['popularity']
     
-    print(artist["id"])
-
     return jsonify({
         "artist": artist,
         "tracks": tracks.json(),
         "albums": albums,
         "all_tracks": all_tracks
     })
-
-
-
 
 '''
 Spotify Authorizations
@@ -92,7 +85,6 @@ def get_auth_token_route():
 @app.route("/get_newest_auth")
 def get_newest_auth_route():
     return get_newest_auth()
-
 
 #error handling
 @app.errorhandler(404)
