@@ -1,4 +1,4 @@
 #!/bin/sh
 
 
-python app.py run -h 0.0.0.0
+python app.py --debug run -h 0.0.0.0
