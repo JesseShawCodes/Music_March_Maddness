@@ -18,27 +18,6 @@ def getAuth():
 	result = requests.post(os.environ["SPOTIFY_AUTH_URL"], data=d).json()
 	return result
 
-class Project(Base):
-	__tablename__ = 'projects'
-	project_id = Column(Integer, primary_key=True)
-	title = Column(String(length=50))
-	description = Column(String(length=50))
-
-	def __repr__(self):
-		return "<Project(title='{0}, description='{1}')>".format(
-			self.title, self.description)
-
-class Task(Base):
-	__tablename__ = 'tasks'
-	task_id = Column(Integer, primary_key=True)
-	project_id = Column(Integer, ForeignKey('projects.project_id'))
-	description = Column(String(length=50))
-
-	project = relationship("Project")
-
-	def __repr__(self):
-		return "<Task(description='{0}')>".format(self.description)
-
 class SpotifyAuth(Base):
    __tablename__ = 'spotify_auth'
 
