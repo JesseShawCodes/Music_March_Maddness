@@ -1,40 +1,39 @@
-import { useEffect } from "react"
+import { React, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
-const BackToTop = () => {
+function BackToTop() {
+  const setShowButton = () => false;
 
-    const setShowButton = (show) => {
-        return false
-    }
-    useEffect(() => {
-        const handleScrollButtonVisibility = () => {
-            console.log(window.scrollY)
-            window.scrollY > 500 ? setShowButton(true) : setShowButton(false);
-        };
-        window.addEventListener('scroll', handleScrollButtonVisibility);
-        return () => {
-            window.removeEventListener('scroll', handleScrollButtonVisibility);
-        }
-    }, [])
+  useEffect(() => {
+    const handleScrollButtonVisibility = () => {
+      if (window.scrollY > 500) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    };
+    window.addEventListener('scroll', handleScrollButtonVisibility);
+    return () => {
+      window.removeEventListener('scroll', handleScrollButtonVisibility);
+    };
+  }, []);
 
-    const handleScrollToTop = () => {
-        window.scrollTo({top: 0, behavior: 'smooth'})
-    }
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-    return (
-        <>
-            {
-                setShowButton && (
-                    <div className={'scrollToTop'} id="back_to_top_container">
-                        <button id="back_to_top" class="btn-secondary" onClick={handleScrollToTop}>
-                            <FontAwesomeIcon icon={faAngleUp  } />
-                        </button>
-                    </div>
-                )
-            }
-        </>
-    )
+  return (
+    <>
+      setShowButton && (
+      <div className="scrollToTop" id="back_to_top_container">
+        <button aria-label="Back to Top" id="back_to_top" className="btn-secondary" onClick={handleScrollToTop} type="button">
+          <FontAwesomeIcon icon={faAngleUp} />
+        </button>
+      </div>
+      )
+    </>
+  );
 }
 
 export default BackToTop;
