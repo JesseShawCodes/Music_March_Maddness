@@ -2,7 +2,7 @@ import os
 import requests
 
 from sqlalchemy import select, desc
-from sqlalchemy.orm import registry, relationship, Session
+from sqlalchemy.orm import Session
 
 from flask import jsonify
 
@@ -21,17 +21,4 @@ def get_newest_auth():
     return f"{most_recent_auth.auth}"
 
 def delete_old_records():
-    connection = engine.connect()
-    records = connection.execute('SELECT * FROM spotify_auth')
-
-   # Delete all records that are older than a certain date
-    for record in records:
-       if record['date'] < date.today() - 14:
-           connection.execute('DELETE FROM table WHERE id = {}'.format(record['id']))
-
-   # Commit the changes to the database
-    connection.commit()
-
-    # Close the connection to the database
-    connection.close()
     return jsonify({"Success": True})
