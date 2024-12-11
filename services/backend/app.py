@@ -7,9 +7,7 @@ import requests
 
 from flask_cors import CORS, cross_origin
 
-import module as mod
-import database as db
-from spotify import *
+import database
 from datamanagement import get_newest_auth
 
 app = Flask(__name__)
@@ -46,7 +44,7 @@ def get_artist_info(artist_id):
                           )
 
     if artist.status_code != 200:
-        token = db.getAuth()
+        token = database.getAuth()
         headers = {'Authorization': f"Bearer  {token}"}
         artist = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}",
                               headers=headers,
