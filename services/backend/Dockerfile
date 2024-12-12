@@ -7,6 +7,7 @@ WORKDIR /usr/src/Music_March_Madness_App
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV FLASK_APP=app
+ENV PYTHONPATH="/app:${PYTHONPATH}"
 
 # install system dependencies
 RUN apt-get update \
