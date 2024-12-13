@@ -1,8 +1,7 @@
 # app/__init__.py
 
 import os
-from flask import Flask, request, jsonify
-from flask_socketio import SocketIO,emit
+from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 
