@@ -12,11 +12,4 @@ class NotesListView(ListView):
 
 class DetailView(DetailView):
   model = Notes
-  context_object_name = "notes"
-  
-def detail(request, pk):
-  try:
-    note = Notes.objects.get(pk=pk)
-  except:
-    raise Http404("Note Does Not Exist")
-  return render(request, 'notes/note_details.html', {'note': note})
+  context_object_name = "note"
