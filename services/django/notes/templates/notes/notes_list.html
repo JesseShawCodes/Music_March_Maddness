@@ -1,0 +1,16 @@
+<html>
+  <header>
+    <title>Notes List</title>
+  </header>
+  <body>
+    <h1>Notes List</h1>
+
+    <ul>
+      {% for note in notes %}
+        <li>
+          {{note.title}}
+        </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
