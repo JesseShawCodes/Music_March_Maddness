@@ -1,16 +1,14 @@
-<html>
-  <header>
-    <title>Notes List</title>
-  </header>
-  <body>
-    <h1>Notes List</h1>
+{% extends "base.html" %}
 
-    <ul>
-      {% for note in notes %}
-        <li>
-          {{note.title}}
-        </li>
-      {% endfor %}
-    </ul>
-  </body>
-</html>
+{% block content %}
+<h1>Notes List</h1>
+
+<ul>
+  {% for note in notes %}
+    <li class="note-li">
+      {{note.title}}
+    </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
