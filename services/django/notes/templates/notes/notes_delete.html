@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form  method="post">{% csrf_token %}
+  <p>Are you Sure you want to Delete?</p>
+  <p>This action can not be undone.</p>
+
+  <input value="Confirm"/>
+</form>
+
+{% if form.errors %}
+<div class="alert alert-danger my-5">
+  {{form.errors.title.as_text}}
+</div>
+{% endif %}
+{% endblock %}
