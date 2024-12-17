@@ -4,14 +4,32 @@ volumes:
   mysql_volume:
 
 services:
+  django:
+    build:
+      context: ./services/django_backend
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    develop:
+      watch:
+        - action: sync
+          path: ./services/django_backend
+          target: ./code
+    depends_on:
+      - db
+
   backend:
     build:
       context: ./services/backend
       dockerfile: Dockerfile
     entrypoint: ["sh", "/usr/src/Music_March_Madness_App/entrypoint.sh"] # new
-  
-    ports:
-      - 5004:5000
     environment:
       - FLASK_ENV=${environment}
       - APP_TITLE=${title}
