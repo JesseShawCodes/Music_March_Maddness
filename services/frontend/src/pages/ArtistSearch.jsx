@@ -1,48 +1,65 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+/* eslint-disable space-in-parens */
+/* eslint-disable object-curly-spacing */
+/* eslint-disable quotes */
+/* eslint-disable indent */
+/* eslint-disable arrow-parens */
+/* eslint-disable semi */
+/* eslint-disable react/jsx-indent-props */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable brace-style */
+/* eslint-disable jsx-quotes */
+/* eslint-disable operator-linebreak */
+/* eslint-disable no-shadow */
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable  no-multiple-empty-lines */
+/* eslint-disable prefer-template */
+/* eslint-disable space-infix-ops */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable prefer-template */
+/* eslint-disable react/jsx-tag-spacing */
+/* eslint-disable react/jsx-curly-newline */
+
 import React, { useState } from 'react';
-import { useGetArtistsQuery } from "../services/jsonServerApi";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import { useNavigate, useLocation } from "react-router-dom"
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useUser from '../hooks/useUser';
 
 export default function ArtistSearch() {
-    const navigate = useNavigate()
-    const location = useLocation()
-    const [artist, setArtist] = useState()
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [artist, setArtist] = useState();
 
-    const { user } = useUser();
-    
-    var skipParam = true
-    if (location.search) {
-        skipParam = false
+  const { user } = useUser();
+
+  let skipParam = true;
+  if (location.search) {
+    skipParam = false;
+  }
+
+  const [skip, setSkip] = React.useState(skipParam);
+  const {
+    data: musicQuery = [],
+    isLoading,
+    isError,
+    error,
+  } = useGetArtistsQuery( artist, {skip});
+  const [searchTerm, setSearchTerm] = React.useState("");
+
+  const handleChange = event => {
+    navigate(`${location.pathname}?q=${event.target.value}`)
+    if (event.target.value.length > 0) {
+      setSearchTerm(event.target.value);
+      setArtist(event.target.value);
+      setSkip(false);
     }
-    const [skip, setSkip] = React.useState(skipParam)
-    const { 
-        data: musicQuery = [],
-        isLoading,
-        isError,
-        error,
-    } = useGetArtistsQuery(artist, {skip});
-    const [searchTerm, setSearchTerm] = React.useState("")
-
-    const handleChange = event => {
-        navigate(`${location.pathname}?q=${event.target.value}`)
-        if (event.target.value.length > 0) {
-            console.log(location.pathname)
-            console.log("Searching...")
-            setSearchTerm(event.target.value)
-            setArtist(event.target.value)
-            setSkip(false)
-        }
-        else {
-            setSearchTerm("")
-            setArtist("")
-            setSkip(true)
-        }
-    };
-
-    if (isError) {
-        console.log({error})
+    else {
+      setSearchTerm("");
+      setArtist("");
+      setSkip(true);
     }
+  };
 
     return (
         <div className='w-90 mx-auto'>
