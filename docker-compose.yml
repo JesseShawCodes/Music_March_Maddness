@@ -1,64 +1,33 @@
 volumes:
   db:
-  node_modules:
-  mysql_volume:
+  django:
 
 services:
-  django:
-    build:
-      context: ./services/django_backend
-      dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
-    ports:
-      - "8000:8000"
-    environment:
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    develop:
-      watch:
-        - action: sync
-          path: ./services/django_backend
-          target: ./code
-    depends_on:
-      - db
-
-  backend:
-    build:
-      context: ./services/backend
-      dockerfile: Dockerfile
-    entrypoint: ["sh", "/usr/src/Music_March_Madness_App/entrypoint.sh"] # new
-    environment:
-      - FLASK_ENV=${environment}
-      - APP_TITLE=${title}
-      - APP_SETTINGS=app.config.DevelopmentConfig
-      - DATABASE_URL=${database_url}
-      - DATABASE_ENGINE=postgresql://postgres:postgres@db/music_march_madness
-      - SECRET_KEY=secret
-      - OPEN_AI_API_KEY=${open_ai_api_key}
-      - SPOTIFY_CLIENT_ID=${spotify_client_id}
-      - SPOTIFY_CLIENT_SECRET=${spotify_client_secret}
-      - SPOTIFY_AUTH_URL=${spotify_auth_url}
-    depends_on:
-      - db
-    develop:
-      watch:
-        - action: sync
-          path: ./services/backend
-          target: /usr/src/Music_March_Madness_App
-
   db:
     build:
       context: ./services/db
       dockerfile: Dockerfile
+    container_name: postgres #you can change this
     ports:
-      - '5432:5432'
+      - "5432:5432"
     expose:
       - 5432
     volumes:
       - "db:/var/lib/postgresql/data"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=${database_user}
+      - POSTGRES_PASSWORD=${database_password}
+      - POSTGRES_DB=${database_name}
+      - POSTGRES_PORT=${database_port}
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: demo-pgadmin #you can change this
+    depends_on:
+      - db
+    ports:
+      - "5051:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    restart: always
