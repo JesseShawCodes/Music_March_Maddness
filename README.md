@@ -118,6 +118,9 @@ https://cgarethc.medium.com/using-the-spotify-api-with-firebase-to-build-an-albu
 
 https://codesandbox.io/p/sandbox/hackathon-discovery-uvkht?file=%2Fsrc%2Fforms%2Fpayments.js
 
+### Connect django app to a dockerized postgresql
+https://dev.to/mojemoron/how-to-connect-your-django-app-to-a-dockerized-postgresql-and-pgadmin-133o
+
 ### New Features
 
 Progress Bar for rating songs
