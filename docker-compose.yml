@@ -1,13 +1,11 @@
 volumes:
   db:
-  django:
+  pgadmin:
 
 services:
   db:
-    build:
-      context: ./services/db
-      dockerfile: Dockerfile
-    container_name: postgres #you can change this
+    image: postgres:15.2
+    container_name: postgres
     ports:
       - "5432:5432"
     expose:
@@ -15,18 +13,20 @@ services:
     volumes:
       - "db:/var/lib/postgresql/data"
     environment:
-      - POSTGRES_USER=${database_user}
-      - POSTGRES_PASSWORD=${database_password}
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
       - POSTGRES_DB=${database_name}
       - POSTGRES_PORT=${database_port}
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: demo-pgadmin #you can change this
+    container_name: pgadmin
     depends_on:
       - db
     ports:
       - "5051:80"
+    volumes:
+      - "pgadmin:/var/lib/pgadmin"
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
