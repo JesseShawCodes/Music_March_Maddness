@@ -13,6 +13,7 @@ joblib==1.4.2
 kiwisolver==1.4.7
 matplotlib==3.10.0
 mccabe==0.7.0
+mysqlclient=2.2.6
 numpy==2.2.0
 packaging==24.2
 pandas==2.2.3
