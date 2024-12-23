@@ -19,4 +19,4 @@ def get_auth_token():
 
 def get_newest_auth():
     '''Returns newest auth key as a string'''
-    SpotifyAuth.objects.order_by('created').first().auth
+    return SpotifyAuth.objects.order_by('-created').first().auth
