@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from spotify.api_views import AuthListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/v1/auths', AuthListView.as_view())
 ]
