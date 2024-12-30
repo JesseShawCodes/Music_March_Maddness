@@ -6,3 +6,4 @@ secrets.sh
 
 docker-compose-dev.yml
 services/backend/openai_test.py
+AuthKey_api.p8
