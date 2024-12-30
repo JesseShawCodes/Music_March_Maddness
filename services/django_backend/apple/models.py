@@ -10,14 +10,14 @@ class AppleAuthManager(models.Manager):
 
 class AppleAuth(models.Model):
     '''AppleAuth Class.'''
-    auth = models.CharField(max_length=200)
+    auth = models.CharField(max_length=2000)
     created = models.DateTimeField(auto_now_add=True)
 
     objects = AppleAuthManager()
 
 class ArtistDetails(models.Model):
     '''Artist Details'''
-    artist_name = models.CharField(max_length=200)
+    artist_name = models.CharField(max_length=2000)
     created = models.DateTimeField(auto_created=True)
     artist_id = models.IntegerField()
     updated = models.DateTimeField(auto_now_add=True)
