@@ -8,6 +8,7 @@ cryptography==44.0.0
 cycler==0.12.1
 dill==0.3.9
 Django==5.1.4
+django-filter==24.3
 django-postgres-extensions==0.9.3
 djangorestframework==3.15.2
 Faker==33.1.0
