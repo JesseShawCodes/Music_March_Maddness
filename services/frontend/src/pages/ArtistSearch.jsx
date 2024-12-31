@@ -18,11 +18,9 @@
 /* eslint-disable space-infix-ops */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable prefer-template */
-/* eslint-disable react/jsx-tag-spacing */
-/* eslint-disable react/jsx-curly-newline */
 
 import React, { useState } from 'react';
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+import { useGetArtistsQuery } from "../services/jsonServerApi";
 import { useNavigate, useLocation } from 'react-router-dom';
 import useUser from '../hooks/useUser';
 
@@ -30,7 +28,7 @@ export default function ArtistSearch() {
   const navigate = useNavigate();
   const location = useLocation();
   const [artist, setArtist] = useState();
-
+  const [searchTerm, setSearchTerm] = useState("");
   const { user } = useUser();
 
   let skipParam = true;
@@ -45,7 +43,6 @@ export default function ArtistSearch() {
     isError,
     error,
   } = useGetArtistsQuery( artist, {skip});
-  const [searchTerm, setSearchTerm] = React.useState("");
 
   const handleChange = event => {
     navigate(`${location.pathname}?q=${event.target.value}`)
@@ -66,7 +63,7 @@ export default function ArtistSearch() {
             {
                 user ?
                 <input
-                    type="text"
+                    type='text'
                     placeholder='Search'
                     value={searchTerm}
                     onChange={handleChange}
@@ -83,32 +80,19 @@ export default function ArtistSearch() {
                 isLoading ? `${<div>Loading</div>}` : ""
             }
             <div>{isError}</div>
-            <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}>
-                <Masonry>
-                    {musicQuery.length !== 0 ? musicQuery.artists.items?.map((artist) => (
-                        <div key={artist.id} className="mt-4 mx-4 card border-secondary">
-                            {
-                                artist.images.length > 0 ? <img src={artist.images[0].url} alt={artist.name + " Image"} />: ""
-                            }
-                            <div>
-                                <h2 className=''>
-                                    {artist.name}
-                                </h2>
-                            </div>
-                            <div>
-                                {
-                                    artist.genres.length > 0 ? `${artist.genres}` : ""
-                                }
-                            </div>
-                            <div>
-                                <span>Followers:</span> {artist.followers.total.toLocaleString("en-US")}
-                            </div>
-                            <a href={"artist/" + artist.id} className='btn btn-primary' id={artist.id} >Choose this artist</a>
+                  <div className="card-deck">
+                    {musicQuery.length !== 0 ? musicQuery.results.artists.data.map((artist) => (
+                      <div className="mt-4 mx-4 card border-secondary" style={{width: 18 + "rem"}} key={artist.id} >
+                        {
+                          artist.attributes.hasOwnProperty("artwork") ? <img src={artist.attributes.artwork.url} class="card-img-top"/> : <p> No Image Available</p>
+                        }
+                              <h2>
+                            {artist.attributes.name}
+                              </h2>
                         </div>
                         )) : "_No Data Available"
                     }
-                </Masonry>
-            </ResponsiveMasonry>
+                  </div>
         </div>
     )
 }

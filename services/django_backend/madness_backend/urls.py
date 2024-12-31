@@ -18,11 +18,13 @@ from django.contrib import admin
 from django.urls import path
 from spotify.api_views import AuthListView
 from apple.api_views import AppleAuthListView
+from apple.views import artist_search_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Auths are currently being rendered for testing purposes
     path('api/v1/auths', AuthListView.as_view()),
-    path('api/apple/auths', AppleAuthListView.as_view())
+    path('api/apple/auths', AppleAuthListView.as_view()),
+    path('artist', artist_search_view),
 ]
