@@ -20,59 +20,64 @@ export default function ArtistSearch() {
     data: musicQuery = [],
     isLoading,
     isError,
-    error,
-  } = useGetArtistsQuery( artist, {skip});
+  } = useGetArtistsQuery(artist, { skip });
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     // navigate(`${location.pathname}?q=${event.target.value}`)
     if (event.target.value.length > 0) {
       setSearchTerm(event.target.value);
       setArtist(event.target.value);
       setSkip(false);
-    }
-    else {
-      setSearchTerm("");
-      setArtist("");
+    } else {
+      setSearchTerm('');
+      setArtist('');
       setSkip(true);
     }
   };
 
-    return (
-        <div className='w-90 mx-auto'>
-            {
-                user ?
-                <input
-                    type='text'
-                    placeholder='Search'
-                    value={searchTerm}
-                    onChange={handleChange}
-                />
-                :
-                <section>You must be logged in to view this page.</section>
+  return (
+    <div className="w-90 mx-auto">
+      {
+        user
+          ? (
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={handleChange}
+            />
+          )
+          : (
+            <section>
+              You must be logged in to view this page
+            </section>
+          )
+      }
 
-            }
+      {
+        isError ? `${<div>Error</div>}` : ''
+      }
 
+      {
+        isLoading ? `${<div>Loading</div>}` : ''
+      }
+
+      <div className="card-deck">
+        {musicQuery.length !== 0 ? musicQuery.results.artists.data.map((artistResult) => (
+          <div className="mt-4 mx-4 card border-secondary artist-search-card" key={artistResult.id}>
             {
-                isError ? `${<div>Error</div>}` : ""
+              Object.prototype.hasOwnPropert.call(artistResult, 'artwork') ? <img src={artistResult.attributes.artwork.url} className="card-img-top" alt={`${artistResult.attributes.name} promo`} /> : <p> No Image Available</p>
             }
-            {
-                isLoading ? `${<div>Loading</div>}` : ""
-            }
-            <div>{isError}</div>
-                  <div className="card-deck">
-                    {musicQuery.length !== 0 ? musicQuery.results.artists.data.map((artist) => (
-                      <div className="mt-4 mx-4 card border-secondary" style={{width: 18 + "rem"}} key={artist.id} >
-                        {
-                          artist.attributes.hasOwnProperty("artwork") ? <img src={artist.attributes.artwork.url} className="card-img-top" alt={artist.attributes.name + "Image"}/> : <p> No Image Available</p>
-                        }
-                              <h2>
-                            {artist.attributes.name}
-                              </h2>
-                              <a href={"artist/" + artist.id} className='btn btn-primary' id={artist.id} >Choose this artist</a>
-                        </div>
-                        )) : "_No Data Available"
-                    }
-                  </div>
-        </div>
-    )
+            <h2>
+              {artistResult.attributes.name}
+            </h2>
+            <a href={`artist/${artistResult.id}`} className="btn btn-primary" id={artistResult.id}>
+              Choose this artist
+            </a>
+          </div>
+        )) : 'No Data Available'}
+      </div>
+
+    </div>
+  );
 }
