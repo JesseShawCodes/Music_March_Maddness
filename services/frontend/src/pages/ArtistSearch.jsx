@@ -66,7 +66,7 @@ export default function ArtistSearch() {
         {musicQuery.length !== 0 ? musicQuery.results.artists.data.map((artistResult) => (
           <div className="mt-4 mx-4 card border-secondary artist-search-card" key={artistResult.id}>
             {
-              Object.prototype.hasOwnPropert.call(artistResult, 'artwork') ? <img src={artistResult.attributes.artwork.url} className="card-img-top" alt={`${artistResult.attributes.name} promo`} /> : <p> No Image Available</p>
+              Object.prototype.hasOwnProperty.call(artistResult.attributes, 'artwork') ? <img src={artistResult.attributes.artwork.url} className="card-img-top" alt={`${artistResult.attributes.name} promo`} /> : <p> No Image Available</p>
             }
             <h2>
               {artistResult.attributes.name}
