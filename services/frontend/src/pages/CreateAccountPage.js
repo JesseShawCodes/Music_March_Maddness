@@ -11,10 +11,8 @@ const CreateAccountPage = () => {
     const navigate = useNavigate();
 
     const createAccount = async () => {
-        console.log("CREATE ACCONUT")
         try {
             if (password !== confirmPassword) {
-                console.log("RE-ENTER PASSWORD")
                 setError("Passwords do no match");
                 return;
             }

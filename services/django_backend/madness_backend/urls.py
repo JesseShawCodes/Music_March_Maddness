@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from spotify.api_views import AuthListView
 from apple.api_views import AppleAuthListView
-from apple.views import artist_search_view
+from apple.views import artist_search_view, artist_page_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +27,5 @@ urlpatterns = [
     path('api/v1/auths', AuthListView.as_view()),
     path('api/apple/auths', AppleAuthListView.as_view()),
     path('artist', artist_search_view),
+    path('artist-page/<int:artist_id>', artist_page_view)
 ]
