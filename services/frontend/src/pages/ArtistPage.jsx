@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetArtistInfoQuery } from '../services/jsonServerApi';
 
 import BackToTop from '../components/BackToTop';
+import Song from './Song';
 
 function ArtistPage() {
   const { handle } = useParams();
@@ -37,11 +38,7 @@ function ArtistPage() {
         Object.prototype.hasOwnProperty.call(musicQuery, 'top_songs_list')
           ? (
             musicQuery.top_songs_list.map((song) => (
-              <li style={{ color: `#${song.attributes.artwork.textColor1}`, backgroundColor: `#${song.attributes.artwork.bgColor}` }}>
-                {song.attributes.name }
-                -
-                {song.attributes.albumName}
-              </li>
+              <Song song={song} key={song.id} />
             ))
           )
           : null
