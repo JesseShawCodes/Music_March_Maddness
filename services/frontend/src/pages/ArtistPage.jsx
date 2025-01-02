@@ -32,19 +32,18 @@ function ArtistPage() {
     <div className="container">
       <BackToTop />
       <p>We have determined these to be the top songs for this artist.</p>
-      <ol>
+      <ol className="song-list">
         {
         Object.prototype.hasOwnProperty.call(musicQuery, 'top_songs_list')
           ? (
             musicQuery.top_songs_list.map((song) => (
-              <li>
-                {song.attributes.name}
+              <li style={{ color: `#${song.attributes.artwork.textColor1}`, backgroundColor: `#${song.attributes.artwork.bgColor}` }}>
+                {song.attributes.name }
                 -
                 {song.attributes.albumName}
               </li>
             ))
           )
-
           : null
         }
       </ol>
