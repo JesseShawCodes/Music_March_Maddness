@@ -37,7 +37,11 @@ function ArtistPage() {
         Object.prototype.hasOwnProperty.call(musicQuery, 'top_songs_list')
           ? (
             musicQuery.top_songs_list.map((song) => (
-              <li>{song.attributes.name}</li>
+              <li>
+                {song.attributes.name}
+                -
+                {song.attributes.albumName}
+              </li>
             ))
           )
 
