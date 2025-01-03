@@ -1,4 +1,5 @@
 '''Data Collection for artist page'''
+import os
 import requests
 from apple.auth import get_auth_token, get_newest_auth
 
@@ -6,9 +7,28 @@ def artist_content(artist_id):
     '''Final render of output to the page'''
     output = {}
     output['artist_name'] = artist_name(artist_id)
+    output['featured_albums'] = featured_album_details(artist_id)
     output['top_songs_list'] = top_songs_list_builder(artist_id)
     output['count'] = f"{len(output['top_songs_list'])}"
+    print(os.environ['apple_artist_details_url'])
     return output
+
+def artist_name(artist_id):
+    '''Get High Level Artist Details'''
+    headers = {'Authorization': f'Bearer {get_newest_auth()}'}
+    artist = requests.get(
+        f"{os.environ['apple_artist_details_url']}artists/{artist_id}",
+        headers=headers,
+        timeout=5
+    )
+    if artist.status_code != 200:
+        headers = {'Authorization': f"Bearer  {get_auth_token()}"}
+        artist = requests.get(f"{os.environ['apple_artist_details_url']}artists/{artist_id}",
+                      headers=headers,
+                      timeout=5
+                    )
+    return artist.json()['data'][0]['attributes']['name']
+
 
 def check_substrings(string, substrings):
     '''Substring check. Used to filter out playlists that do not have useful data.'''
@@ -16,22 +36,7 @@ def check_substrings(string, substrings):
 
 def playlist_request_url(artist_id):
     '''Method to return proper url for API calls'''
-    return f"https://api.music.apple.com/v1/catalog/us/artists/{artist_id}/view/featured-playlists"
-
-def artist_name(artist_id):
-    headers = {'Authorization': f'Bearer {get_auth_token()}'}
-    artist = requests.get(
-        f"https://api.music.apple.com/v1/catalog/us/artists/{artist_id}",
-        headers=headers,
-        timeout=5
-    )
-    if artist.status_code != 200:
-        headers = {'Authorization': f"Bearer  {get_newest_auth()}"}
-        r = requests.get(f"https://api.music.apple.com/v1/catalog/us/artists/{artist_id}",
-                      headers=headers,
-                      timeout=5
-                    )
-    return artist.json()['data'][0]['attributes']['name']
+    return f"{os.environ['apple_artist_details_url']}artists/{artist_id}/view/featured-playlists"
 
 def top_songs_list_builder(artist_id):
     '''Create top songs list'''
@@ -40,18 +45,20 @@ def top_songs_list_builder(artist_id):
     # Add songs based on playlists in apple
     # Remove playlists with the following words in the name (video, influences, inspired)
     playlists_request = requests.get(
-      f"https://api.music.apple.com/v1/catalog/us/artists/{artist_id}/view/featured-playlists",
+      f"{os.environ['apple_artist_details_url']}artists/{artist_id}/view/featured-playlists",
       headers=headers,
       timeout=5
     )
     playlists = playlists_request.json()
     artist_playlist_ids = []
     if "errors" not in playlists:
-      for item in playlists['data']:
-        if check_substrings(item['attributes']['name'], ['Essentials', 'Deep Cuts', 'Set List']):
-            artist_playlist_ids.append(item['id'])
+        for item in playlists['data']:
+            if check_substrings(
+                item['attributes']['name'],
+                ['Essentials', 'Deep Cuts', 'Set List']
+              ):
+                artist_playlist_ids.append(item['id'])
     # Get Multiple playlists
-    # https://api.music.apple.com/v1/catalog/us/playlists?ids=pl.b8afd0ec852542f785a5f7a4a9a80d6a,pl.e5bc0180234b40639b5fb6aeb3c6ff68,pl.9c2961c0bd034974a954fa788f7eac3b,pl.34a41c73937e4994a8a5cdc243e917cc,pl.76e456b18b78484fa1aa8e310362ab35
     playlists_content = requests.get(
        f'https://api.music.apple.com/v1/catalog/us/playlists?ids={",".join(artist_playlist_ids)}',
        headers=headers,
@@ -60,9 +67,9 @@ def top_songs_list_builder(artist_id):
     # loop by intervals of 10
     for i in range(0,100,10):
         r = requests.get(
-            f"https://api.music.apple.com/v1/catalog/us/artists/{artist_id}/view/top-songs?offset={i}",
-            headers=headers,
-            timeout=5
+          f"{os.environ['apple_artist_details_url']}artists/{artist_id}/view/top-songs?offset={i}",
+          headers=headers,
+          timeout=5
         )
         if 'errors' in r.json().keys():
             break
@@ -70,9 +77,9 @@ def top_songs_list_builder(artist_id):
             top_songs_list.append(song)
     # Add playlist content to top_songs_list
     if playlists_content.status_code == 200:
-      for song_list in playlists_content.json()['data']:
-        for song in song_list['relationships']['tracks']['data']:
-            top_songs_list.append(song)
+        for song_list in playlists_content.json()['data']:
+            for song in song_list['relationships']['tracks']['data']:
+                top_songs_list.append(song)
     # Remove duplicates
     final_top_songs_list = []
     for song in top_songs_list:
@@ -83,6 +90,13 @@ def top_songs_list_builder(artist_id):
             final_top_songs_list.append(song)
     return final_top_songs_list
 
-def album_details():
+def featured_album_details(artist_id):
     '''This function gets album details for an artist'''
-    return "Album details"
+    # {os.environ['apple_artist_details_url']}artists/15031628/albums
+    headers = {'Authorization': f'Bearer {get_newest_auth()}'}
+    albums = requests.get(
+        f"{os.environ['apple_artist_details_url']}artists/{artist_id}/view/featured-albums",
+        headers=headers,
+        timeout=5
+    )
+    return albums.json()
