@@ -1,1 +1,1 @@
-CREATE DATABASE music_march_madness;
+CREATE DATABASE madness;

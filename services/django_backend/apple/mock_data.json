@@ -1,0 +1,456 @@
+{
+  "next": "/v1/catalog/us/artists/1092903/view/top-songs?offset=110",
+  "data": [
+      {
+          "id": "1099850855",
+          "type": "songs",
+          "href": "/v1/catalog/us/songs/1099850855",
+          "attributes": {
+              "albumName": "Saturday Night Wrist (Bonus Track Version)",
+              "genreNames": [
+                  "Hard Rock",
+                  "Music",
+                  "Rock",
+                  "Metal",
+                  "Adult Alternative"
+              ],
+              "trackNumber": 8,
+              "releaseDate": "2006-10-31",
+              "durationInMillis": 240907,
+              "isrc": "USRE11600124",
+              "artwork": {
+                  "width": 1425,
+                  "height": 1425,
+                  "url": "https://is1-ssl.mzstatic.com/image/thumb/Music49/v4/2e/12/19/2e121951-b104-af73-1952-93b3aaccabcf/093624919773.jpg/{w}x{h}bb.jpg",
+                  "bgColor": "0a1616",
+                  "textColor1": "d1d7ae",
+                  "textColor2": "ceaa84",
+                  "textColor3": "a9b190",
+                  "textColor4": "a78c6e"
+              },
+              "composerName": "Abe Cunningham, Chi Cheng, Chino Moreno, Frank Delgado & Stephen Carpenter",
+              "playParams": {
+                  "id": "1099850855",
+                  "kind": "song"
+              },
+              "url": "https://music.apple.com/us/album/rats-rats-rats/1099850829?i=1099850855",
+              "discNumber": 1,
+              "isAppleDigitalMaster": true,
+              "hasLyrics": true,
+              "name": "Rats!Rats!Rats!",
+              "previews": [
+                  {
+                      "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/f0/64/9e/f0649e3f-912f-69a5-fb1e-2cdf84b70e15/mzaf_13051518763151715768.plus.aac.p.m4a"
+                  }
+              ],
+              "contentRating": "explicit",
+              "artistName": "Deftones"
+          }
+      },
+      {
+          "id": "1078767861",
+          "type": "songs",
+          "href": "/v1/catalog/us/songs/1078767861",
+          "attributes": {
+              "albumName": "Gore",
+              "genreNames": [
+                  "Hard Rock",
+                  "Music",
+                  "Rock",
+                  "Metal",
+                  "Alternative"
+              ],
+              "trackNumber": 11,
+              "releaseDate": "2016-04-08",
+              "durationInMillis": 297827,
+              "isrc": "USRE11500600",
+              "artwork": {
+                  "width": 1425,
+                  "height": 1425,
+                  "url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/e0/e9/89/e0e9890e-19a5-b959-e0b2-2010d4425ad2/093624926467.jpg/{w}x{h}bb.jpg",
+                  "bgColor": "a7adb9",
+                  "textColor1": "080715",
+                  "textColor2": "2f1932",
+                  "textColor3": "282836",
+                  "textColor4": "47374d"
+              },
+              "composerName": "Abe Cunningham, Chino Moreno, Frank Delgado, Sergio Vega & Stephen Carpenter",
+              "playParams": {
+                  "id": "1078767861",
+                  "kind": "song"
+              },
+              "url": "https://music.apple.com/us/album/rubicon/1078767494?i=1078767861",
+              "discNumber": 1,
+              "isAppleDigitalMaster": true,
+              "hasLyrics": true,
+              "name": "Rubicon",
+              "previews": [
+                  {
+                      "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/96/61/9e/96619e24-7025-897f-0c2b-a0bf0553a048/mzaf_4272358385078995544.plus.aac.p.m4a"
+                  }
+              ],
+              "artistName": "Deftones"
+          }
+      },
+      {
+          "id": "1099847190",
+          "type": "songs",
+          "href": "/v1/catalog/us/songs/1099847190",
+          "attributes": {
+              "albumName": "Deftones",
+              "genreNames": [
+                  "Hard Rock",
+                  "Music",
+                  "Rock",
+                  "Hair Metal",
+                  "Metal"
+              ],
+              "trackNumber": 8,
+              "durationInMillis": 250587,
+              "releaseDate": "2003-05-20",
+              "isrc": "USRE11600113",
+              "artwork": {
+                  "width": 1425,
+                  "height": 1425,
+                  "url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/22/c9/01/22c9019c-96d8-d32f-26a9-bf98c9541df2/093624919780.jpg/{w}x{h}bb.jpg",
+                  "bgColor": "000111",
+                  "textColor1": "fdfdfd",
+                  "textColor2": "85c5f4",
+                  "textColor3": "cacacd",
+                  "textColor4": "6a9ec6"
+              },
+              "composerName": "Abe Cunningham, Chi Cheng, Chino Moreno, Frank Delgado & Stephen Carpenter",
+              "url": "https://music.apple.com/us/album/lucky-you/1099847180?i=1099847190",
+              "playParams": {
+                  "id": "1099847190",
+                  "kind": "song"
+              },
+              "discNumber": 1,
+              "isAppleDigitalMaster": true,
+              "hasLyrics": true,
+              "name": "Lucky You",
+              "previews": [
+                  {
+                      "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/3f/16/70/3f167085-3b61-d360-6e28-9b9de4f66cbb/mzaf_2806295175551251858.plus.aac.p.m4a"
+                  }
+              ],
+              "artistName": "Deftones"
+          }
+      },
+      {
+          "id": "1099846743",
+          "type": "songs",
+          "href": "/v1/catalog/us/songs/1099846743",
+          "attributes": {
+              "albumName": "Diamond Eyes (Deluxe Edition)",
+              "genreNames": [
+                  "Hard Rock",
+                  "Music",
+                  "Rock",
+                  "Metal"
+              ],
+              "trackNumber": 13,
+              "releaseDate": "2010-04-30",
+              "durationInMillis": 267907,
+              "isrc": "USRE11600071",
+              "artwork": {
+                  "width": 1425,
+                  "height": 1425,
+                  "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/cd/bd/cb/cdbdcbfd-0b6e-93ff-61f7-04c9d5da7368/093624919759.jpg/{w}x{h}bb.jpg",
+                  "bgColor": "c3c5c0",
+                  "textColor1": "000000",
+                  "textColor2": "272a27",
+                  "textColor3": "272726",
+                  "textColor4": "464945"
+              },
+              "composerName": "David Sylvian",
+              "playParams": {
+                  "id": "1099846743",
+                  "kind": "song"
+              },
+              "url": "https://music.apple.com/us/album/ghosts-bonus-track/1099846321?i=1099846743",
+              "discNumber": 1,
+              "isAppleDigitalMaster": true,
+              "hasLyrics": true,
+              "name": "Ghosts (Bonus Track)",
+              "previews": [
+                  {
+                      "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/42/43/0a/42430a27-ec11-1ba7-9c51-fe6eb5fe7b46/mzaf_8717711851127354850.plus.aac.p.m4a"
+                  }
+              ],
+              "artistName": "Deftones"
+          }
+      },
+      {
+          "id": "339542769",
+          "type": "songs",
+          "href": "/v1/catalog/us/songs/339542769",
+          "attributes": {
+              "albumName": "B-Sides & Rarities (Bonus Track Version)",
+              "genreNames": [
+                  "Hard Rock",
+                  "Music",
+                  "Rock",
+                  "Adult Alternative",
+                  "Metal",
+                  "Alternative"
+              ],
+              "trackNumber": 14,
+              "releaseDate": "2005-10-04",
+              "durationInMillis": 272424,
+              "isrc": "USMV20500173",
+              "artwork": {
+                  "width": 1417,
+                  "height": 1417,
+                  "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/1c/ae/01/mzi.vqzmnvxr.jpg/{w}x{h}bb.jpg",
+                  "bgColor": "000000",
+                  "textColor1": "f8efcf",
+                  "textColor2": "d1b46a",
+                  "textColor3": "c6bfa5",
+                  "textColor4": "a79054"
+              },
+              "composerName": "Abe Cunningham, Chi Cheng, Chino Moreno & Stephen Carpenter",
+              "playParams": {
+                  "id": "339542769",
+                  "kind": "song"
+              },
+              "url": "https://music.apple.com/us/album/be-quiet-and-drive-far-away-acoustic-version/339542329?i=339542769",
+              "discNumber": 1,
+              "isAppleDigitalMaster": false,
+              "hasLyrics": true,
+              "name": "Be Quiet and Drive (Far Away) [Acoustic Version]",
+              "previews": [
+                  {
+                      "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/d4/f1/aa/d4f1aabe-12a2-09c7-a58b-30d167da3d83/mzaf_1413082336731554298.plus.aac.p.m4a"
+                  }
+              ],
+              "artistName": "Deftones"
+          }
+      },
+      {
+          "id": "1099841622",
+          "type": "songs",
+          "href": "/v1/catalog/us/songs/1099841622",
+          "attributes": {
+              "albumName": "Covers",
+              "genreNames": [
+                  "Hard Rock",
+                  "Music",
+                  "Rock",
+                  "Metal",
+                  "Alternative"
+              ],
+              "trackNumber": 5,
+              "durationInMillis": 276507,
+              "releaseDate": "2005-10-04",
+              "isrc": "USMV20500170",
+              "artwork": {
+                  "width": 1425,
+                  "height": 1425,
+                  "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/c7/c9/92/c7c99256-cb22-ed37-c7ca-2f0d2800bcb8/093624919735.jpg/{w}x{h}bb.jpg",
+                  "bgColor": "9b9794",
+                  "textColor1": "090808",
+                  "textColor2": "201e1e",
+                  "textColor3": "262424",
+                  "textColor4": "393635"
+              },
+              "composerName": "James Robbins, Kim Coletta, William Barbot & Zachary Barocas",
+              "url": "https://music.apple.com/us/album/savory/1099841342?i=1099841622",
+              "playParams": {
+                  "id": "1099841622",
+                  "kind": "song"
+              },
+              "discNumber": 1,
+              "isAppleDigitalMaster": false,
+              "hasLyrics": true,
+              "name": "Savory",
+              "previews": [
+                  {
+                      "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/bd/d2/b9/bdd2b9f2-5e95-5e86-bdd2-cbc4508559e9/mzaf_3873313889465044422.plus.aac.p.m4a"
+                  }
+              ],
+              "artistName": "Deftones"
+          }
+      },
+      {
+          "id": "1099846747",
+          "type": "songs",
+          "href": "/v1/catalog/us/songs/1099846747",
+          "attributes": {
+              "albumName": "Diamond Eyes (Deluxe Edition)",
+              "genreNames": [
+                  "Hard Rock",
+                  "Music",
+                  "Rock",
+                  "Metal"
+              ],
+              "trackNumber": 14,
+              "durationInMillis": 213632,
+              "releaseDate": "2010-05-04",
+              "isrc": "USRE11600072",
+              "artwork": {
+                  "width": 1425,
+                  "height": 1425,
+                  "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/cd/bd/cb/cdbdcbfd-0b6e-93ff-61f7-04c9d5da7368/093624919759.jpg/{w}x{h}bb.jpg",
+                  "bgColor": "c3c5c0",
+                  "textColor1": "000000",
+                  "textColor2": "272a27",
+                  "textColor3": "272726",
+                  "textColor4": "464945"
+              },
+              "composerName": "John Reis, Mark Trombino, Mike Kennedy & Rick Froberg",
+              "url": "https://music.apple.com/us/album/caress-bonus-track/1099846321?i=1099846747",
+              "playParams": {
+                  "id": "1099846747",
+                  "kind": "song"
+              },
+              "discNumber": 1,
+              "isAppleDigitalMaster": true,
+              "hasLyrics": false,
+              "name": "Caress (Bonus Track)",
+              "previews": [
+                  {
+                      "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/9e/f1/68/9ef16871-7030-ce6a-d57d-76e08e210732/mzaf_3372920428032852094.plus.aac.p.m4a"
+                  }
+              ],
+              "artistName": "Deftones"
+          }
+      },
+      {
+          "id": "1078767853",
+          "type": "songs",
+          "href": "/v1/catalog/us/songs/1078767853",
+          "attributes": {
+              "albumName": "Gore",
+              "genreNames": [
+                  "Hard Rock",
+                  "Music",
+                  "Rock",
+                  "Metal",
+                  "Alternative"
+              ],
+              "trackNumber": 4,
+              "durationInMillis": 209067,
+              "releaseDate": "2016-04-08",
+              "isrc": "USRE11500593",
+              "artwork": {
+                  "width": 1425,
+                  "height": 1425,
+                  "url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/e0/e9/89/e0e9890e-19a5-b959-e0b2-2010d4425ad2/093624926467.jpg/{w}x{h}bb.jpg",
+                  "bgColor": "a7adb9",
+                  "textColor1": "080715",
+                  "textColor2": "2f1932",
+                  "textColor3": "282836",
+                  "textColor4": "47374d"
+              },
+              "composerName": "Abe Cunningham, Chino Moreno, Frank Delgado, Sergio Vega & Stephen Carpenter",
+              "url": "https://music.apple.com/us/album/geometric-headdress/1078767494?i=1078767853",
+              "playParams": {
+                  "id": "1078767853",
+                  "kind": "song"
+              },
+              "discNumber": 1,
+              "isAppleDigitalMaster": true,
+              "hasLyrics": true,
+              "name": "Geometric Headdress",
+              "previews": [
+                  {
+                      "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/4e/f1/97/4ef197be-0ef8-d5d8-2336-6d9aacbfae09/mzaf_15299412918162134254.plus.aac.p.m4a"
+                  }
+              ],
+              "artistName": "Deftones"
+          }
+      },
+      {
+          "id": "1099850857",
+          "type": "songs",
+          "href": "/v1/catalog/us/songs/1099850857",
+          "attributes": {
+              "albumName": "Saturday Night Wrist (Bonus Track Version)",
+              "genreNames": [
+                  "Hard Rock",
+                  "Music",
+                  "Rock",
+                  "Metal",
+                  "Adult Alternative"
+              ],
+              "trackNumber": 9,
+              "durationInMillis": 304920,
+              "releaseDate": "2006-10-31",
+              "isrc": "USRE11600125",
+              "artwork": {
+                  "width": 1425,
+                  "height": 1425,
+                  "url": "https://is1-ssl.mzstatic.com/image/thumb/Music49/v4/2e/12/19/2e121951-b104-af73-1952-93b3aaccabcf/093624919773.jpg/{w}x{h}bb.jpg",
+                  "bgColor": "0a1616",
+                  "textColor1": "d1d7ae",
+                  "textColor2": "ceaa84",
+                  "textColor3": "a9b190",
+                  "textColor4": "a78c6e"
+              },
+              "composerName": "Abe Cunningham, Annie Hardy, Chi Cheng, Chino Moreno, Frank Delgado & Stephen Carpenter",
+              "url": "https://music.apple.com/us/album/pink-cellphone/1099850829?i=1099850857",
+              "playParams": {
+                  "id": "1099850857",
+                  "kind": "song"
+              },
+              "discNumber": 1,
+              "isAppleDigitalMaster": true,
+              "hasLyrics": true,
+              "name": "Pink Cellphone",
+              "previews": [
+                  {
+                      "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/a1/36/ac/a136acc0-f744-17fa-8d47-ad3be45b42a3/mzaf_8301386390801650686.plus.aac.p.m4a"
+                  }
+              ],
+              "artistName": "Deftones",
+              "contentRating": "explicit"
+          }
+      },
+      {
+          "id": "1078767856",
+          "type": "songs",
+          "href": "/v1/catalog/us/songs/1078767856",
+          "attributes": {
+              "albumName": "Gore",
+              "genreNames": [
+                  "Hard Rock",
+                  "Music",
+                  "Rock",
+                  "Metal",
+                  "Alternative"
+              ],
+              "trackNumber": 6,
+              "durationInMillis": 243600,
+              "releaseDate": "2016-04-08",
+              "isrc": "USRE11500595",
+              "artwork": {
+                  "width": 1425,
+                  "height": 1425,
+                  "url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/e0/e9/89/e0e9890e-19a5-b959-e0b2-2010d4425ad2/093624926467.jpg/{w}x{h}bb.jpg",
+                  "bgColor": "a7adb9",
+                  "textColor1": "080715",
+                  "textColor2": "2f1932",
+                  "textColor3": "282836",
+                  "textColor4": "47374d"
+              },
+              "composerName": "Abe Cunningham, Chino Moreno, Frank Delgado, Sergio Vega & Stephen Carpenter",
+              "url": "https://music.apple.com/us/album/pittura-infamante/1078767494?i=1078767856",
+              "playParams": {
+                  "id": "1078767856",
+                  "kind": "song"
+              },
+              "discNumber": 1,
+              "isAppleDigitalMaster": true,
+              "hasLyrics": true,
+              "name": "Pittura Infamante",
+              "previews": [
+                  {
+                      "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/47/84/3f/47843f86-2a44-0957-c384-6b0f4cd0853d/mzaf_14232890656771283015.plus.aac.p.m4a"
+                  }
+              ],
+              "artistName": "Deftones"
+          }
+      }
+  ]
+}

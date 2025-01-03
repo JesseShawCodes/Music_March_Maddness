@@ -1,35 +1,33 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 const CreateAccountPage = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const createAccount = async () => {
-        console.log("CREATE ACCONUT")
-        try {
-            if (password !== confirmPassword) {
-                console.log("RE-ENTER PASSWORD")
-                setError("Passwords do no match");
-                return;
-            }
+  const createAccount = async () => {
+    try {
+      if (password !== confirmPassword) {
+        setError('Passwords do no match');
+        return;
+      }
 
-            await createUserWithEmailAndPassword(getAuth(), email, password);
-            navigate('/articles')
-        } catch (e) {
-            setError(e.messages);
-        }
+      await createUserWithEmailAndPassword(getAuth(), email, password);
+      navigate('/articles');
+      } catch (e) {
+        setError(e.messages);
+      }
     }
 
     return (
-        <div className="login_page">
+        <div className='login_page'>
         <h1>Create Account</h1>
-        {error && <p className="error">{error}</p>}
+        {error && <p className='error'>{error}</p>}
 
             <div className="form-group">
                 <label htmlFor="exampleInputEmail1">Email address</label>

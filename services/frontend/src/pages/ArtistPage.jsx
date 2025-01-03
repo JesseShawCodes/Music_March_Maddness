@@ -5,9 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useGetArtistInfoQuery } from '../services/jsonServerApi';
 
-import Albums from '../components/AlbumDetails';
-import TopTracks from '../components/TopTracks';
 import BackToTop from '../components/BackToTop';
+import Song from './Song';
 
 function ArtistPage() {
   const { handle } = useParams();
@@ -17,7 +16,7 @@ function ArtistPage() {
     isError,
   } = useGetArtistInfoQuery(handle);
 
-  if (!musicQuery.artist) {
+  if (!musicQuery.top_songs_list) {
     return (
       <div className="loading">
         Loading...
@@ -33,27 +32,27 @@ function ArtistPage() {
   return (
     <div className="container">
       <BackToTop />
-      {
-        !musicQuery.length !== 0
+      <h1>
+        {
+          Object.prototype.hasOwnProperty.call(musicQuery, 'artist_name')
+            ? (
+              `${musicQuery.artist_name}`
+            )
+            : 'null'
+        }
+      </h1>
+      <p>We have determined these to be the top songs for this artist.</p>
+      <ol className="song-list">
+        {
+        Object.prototype.hasOwnProperty.call(musicQuery, 'top_songs_list')
           ? (
-            <div>
-              <h1>
-                {musicQuery.artist.name}
-              </h1>
-              <div className="container-sm">
-                <img
-                  src={musicQuery.artist.images[1].url}
-                  className="img-fluid img-thumbnail"
-                  alt={musicQuery.artist.name}
-                />
-              </div>
-              <TopTracks listItems={musicQuery.tracks.tracks} />
-              <h2>Albums</h2>
-              <Albums listItems={musicQuery.albums.items} />
-            </div>
+            musicQuery.top_songs_list.map((song) => (
+              <Song song={song} key={song.id} />
+            ))
           )
           : null
         }
+      </ol>
     </div>
   );
 }

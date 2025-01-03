@@ -10,12 +10,12 @@ export const jsonServerApi = createApi({
   endpoints: (builder) => ({
     getArtists: builder.query({
       query: (artist) => ({
-        url: `/artists/${artist}`,
+        url: `/artist?q=${artist}`,
       }),
     }),
     getArtistInfo: builder.query({
       query: (artistId) => ({
-        url: `/artist_page/${artistId}`,
+        url: `/artist-page/${artistId}`,
       }),
     }),
   }),

@@ -24,15 +24,11 @@ function BackToTop() {
   };
 
   return (
-    <>
-      setShowButton && (
-      <div className="scrollToTop" id="back_to_top_container">
-        <button aria-label="Back to Top" id="back_to_top" className="btn-secondary" onClick={handleScrollToTop} type="button">
-          <FontAwesomeIcon icon={faAngleUp} />
-        </button>
-      </div>
-      )
-    </>
+    <div className="scrollToTop" id="back_to_top_container">
+      <button aria-label="Back to Top" id="back_to_top" className="btn-secondary" onClick={handleScrollToTop} type="button">
+        <FontAwesomeIcon icon={faAngleUp} />
+      </button>
+    </div>
   );
 }
 

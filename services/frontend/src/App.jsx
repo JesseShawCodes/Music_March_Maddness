@@ -14,7 +14,6 @@ import ArtistPage from './pages/ArtistPage';
 
 import ArtistSearch from './pages/ArtistSearch';
 import HookTest from './pages/HookTest';
-import BracketTest from './pages/BracketTest';
 
 import content from './data/data.json';
 
@@ -27,7 +26,6 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage heading={content.aboutPage.aboutPageHeading} />} />
           <Route path="/music_search" element={<ArtistSearch />} />
-          <Route path="/bracket_test" element={<BracketTest />} />
           <Route path="/hooks_test" element={<HookTest />} />
           {/* End Test Pages */}
           <Route path="/artist/:handle" element={<ArtistPage />} />

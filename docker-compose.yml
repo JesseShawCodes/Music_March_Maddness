@@ -1,46 +1,48 @@
 volumes:
-  db:
-  node_modules:
-  mysql_volume:
+  db_psql:
+  db_mysql:
+  pgadmin:
 
 services:
-  backend:
-    build:
-      context: ./services/backend
-      dockerfile: Dockerfile
-    entrypoint: ["sh", "/usr/src/Music_March_Madness_App/entrypoint.sh"] # new
-  
-    ports:
-      - 5004:5000
-    environment:
-      - FLASK_ENV=${environment}
-      - APP_TITLE=${title}
-      - APP_SETTINGS=app.config.DevelopmentConfig
-      - DATABASE_URL=${database_url}
-      - DATABASE_ENGINE=postgresql://postgres:postgres@db/music_march_madness
-      - SECRET_KEY=secret
-      - OPEN_AI_API_KEY=${open_ai_api_key}
-      - SPOTIFY_CLIENT_ID=${spotify_client_id}
-      - SPOTIFY_CLIENT_SECRET=${spotify_client_secret}
-      - SPOTIFY_AUTH_URL=${spotify_auth_url}
-    depends_on:
-      - db
-    develop:
-      watch:
-        - action: sync
-          path: ./services/backend
-          target: /usr/src/Music_March_Madness_App
-
   db:
-    build:
-      context: ./services/db
-      dockerfile: Dockerfile
+    image: postgres:15.2
+    container_name: postgres
     ports:
-      - '5432:5432'
+      - "5432:5432"
     expose:
       - 5432
     volumes:
-      - "db:/var/lib/postgresql/data"
+      - "db_psql:/var/lib/postgresql/data"
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=${database_name}
+      - POSTGRES_PORT=${database_port}
+  
+  mysql_db:
+    image: mysql:8.3.0
+    restart: always
+    container_name: mysql_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - "db_mysql:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_USER: test
+      MYSQL_PASS: pass
+      MYSQL_DATABASE: maddness
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    depends_on:
+      - db
+    ports:
+      - "5051:80"
+    volumes:
+      - "pgadmin:/var/lib/pgadmin"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    restart: always
