@@ -8,7 +8,7 @@ function NavBar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         <Link to="/" className="nav-link active navbar-brand">Spotify App</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,7 +28,7 @@ function NavBar() {
           </ul>
           <ul className="navbar-nav">
             {
-              user ? <li className="nav-item me-auto mb-2 mb-lg-0">{user.email}</li> : null
+              user ? <li className="nav-item mb-2 mb-lg-0 text-light">{user.email}</li> : null
             }
             <li className="nav-item">
               {
