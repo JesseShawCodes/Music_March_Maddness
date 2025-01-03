@@ -32,6 +32,15 @@ function ArtistPage() {
   return (
     <div className="container">
       <BackToTop />
+      <h1>
+        {
+          Object.prototype.hasOwnProperty.call(musicQuery, 'artist_name')
+            ? (
+              `${musicQuery.artist_name}`
+            )
+            : 'null'
+        }
+      </h1>
       <p>We have determined these to be the top songs for this artist.</p>
       <ol className="song-list">
         {
