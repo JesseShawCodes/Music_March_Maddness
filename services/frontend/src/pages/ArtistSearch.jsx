@@ -36,7 +36,7 @@ export default function ArtistSearch() {
   };
 
   return (
-    <div className="w-90 mx-auto">
+    <div className="my-4 w-90 mx-auto">
       {
         user
           ? (
