@@ -13,7 +13,6 @@ import NotFoundPage from './pages/NotFoundPage';
 import ArtistPage from './pages/ArtistPage';
 
 import ArtistSearch from './pages/ArtistSearch';
-import HookTest from './pages/HookTest';
 
 import content from './data/data.json';
 
@@ -26,7 +25,6 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage heading={content.aboutPage.aboutPageHeading} />} />
           <Route path="/music_search" element={<ArtistSearch />} />
-          <Route path="/hooks_test" element={<HookTest />} />
           {/* End Test Pages */}
           <Route path="/artist/:handle" element={<ArtistPage />} />
           <Route path="/login" element={<LoginPage />} />
