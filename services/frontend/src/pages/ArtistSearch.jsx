@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-
 import { useGetArtistsQuery } from '../services/jsonServerApi';
-import useUser from '../hooks/useUser';
 
 export default function ArtistSearch() {
   const location = useLocation();
   const [artist, setArtist] = useState();
   const [searchTerm, setSearchTerm] = useState('');
-  const { user } = useUser();
 
   let skipParam = true;
   if (location.search) {
@@ -37,22 +34,12 @@ export default function ArtistSearch() {
 
   return (
     <div className="my-4 w-90 mx-auto">
-      {
-        user
-          ? (
-            <input
-              type="text"
-              placeholder="Search"
-              value={searchTerm}
-              onChange={handleChange}
-            />
-          )
-          : (
-            <section>
-              You must be logged in to view this page
-            </section>
-          )
-      }
+      <input
+        type="text"
+        placeholder="Search"
+        value={searchTerm}
+        onChange={handleChange}
+      />
 
       {
         isError ? `${<div>Error</div>}` : ''

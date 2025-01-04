@@ -1,12 +1,7 @@
 import { React } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, signOut } from 'firebase/auth';
-import useUser from './hooks/useUser';
+import { Link } from 'react-router-dom';
 
 function NavBar() {
-  const { user } = useUser();
-  const navigate = useNavigate();
-
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -21,38 +16,6 @@ function NavBar() {
             </li>
             <li className="nav-item">
               <Link to="/music_search" className="nav-link active">Music Search</Link>
-            </li>
-          </ul>
-          <ul className="navbar-nav">
-            {
-              user ? <li className="nav-item mb-2 mb-lg-0 text-light">{user.email}</li> : null
-            }
-            <li className="nav-item">
-              {
-                user
-                  ? (
-                    <button
-                      className="btn btn-secondary"
-                      type="button"
-                      onClick={() => {
-                        signOut(getAuth());
-                      }}
-                    >
-                      Logout
-                    </button>
-                  )
-                  : (
-                    <button
-                      className="btn btn-secondary"
-                      type="button"
-                      onClick={() => {
-                        navigate('/login');
-                      }}
-                    >
-                      Login
-                    </button>
-                  )
-                }
             </li>
           </ul>
         </div>
