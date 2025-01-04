@@ -8,9 +8,10 @@ def artist_content(artist_id):
     output = {}
     output['artist_name'] = artist_name(artist_id)
     output['featured_albums'] = featured_album_details(artist_id)
-    output['top_songs_list'] = top_songs_list_builder(artist_id)
-    output['count'] = f"{len(output['top_songs_list'])}"
-    print(os.environ['apple_artist_details_url'])
+    output['top_songs_list'] = add_weight_to_songs(
+        top_songs_list_builder(artist_id),
+        output['featured_albums']['data']
+      )
     return output
 
 def artist_name(artist_id):
@@ -64,6 +65,11 @@ def top_songs_list_builder(artist_id):
        headers=headers,
        timeout=5
     )
+    # Add playlist content to top_songs_list
+    if playlists_content.status_code == 200:
+        for song_list in playlists_content.json()['data']:
+            for song in song_list['relationships']['tracks']['data']:
+                top_songs_list.append(song)
     # loop by intervals of 10
     for i in range(0,100,10):
         r = requests.get(
@@ -75,11 +81,7 @@ def top_songs_list_builder(artist_id):
             break
         for song in r.json()['data']:
             top_songs_list.append(song)
-    # Add playlist content to top_songs_list
-    if playlists_content.status_code == 200:
-        for song_list in playlists_content.json()['data']:
-            for song in song_list['relationships']['tracks']['data']:
-                top_songs_list.append(song)
+
     # Remove duplicates
     final_top_songs_list = []
     for song in top_songs_list:
@@ -100,3 +102,19 @@ def featured_album_details(artist_id):
         timeout=5
     )
     return albums.json()
+
+def add_weight_to_songs(songs_list, albums_list):
+    '''
+    Clean up of songs list
+    This method is here for situations where artist name does not line up appropriately.
+    '''
+    albums_name_list = []
+    for album in albums_list:
+        albums_name_list.append(album['attributes']['name'])
+    for song in songs_list:
+        if song['attributes']['albumName'] in albums_name_list:
+            song['featured_album'] = True
+        else:
+            song['featured_album'] = False
+    # Remove objects with the attribute 'has_attribute' set to True
+    return songs_list
