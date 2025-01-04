@@ -22,9 +22,6 @@ function NavBar() {
             <li className="nav-item">
               <Link to="/music_search" className="nav-link active">Music Search</Link>
             </li>
-            <li className="nav-item">
-              <Link to="/bracket_test" className="nav-link active">Bracket Test</Link>
-            </li>
           </ul>
           <ul className="navbar-nav">
             {
