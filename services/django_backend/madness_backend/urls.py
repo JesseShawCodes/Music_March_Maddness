@@ -15,17 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from spotify.api_views import AuthListView
-from apple_search.api_views import AppleAuthListView
-from apple_search.views import artist_search_view, artist_page_view
+from django.urls import path, include
+# from spotify.api_views import AuthListView
+# from apple_search.api_views import AppleAuthListView
+# from apple_search.views import artist_search_view, artist_page_view
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
 
     # Auths are currently being rendered for testing purposes
-    path('api/v1/auths', AuthListView.as_view()),
-    path('api/apple/auths', AppleAuthListView.as_view()),
-    path('artist', artist_search_view),
-    path('artist-page/<int:artist_id>', artist_page_view)
+    # path('api/v1/auths', AuthListView.as_view()),
+    # path('api/apple/auths', AppleAuthListView.as_view()),
+    # path('artist', artist_search_view),
+    # path('artist-page/<int:artist_id>', artist_page_view),
+    # path('accounts/', include('allauth.urls'))
 ]
