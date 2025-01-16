@@ -4,9 +4,9 @@ from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import serializers
-from apple.serializer import AppleSerializer
+from apple_search.serializer import AppleSerializer
 
-from apple.models import AppleAuth
+from apple_search.models import AppleAuth
 
 class AppleAuthPagination(LimitOffsetPagination):
     '''Apple Auth Pagination'''

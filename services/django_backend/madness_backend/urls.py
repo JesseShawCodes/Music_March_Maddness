@@ -17,8 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from spotify.api_views import AuthListView
-from apple.api_views import AppleAuthListView
-from apple.views import artist_search_view, artist_page_view
+from apple_search.api_views import AppleAuthListView
+from apple_search.views import artist_search_view, artist_page_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),

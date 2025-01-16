@@ -1,7 +1,7 @@
 '''Data Collection for artist page'''
 import os
 import requests
-from apple.auth import get_auth_token, get_newest_auth
+from apple_search.auth import get_auth_token, get_newest_auth
 
 def artist_content(artist_id):
     '''Final render of output to the page'''

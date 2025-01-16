@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('apple', '0001_initial'),
+        ('apple_search', '0001_initial'),
     ]
 
     operations = [

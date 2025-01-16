@@ -2,7 +2,7 @@
 import time
 import os
 import jwt
-from apple.models import AppleAuth
+from apple_search.models import AppleAuth
 
 def get_auth_token():
     '''Initial Get Auth Token. This should run if newest auth_token has expired'''

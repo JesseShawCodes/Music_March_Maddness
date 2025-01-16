@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 
     # apps
     'spotify',
-    'apple',
+    'apple_search',
 ]
 
 MIDDLEWARE = [

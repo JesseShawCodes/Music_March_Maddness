@@ -1,7 +1,7 @@
 '''Serializer Methods for Apple App'''
 from rest_framework import serializers
 
-from apple.models import AppleAuth
+from apple_search.models import AppleAuth
 
 class AppleSerializer(serializers.ModelSerializer):
     '''Apple Serializer'''

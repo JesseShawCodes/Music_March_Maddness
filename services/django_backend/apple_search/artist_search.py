@@ -3,7 +3,7 @@ import os
 import requests
 import json
 from django.http import JsonResponse
-from apple.auth import get_auth_token, get_newest_auth
+from apple_search.auth import get_auth_token, get_newest_auth
 
 def artist_search(artist_name):
     '''Search for Artist Function'''
