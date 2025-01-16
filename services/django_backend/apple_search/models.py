@@ -1,4 +1,4 @@
-'''Spotify API Related Models'''
+'''Apple API Related Models'''
 from django.db import models
 
 class AppleAuthManager(models.Manager):
