@@ -1,24 +1,9 @@
 volumes:
-  db_psql:
   db_mysql:
-  pgadmin:
+
+  phpmyadmin:
 
 services:
-  db:
-    image: postgres:15.2
-    container_name: postgres
-    ports:
-      - "5432:5432"
-    expose:
-      - 5432
-    volumes:
-      - "db_psql:/var/lib/postgresql/data"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=${database_name}
-      - POSTGRES_PORT=${database_port}
-  
   mysql_db:
     image: mysql:8.3.0
     restart: always
@@ -32,17 +17,3 @@ services:
       MYSQL_USER: test
       MYSQL_PASS: pass
       MYSQL_DATABASE: maddness
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    depends_on:
-      - db
-    ports:
-      - "5051:80"
-    volumes:
-      - "pgadmin:/var/lib/pgadmin"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-    restart: always
