@@ -4,6 +4,7 @@ build:
   commands:
     build:
       - pip install -r requirements.txt
+      - echo "TESTING!!!!"
 run:
   runtime-version: 3.8.16
   command: sh startup.sh
