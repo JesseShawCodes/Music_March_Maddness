@@ -7,3 +7,11 @@ secrets.sh
 docker-compose-dev.yml
 services/backend/openai_test.py
 AuthKey_api.p8
+
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+staticfiles
