@@ -8,6 +8,9 @@ def artist_content(artist_id):
     output = {}
     output['artist_name'] = artist_name(artist_id)
     output['featured_albums'] = featured_album_details(artist_id)
+    print("TESTINTG!")
+    print(output['featured_albums']['errors'][0]['status'])
+    # 
     output['top_songs_list'] = add_weight_to_songs(
         top_songs_list_builder(artist_id),
         output['featured_albums']['data']
