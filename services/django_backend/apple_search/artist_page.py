@@ -8,10 +8,16 @@ def artist_content(artist_id):
     output = {}
     output['artist_name'] = artist_name(artist_id)
     output['featured_albums'] = featured_album_details(artist_id)
-    output['top_songs_list'] = add_weight_to_songs(
-        top_songs_list_builder(artist_id),
-        output['featured_albums']['data']
-      )
+    if "errors" in output['featured_albums']:
+        output['top_songs_list'] = add_weight_to_songs(
+          top_songs_list_builder(artist_id),
+          []
+        )
+    else:
+        output['top_songs_list'] = add_weight_to_songs(
+            top_songs_list_builder(artist_id),
+            output['featured_albums']['data']
+        )
     return output
 
 def artist_name(artist_id):
@@ -34,10 +40,6 @@ def artist_name(artist_id):
 def check_substrings(string, substrings):
     '''Substring check. Used to filter out playlists that do not have useful data.'''
     return any(sub in string for sub in substrings)
-
-def playlist_request_url(artist_id):
-    '''Method to return proper url for API calls'''
-    return f"{os.environ['apple_artist_details_url']}artists/{artist_id}/view/featured-playlists"
 
 def top_songs_list_builder(artist_id):
     '''Create top songs list'''
