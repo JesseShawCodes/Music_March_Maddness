@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { React, useState, useEffect } from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
@@ -7,12 +8,14 @@ import { useGetArtistInfoQuery } from '../services/jsonServerApi';
 
 import BackToTop from '../components/BackToTop';
 import Song from './Song';
+import Matchup from '../components/Matchup';
 
 function ArtistPage() {
   const { handle } = useParams();
 
   // State
   const [values, setValues] = useState([]);
+  const [bracket, setBracket] = useState([]);
 
   const {
     data: musicQuery = {},
@@ -23,6 +26,22 @@ function ArtistPage() {
       setValues(musicQuery);
     }
   }, [musicQuery]);
+
+  const createMatchups = (arr) => {
+    const matchups = [];
+    const len = arr.length;
+
+    for (let i = 0; i < Math.floor(len / 2); i += 1) {
+      matchups.push([arr[i], arr[len - 1 - i]]);
+    }
+
+    return matchups;
+  };
+
+  const generateBracket = () => {
+    const matchups = createMatchups(values.top_songs_list.slice(0, 64));
+    setBracket({ 'matchups': matchups });
+  };
 
   if (!musicQuery.top_songs_list) {
     return (
@@ -46,6 +65,22 @@ function ArtistPage() {
         }
       </h1>
       <p>We have determined these to be the top songs for this artist.</p>
+      <button type="button" className="btn btn-primary" onClick={generateBracket}>
+        Generate Bracket
+      </button>
+
+      <h2>Bracket</h2>
+      <ul>
+        {
+          Object.prototype.hasOwnProperty.call(bracket, 'matchups') ? (
+
+            bracket.matchups.map((matchup) => (
+              <Matchup song1={matchup[0]} song2={matchup[1]} key={matchup[0].id + '_' + matchup[1].id} />
+            ))
+          )
+            : null
+        }
+      </ul>
       <ol className="song-list" id="collapseExample">
         {
         Object.prototype.hasOwnProperty.call(values, 'top_songs_list')
