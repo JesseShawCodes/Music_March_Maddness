@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function MatchupSong({ song }) {
+export default function MatchupSong({ song, selectSong }) {
   const dimensions = {
     '{w}': 70,
     '{h}': 70,
   };
 
   return (
-    <div className="w-25" style={{ color: `#${song.attributes.artwork.textColor1}`, backgroundColor: `#${song.attributes.artwork.bgColor}` }}>
+    <div className="w-50" style={{ color: `#${song.attributes.artwork.textColor1}`, backgroundColor: `#${song.attributes.artwork.bgColor}` }} onClick={selectSong} aria-hidden="true" data-testing={song.id}>
       <img className="album-cover" src={`${song.attributes.artwork.url.replace(/{w}|{h}/g, (match) => dimensions[match])}`} alt={`${song.attributes.albumName} Album Cover`} />
       {song.attributes.name}
     </div>
@@ -17,6 +17,7 @@ export default function MatchupSong({ song }) {
 
 MatchupSong.propTypes = {
   song: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     attributes: PropTypes.shape({
       name: PropTypes.string.isRequired,
       albumName: PropTypes.string.isRequired,
@@ -27,4 +28,5 @@ MatchupSong.propTypes = {
       }),
     }),
   }).isRequired,
+  selectSong: PropTypes.func.isRequired,
 };

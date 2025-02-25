@@ -40,8 +40,12 @@ function ArtistPage() {
 
   const generateBracket = () => {
     const matchups = createMatchups(values.top_songs_list.slice(0, 64));
-    setBracket({ 'matchups': matchups });
+    setBracket({ 'rounds': [matchups] });
   };
+
+  const selectSong = (song) => {
+    console.log(song.target.dataset.testing);
+  }
 
   if (!musicQuery.top_songs_list) {
     return (
@@ -72,10 +76,15 @@ function ArtistPage() {
       <h2>Bracket</h2>
       <ul>
         {
-          Object.prototype.hasOwnProperty.call(bracket, 'matchups') ? (
+          Object.prototype.hasOwnProperty.call(bracket, 'rounds') ? (
 
-            bracket.matchups.map((matchup) => (
-              <Matchup song1={matchup[0]} song2={matchup[1]} key={matchup[0].id + '_' + matchup[1].id} />
+            bracket.rounds[0].map((matchup) => (
+              <Matchup 
+                song1={matchup[0]} 
+                song2={matchup[1]}
+                key={matchup[0].id + '_' + matchup[1].id}
+                selectSong={selectSong}
+              />
             ))
           )
             : null
