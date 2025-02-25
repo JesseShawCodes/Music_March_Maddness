@@ -75,3 +75,17 @@ https://dev.to/mojemoron/how-to-connect-your-django-app-to-a-dockerized-postgres
 
 ### New Features
 Progress Bar for rating songs
+
+### Testing
+
+#### Django
+
+To run tests and generate a coverage report
+```
+coverage run manage.py test
+```
+
+To view coverage report
+```
+coverage report
+```
