@@ -113,7 +113,8 @@ def add_weight_to_songs(songs_list, albums_list):
     albums_name_list = []
     for album in albums_list:
         albums_name_list.append(album['attributes']['name'])
-    for song in songs_list:
+    for idx, song in enumerate(songs_list):
+        song['rank'] = idx + 1
         if song['attributes']['albumName'] in albums_name_list:
             song['featured_album'] = True
         else:
