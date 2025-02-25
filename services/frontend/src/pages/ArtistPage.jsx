@@ -15,7 +15,7 @@ function ArtistPage() {
 
   // State
   const [values, setValues] = useState([]);
-  const [bracket, setBracket] = useState([]);
+  const [bracket, setBracket] = useState({ rounds: {} });
 
   const {
     data: musicQuery = {},
@@ -35,17 +35,27 @@ function ArtistPage() {
       matchups.push([arr[i], arr[len - 1 - i]]);
     }
 
-    return matchups;
+    const groups = {
+      'Group 1': [],
+      'Group 2': [],
+      'Group 3': [],
+      'Group 4': [],
+    };
+
+    for (let i = 0; i < matchups.length; i += 1) {
+      groups[`Group ${(i % 4) + 1}`].push(matchups[i]);
+    }
+    return groups;
   };
 
   const generateBracket = () => {
     const matchups = createMatchups(values.top_songs_list.slice(0, 64));
-    setBracket({ 'rounds': [matchups] });
+    setBracket({ 'rounds': matchups });
   };
 
   const selectSong = (song) => {
     console.log(song.target.dataset.testing);
-  }
+  };
 
   if (!musicQuery.top_songs_list) {
     return (
@@ -68,28 +78,31 @@ function ArtistPage() {
             : 'null'
         }
       </h1>
-      <p>We have determined these to be the top songs for this artist.</p>
-      <button type="button" className="btn btn-primary" onClick={generateBracket}>
+      {Object.keys(bracket.rounds).length === 0 ? (<><p>We have determined these to be the top songs for this artist.</p><button type="button" className="btn btn-primary" onClick={generateBracket}>
         Generate Bracket
-      </button>
+      </button></>) : <p>Here is your bracket</p>}
 
-      <h2>Bracket</h2>
-      <ul>
+
         {
-          Object.prototype.hasOwnProperty.call(bracket, 'rounds') ? (
-
-            bracket.rounds[0].map((matchup) => (
-              <Matchup 
-                song1={matchup[0]} 
-                song2={matchup[1]}
-                key={matchup[0].id + '_' + matchup[1].id}
-                selectSong={selectSong}
-              />
-            ))
-          )
-            : null
+          Object.entries(bracket.rounds).map(([groupName, matchups]) => (
+            <div key={groupName}>
+              <h3 className="mt-5">{groupName}</h3>
+              <ul className="list-group">
+                {matchups.map((matchup) => (
+                  <li className="list-group-item" key={matchup[0].id + '_' + matchup[1].id}>
+                    <Matchup
+                      song1={matchup[0]}
+                      song2={matchup[1]}
+                      key={matchup[0].id + '_' + matchup[1].id}
+                      selectSong={selectSong}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
         }
-      </ul>
+
       <ol className="song-list" id="collapseExample">
         {
         Object.prototype.hasOwnProperty.call(values, 'top_songs_list')

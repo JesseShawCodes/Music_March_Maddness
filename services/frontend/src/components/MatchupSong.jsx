@@ -18,9 +18,11 @@ export default function MatchupSong({ song, selectSong }) {
 MatchupSong.propTypes = {
   song: PropTypes.shape({
     id: PropTypes.string.isRequired,
+    rank: PropTypes.number.isRequired,
     attributes: PropTypes.shape({
       name: PropTypes.string.isRequired,
       albumName: PropTypes.string.isRequired,
+      artistName: PropTypes.string.isRequired,
       artwork: PropTypes.shape({
         textColor1: PropTypes.string.isRequired,
         bgColor: PropTypes.string.isRequired,
