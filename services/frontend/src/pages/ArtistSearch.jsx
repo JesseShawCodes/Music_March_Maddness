@@ -5,7 +5,6 @@ import { useGetArtistsQuery } from '../services/jsonServerApi';
 export default function ArtistSearch() {
   const location = useLocation();
   const [artist, setArtist] = useState();
-  const [searchTerm, setSearchTerm] = useState('');
 
   let skipParam = true;
   if (location.search) {
@@ -22,11 +21,9 @@ export default function ArtistSearch() {
   const handleChange = (event) => {
     // navigate(`${location.pathname}?q=${event.target.value}`)
     if (event.target.value.length > 0) {
-      setSearchTerm(event.target.value);
       setArtist(event.target.value);
       setSkip(false);
     } else {
-      setSearchTerm('');
       setArtist('');
       setSkip(true);
     }
@@ -37,16 +34,15 @@ export default function ArtistSearch() {
       <input
         type="text"
         placeholder="Search"
-        value={searchTerm}
         onChange={handleChange}
       />
 
       {
-        isError ? `${<div>Error</div>}` : ''
+        isError ? <div>Error</div> : null
       }
 
       {
-        isLoading ? `${<div>Loading</div>}` : ''
+        isLoading ? <div>Loading</div> : null
       }
 
       <div className="grid d-flex flex-wrap justify-content-center">
