@@ -4,13 +4,13 @@ import MatchupSong from './MatchupSong';
 
 export default function Matchup({ song1, song2, selectSong }) {
   return (
-    <li className="d-flex justify-content-between mb-2 border-bottom">
+    <>
       <MatchupSong song={song1} selectSong={selectSong} />
       <div>
         vs.
       </div>
       <MatchupSong song={song2} selectSong={selectSong} />
-    </li>
+    </>
   );
 }
 

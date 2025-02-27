@@ -89,7 +89,7 @@ function ArtistPage() {
               <h3 className="mt-5">{groupName}</h3>
               <ul className="list-group">
                 {matchups.map((matchup) => (
-                  <li className="list-group-item" key={matchup[0].id + '_' + matchup[1].id}>
+                  <li className="list-group-item d-flex justify-content-between mb-2 border-bottom" key={matchup[0].id + '_' + matchup[1].id}>
                     <Matchup
                       song1={matchup[0]}
                       song2={matchup[1]}
