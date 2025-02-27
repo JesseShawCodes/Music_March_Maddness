@@ -1,22 +1,51 @@
-/* eslint-disable react/prop-types, react/no-array-index-key */
-
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function TopTracks({ listItems }) {
+import Song from '../pages/Song';
+
+function TopTracks({ musicQuery, values }) {
   return (
-    <div className="tracks_container">
-      <ol className="list-group list-group-numbered">
-        {listItems?.map((key, index) => (
-          <li className="list-group-item" key={index}>
-            {key.name}
-            -
-            {key.album.name}
-            <iframe style={{ borderRadius: 12 }} src={`https://open.spotify.com/embed/track/${key.id}?utm_source=generator&theme=0`} width="100%" height="152" allowFullScreen="" title={key.album.name} allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />
-          </li>
-        ))}
-      </ol>
-    </div>
+
+    <ol className="song-list" id="collapseExample">
+      {
+        Object.prototype.hasOwnProperty.call(values, 'top_songs_list')
+          ? (
+            musicQuery.top_songs_list.map((song) => (
+              <Song song={song} key={song.id} />
+            ))
+          )
+          : null
+      }
+    </ol>
   );
 }
 
 export default TopTracks;
+
+TopTracks.propTypes = {
+  musicQuery: PropTypes.shape({
+    top_songs_list: PropTypes.arrayOf(
+      PropTypes.shape({}),
+    ).isRequired,
+    attributes: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      albumName: PropTypes.string.isRequired,
+      artwork: PropTypes.shape({
+        textColor1: PropTypes.string.isRequired,
+        bgColor: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+      }),
+    }),
+  }).isRequired,
+  values: PropTypes.shape({
+    attributes: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      albumName: PropTypes.string.isRequired,
+      artwork: PropTypes.shape({
+        textColor1: PropTypes.string.isRequired,
+        bgColor: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+      }),
+    }),
+  }).isRequired,
+};

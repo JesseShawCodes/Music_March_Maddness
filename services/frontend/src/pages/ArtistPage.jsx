@@ -9,21 +9,14 @@ import { useGetArtistInfoQuery } from '../services/jsonServerApi';
 import BackToTop from '../components/BackToTop';
 import Song from './Song';
 import Matchup from '../components/Matchup';
+import TopTracks from '../components/TopTracks';
 
 function ArtistPage() {
   const { handle } = useParams();
 
   // State
   const [values, setValues] = useState([]);
-  const [bracket, setBracket] = useState({ rounds: {
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-    6: [],
-    7: []
-  } });
+  const [bracket, setBracket] = useState({});
 
   const {
     data: musicQuery = {},
@@ -58,7 +51,7 @@ function ArtistPage() {
 
   const generateBracket = () => {
     const matchups = createMatchups(values.top_songs_list.slice(0, 64));
-    setBracket({ 'rounds': matchups });
+    setBracket({ 'round1': matchups });
   };
 
   const selectSong = (song) => {
@@ -87,42 +80,12 @@ function ArtistPage() {
         }
       </h1>
       
-      {Object.keys(bracket.rounds[1]).length === 0 ? (<><p>We have determined these to be the top songs for this artist.</p><button type="button" className="btn btn-primary" onClick={generateBracket}>
+      {Object.keys(bracket).length === 0 ? (<><p>We have determined these to be the top songs for this artist.</p><button type="button" className="btn btn-primary" onClick={generateBracket}>
         Generate Bracket
       </button></>) : <p>Here is your bracket</p>}
 
+        <TopTracks musicQuery={musicQuery} values={values} />
 
-        {
-          Object.entries(bracket.rounds).map(([groupName, matchups]) => (
-            <div key={groupName}>
-              <h3 className="mt-5">{groupName}</h3>
-              <ul className="list-group">
-                {matchups.map((matchup) => (
-                  <li className="list-group-item d-flex justify-content-between mb-2 border-bottom" key={matchup[0].id + '_' + matchup[1].id}>
-                    <Matchup
-                      song1={matchup[0]}
-                      song2={matchup[1]}
-                      key={matchup[0].id + '_' + matchup[1].id}
-                      selectSong={selectSong}
-                    />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        }
-
-      <ol className="song-list" id="collapseExample">
-        {
-        Object.prototype.hasOwnProperty.call(values, 'top_songs_list')
-          ? (
-            musicQuery.top_songs_list.map((song) => (
-              <Song song={song} key={song.id} />
-            ))
-          )
-          : null
-        }
-      </ol>
     </div>
   );
 }
