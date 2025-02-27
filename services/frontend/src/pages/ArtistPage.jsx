@@ -15,7 +15,15 @@ function ArtistPage() {
 
   // State
   const [values, setValues] = useState([]);
-  const [bracket, setBracket] = useState({ rounds: {} });
+  const [bracket, setBracket] = useState({ rounds: {
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+    7: []
+  } });
 
   const {
     data: musicQuery = {},
@@ -78,7 +86,8 @@ function ArtistPage() {
             : 'null'
         }
       </h1>
-      {Object.keys(bracket.rounds).length === 0 ? (<><p>We have determined these to be the top songs for this artist.</p><button type="button" className="btn btn-primary" onClick={generateBracket}>
+      
+      {Object.keys(bracket.rounds[1]).length === 0 ? (<><p>We have determined these to be the top songs for this artist.</p><button type="button" className="btn btn-primary" onClick={generateBracket}>
         Generate Bracket
       </button></>) : <p>Here is your bracket</p>}
 
