@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { React, useState, useEffect } from 'react';
+import { React, useEffect, useReducer } from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,16 +7,41 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetArtistInfoQuery } from '../services/jsonServerApi';
 
 import BackToTop from '../components/BackToTop';
-import Song from './Song';
-import Matchup from '../components/Matchup';
 import TopTracks from '../components/TopTracks';
+import BracketTable from '../components/BracketTable';
+
+const initialState = {
+  values: [],
+  bracket: {},
+  round: 1
+}
+
+function bracketReducer(state, action) {
+  switch(action.type) {
+    case "setValues": {
+      return {
+        ...state,
+        values: action.payload.values
+      }
+    }
+    case "setBracket":
+      return {
+        ...state,
+        bracket: action.payload.bracket
+      }
+    case "setRound":
+      return {
+        ...state,
+        result: action.payload.round
+      }
+    default:
+      return state
+  }
+}
 
 function ArtistPage() {
   const { handle } = useParams();
-
-  // State
-  const [values, setValues] = useState([]);
-  const [bracket, setBracket] = useState({});
+  const [state, dispatch] = useReducer(bracketReducer, initialState);
 
   const {
     data: musicQuery = {},
@@ -24,7 +49,7 @@ function ArtistPage() {
 
   useEffect(() => {
     if (Object.keys(musicQuery).length > 0) {
-      setValues(musicQuery);
+      dispatch({type: "setValues", payload: {values: musicQuery}})
     }
   }, [musicQuery]);
 
@@ -50,12 +75,12 @@ function ArtistPage() {
   };
 
   const generateBracket = () => {
-    const matchups = createMatchups(values.top_songs_list.slice(0, 64));
-    setBracket({ 'round1': matchups });
+    const matchups = createMatchups(state.values.top_songs_list.slice(0, 64));
+    dispatch({type: "setBracket", payload: {bracket: matchups}})
   };
 
   const selectSong = (song) => {
-    console.log(song.target.dataset.testing);
+    console.log(song);
   };
 
   if (!musicQuery.top_songs_list) {
@@ -68,7 +93,7 @@ function ArtistPage() {
   }
 
   return (
-    <div className="container">
+    <div className="container-lg">
       <BackToTop />
       <h1>
         {
@@ -79,12 +104,23 @@ function ArtistPage() {
             : 'null'
         }
       </h1>
-      
-      {Object.keys(bracket).length === 0 ? (<><p>We have determined these to be the top songs for this artist.</p><button type="button" className="btn btn-primary" onClick={generateBracket}>
-        Generate Bracket
-      </button></>) : <p>Here is your bracket</p>}
 
-        <TopTracks musicQuery={musicQuery} values={values} />
+      {
+        Object.keys(state.bracket).length === 0
+          ? (
+            <>
+              <p>
+                We have determined these to be the top songs for this artist.
+              </p>
+              <button type="button" className="btn btn-primary" onClick={generateBracket}>
+                Generate Bracket
+              </button>
+            </>
+          )
+          : <BracketTable bracket={state.bracket} selectSong={selectSong} />
+      }
+
+      <TopTracks musicQuery={musicQuery} values={state.values} />
 
     </div>
   );

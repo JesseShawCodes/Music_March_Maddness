@@ -7,8 +7,12 @@ export default function MatchupSong({ song, selectSong }) {
     '{h}': 70,
   };
 
+  const handleClick = () => {
+    selectSong(song);
+  };
+
   return (
-    <div className="w-50" style={{ color: `#${song.attributes.artwork.textColor1}`, backgroundColor: `#${song.attributes.artwork.bgColor}` }} onClick={selectSong} aria-hidden="true" data-testing={song.id}>
+    <div className="w-50" style={{ color: `#${song.attributes.artwork.textColor1}`, backgroundColor: `#${song.attributes.artwork.bgColor}` }} aria-hidden="true" data-song-id={song.id} onClick={handleClick}>
       <img className="album-cover" src={`${song.attributes.artwork.url.replace(/{w}|{h}/g, (match) => dimensions[match])}`} alt={`${song.attributes.albumName} Album Cover`} />
       {song.attributes.name}
     </div>

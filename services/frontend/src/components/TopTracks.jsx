@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -37,15 +38,5 @@ TopTracks.propTypes = {
       }),
     }),
   }).isRequired,
-  values: PropTypes.shape({
-    attributes: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      albumName: PropTypes.string.isRequired,
-      artwork: PropTypes.shape({
-        textColor1: PropTypes.string.isRequired,
-        bgColor: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
-      }),
-    }),
-  }).isRequired,
+  values: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
