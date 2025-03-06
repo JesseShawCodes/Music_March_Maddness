@@ -6,8 +6,6 @@ const ThemeContext = createContext();
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider = ({ children }) => {
-  console.log("Theme provider");
-
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   // Toggle Theme
