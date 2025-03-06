@@ -13,7 +13,8 @@ import BracketTable from '../components/BracketTable';
 const initialState = {
   values: [],
   bracket: {},
-  round: 1
+  round: 1,
+  nextRound: 2
 }
 
 function bracketReducer(state, action) {
@@ -33,6 +34,11 @@ function bracketReducer(state, action) {
       return {
         ...state,
         result: action.payload.round
+      }
+    case "setNextRound":
+      return {
+        ...state,
+        nextRound: action.payload.nextRound
       }
     default:
       return state
@@ -76,7 +82,9 @@ function ArtistPage() {
 
   const generateBracket = () => {
     const matchups = createMatchups(state.values.top_songs_list.slice(0, 64));
-    dispatch({type: "setBracket", payload: {bracket: matchups}})
+    const bracketData = {}
+    bracketData[`round${state.round}`] = matchups
+    dispatch({type: "setBracket", payload: {bracket: bracketData}})
   };
 
   const selectSong = (song) => {
