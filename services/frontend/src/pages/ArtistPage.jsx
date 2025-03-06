@@ -1,4 +1,4 @@
-/* eslint-disable */
+/*eslint-disable*/
 import { React, useEffect, useReducer } from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
@@ -14,34 +14,34 @@ const initialState = {
   values: [],
   bracket: {},
   round: 1,
-  nextRound: 2
-}
+  nextRound: 2,
+};
 
 function bracketReducer(state, action) {
-  switch(action.type) {
-    case "setValues": {
+  switch (action.type) {
+    case 'setValues': {
       return {
         ...state,
-        values: action.payload.values
-      }
+        values: action.payload.values,
+      };
     }
-    case "setBracket":
+    case 'setBracket':
       return {
         ...state,
-        bracket: action.payload.bracket
-      }
-    case "setRound":
+        bracket: action.payload.bracket,
+      };
+    case 'setRound':
       return {
         ...state,
-        result: action.payload.round
-      }
-    case "setNextRound":
+        round: action.payload.round,
+      };
+    case 'setNextRound':
       return {
         ...state,
-        nextRound: action.payload.nextRound
-      }
+        nextRound: action.payload.nextRound,
+      };
     default:
-      return state
+      return state;
   }
 }
 
@@ -55,7 +55,7 @@ function ArtistPage() {
 
   useEffect(() => {
     if (Object.keys(musicQuery).length > 0) {
-      dispatch({type: "setValues", payload: {values: musicQuery}})
+      dispatch({ type: 'setValues', payload: { values: musicQuery } });
     }
   }, [musicQuery]);
 
@@ -64,7 +64,8 @@ function ArtistPage() {
     const len = arr.length;
 
     for (let i = 0; i < Math.floor(len / 2); i += 1) {
-      matchups.push([arr[i], arr[len - 1 - i]]);
+      // matchups.push([arr[i], arr[len - 1 - i]]);
+      matchups.push({song1: {song: arr[i], groupRank: i+1}, song2: {song: arr[len - 1 - i], groupRank: arr[len - 1 - i].rank}});
     }
 
     const groups = {
@@ -75,6 +76,10 @@ function ArtistPage() {
     };
 
     for (let i = 0; i < matchups.length; i += 1) {
+      console.log(matchups[i][0]);
+      console.log(matchups[i][1]);
+      console.log(i);
+
       groups[`Group ${(i % 4) + 1}`].push(matchups[i]);
     }
     return groups;
@@ -82,9 +87,9 @@ function ArtistPage() {
 
   const generateBracket = () => {
     const matchups = createMatchups(state.values.top_songs_list.slice(0, 64));
-    const bracketData = {}
-    bracketData[`round${state.round}`] = matchups
-    dispatch({type: "setBracket", payload: {bracket: bracketData}})
+    const bracketData = {};
+    bracketData[`round${state.round}`] = matchups;
+    dispatch({ type: 'setBracket', payload: { bracket: bracketData } });
   };
 
   const selectSong = (song) => {
@@ -113,6 +118,13 @@ function ArtistPage() {
         }
       </h1>
 
+      <h2>
+        Round
+        {state.round}
+      </h2>
+      <button type="button" className="btn btn-primary" onClick={generateBracket}>
+        Temporary Generate Bracket
+      </button>
       {
         Object.keys(state.bracket).length === 0
           ? (
@@ -125,7 +137,7 @@ function ArtistPage() {
               </button>
             </>
           )
-          : <BracketTable bracket={state.bracket} selectSong={selectSong} />
+          : <BracketTable bracket={state.bracket} selectSong={selectSong} round={"round" + state.round} />
       }
 
       <TopTracks musicQuery={musicQuery} values={state.values} />

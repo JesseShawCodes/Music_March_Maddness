@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React from 'react';
 import PropTypes from 'prop-types';
 import MatchupSong from './MatchupSong';
@@ -5,11 +6,11 @@ import MatchupSong from './MatchupSong';
 export default function Matchup({ song1, song2, selectSong }) {
   return (
     <>
-      <MatchupSong song={song1} selectSong={selectSong} />
+      <MatchupSong song={song1.song} selectSong={selectSong} />
       <div>
         vs.
       </div>
-      <MatchupSong song={song2} selectSong={selectSong} />
+      <MatchupSong song={song2.song} selectSong={selectSong} />
     </>
   );
 }
