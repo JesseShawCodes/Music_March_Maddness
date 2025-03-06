@@ -1,5 +1,6 @@
 import { React } from 'react';
 import { Link } from 'react-router-dom';
+import ThemeToggleButton from './components/ThemeToggleButton';
 
 function NavBar() {
   return (
@@ -17,6 +18,7 @@ function NavBar() {
             <li className="nav-item">
               <Link to="/music_search" className="nav-link active">Music Search</Link>
             </li>
+            <ThemeToggleButton />
           </ul>
         </div>
       </div>
