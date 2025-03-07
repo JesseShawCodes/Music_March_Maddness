@@ -11,7 +11,7 @@ function BracketTable({ bracket, selectSong, round }) {
       <GroupSelect />
       {
         Object.entries(bracket[round]).map(([groupName, matchups]) => (
-          <Group groupName={groupName} matchups={matchups} selectSong={selectSong}/>
+          <Group groupName={groupName} matchups={matchups} selectSong={selectSong} key={groupName}/>
         ))
       }
     </>
