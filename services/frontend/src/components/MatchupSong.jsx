@@ -14,7 +14,6 @@ export default function MatchupSong({ song, selectSong }) {
 
   return (
     <div className="w-50" style={{ color: `#${song.attributes.artwork.textColor1}`, backgroundColor: `#${song.attributes.artwork.bgColor}` }} aria-hidden="true" data-song-id={song.id} onClick={handleClick}>
-      <img className="album-cover" src={`${song.attributes.artwork.url.replace(/{w}|{h}/g, (match) => dimensions[match])}`} alt={`${song.attributes.albumName} Album Cover`} />
       {song.attributes.name}
     </div>
   );
@@ -37,3 +36,7 @@ MatchupSong.propTypes = {
   }).isRequired,
   selectSong: PropTypes.func.isRequired,
 };
+
+/*
+<img className="album-cover" src={`${song.attributes.artwork.url.replace(/{w}|{h}/g, (match) => dimensions[match])}`} alt={`${song.attributes.albumName} Album Cover`} />
+*/
