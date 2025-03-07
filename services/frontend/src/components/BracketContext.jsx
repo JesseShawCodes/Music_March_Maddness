@@ -8,6 +8,7 @@ const initialState = {
   bracket: {},
   round: 1,
   nextRound: 2,
+  selectedGroup: "group1"
 };
 
 function bracketReducer(state, action) {
@@ -32,6 +33,11 @@ function bracketReducer(state, action) {
       return {
         ...state,
         nextRound: action.payload.nextRound,
+      };
+    case 'setSelectedGroup':
+      return {
+        ...state,
+        selectedGroup: action.payload.selectedGroup,
       };
     default:
       return state;
