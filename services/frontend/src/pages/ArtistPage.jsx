@@ -108,43 +108,45 @@ function ArtistPage() {
   }
 
   return (
-    <div className="container-lg">
-      <BackToTop />
-      <h1>
+    <BracketContext>
+      <div className="container-lg">
+        <BackToTop />
+        <h1>
+          {
+            Object.prototype.hasOwnProperty.call(musicQuery, 'artist_name')
+              ? (
+                `${musicQuery.artist_name}`
+              )
+              : 'null'
+          }
+        </h1>
+
+        <h2>
+          Round
+          {state.round}
+        </h2>
+        <button type="button" className="btn btn-primary" onClick={generateBracket}>
+          Temporary Generate Bracket
+        </button>
         {
-          Object.prototype.hasOwnProperty.call(musicQuery, 'artist_name')
+          Object.keys(state.bracket).length === 0
             ? (
-              `${musicQuery.artist_name}`
+              <>
+                <p>
+                  We have determined these to be the top songs for this artist.
+                </p>
+                <button type="button" className="btn btn-primary" onClick={generateBracket}>
+                  Generate Bracket
+                </button>
+              </>
             )
-            : 'null'
+            : <BracketTable bracket={state.bracket} selectSong={selectSong} round={"round" + state.round} />
         }
-      </h1>
 
-      <h2>
-        Round
-        {state.round}
-      </h2>
-      <button type="button" className="btn btn-primary" onClick={generateBracket}>
-        Temporary Generate Bracket
-      </button>
-      {
-        Object.keys(state.bracket).length === 0
-          ? (
-            <>
-              <p>
-                We have determined these to be the top songs for this artist.
-              </p>
-              <button type="button" className="btn btn-primary" onClick={generateBracket}>
-                Generate Bracket
-              </button>
-            </>
-          )
-          : <BracketTable bracket={state.bracket} selectSong={selectSong} round={"round" + state.round} />
-      }
+        <TopTracks musicQuery={musicQuery} values={state.values} />
 
-      <TopTracks musicQuery={musicQuery} values={state.values} />
-
-    </div>
+      </div>
+    </BracketContext>
   );
 }
 
