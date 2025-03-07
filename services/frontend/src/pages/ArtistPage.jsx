@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import { React, useEffect, useReducer } from 'react';
+import { React, useEffect, useReducer, createContext, useContext } from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,6 +9,7 @@ import { useGetArtistInfoQuery } from '../services/jsonServerApi';
 import BackToTop from '../components/BackToTop';
 import TopTracks from '../components/TopTracks';
 import BracketTable from '../components/BracketTable';
+import BracketContext from '../components/BracketContext';
 
 const initialState = {
   values: [],
@@ -48,6 +49,7 @@ function bracketReducer(state, action) {
 function ArtistPage() {
   const { handle } = useParams();
   const [state, dispatch] = useReducer(bracketReducer, initialState);
+  const bracket = useContext(BracketContext);
 
   const {
     data: musicQuery = {},
