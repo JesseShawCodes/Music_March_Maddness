@@ -1,7 +1,6 @@
 /*eslint-disable*/
 import {React, useState} from 'react';
 import Matchup from './Matchup';
-import PropTypes from 'prop-types';
 
 function Group({groupName, matchups, selectSong}) {
   return (

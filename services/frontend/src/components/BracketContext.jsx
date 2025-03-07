@@ -3,7 +3,7 @@ import { createContext, useReducer } from 'react';
 
 export const Context = createContext();
 
-const initialState = {
+export const initialState = {
   values: [],
   bracket: {},
   round: 1,
@@ -11,7 +11,7 @@ const initialState = {
   selectedGroup: "group1"
 };
 
-function bracketReducer(state, action) {
+export function bracketReducer(state, action) {
   switch (action.type) {
     case 'setValues': {
       return {

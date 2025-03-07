@@ -1,17 +1,20 @@
 /*eslint-disable*/
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import Song from '../pages/Song';
+import { Context } from './BracketContext';
 
-function TopTracks({ musicQuery, values }) {
+function TopTracks() {
+  const value = useContext(Context);
+  const [state, dispatch] = value;
+
   return (
-
     <ol className="song-list" id="collapseExample">
       {
-        Object.prototype.hasOwnProperty.call(values, 'top_songs_list')
+        Object.prototype.hasOwnProperty.call(state.values, 'top_songs_list')
           ? (
-            musicQuery.top_songs_list.map((song) => (
+            state.values.top_songs_list.map((song) => (
               <Song song={song} key={song.id} />
             ))
           )

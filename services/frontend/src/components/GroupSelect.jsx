@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import {React, useContext, useState} from 'react';
+import {React, useContext} from 'react';
 import { Context } from '../components/BracketContext';
 
 function GroupSelect() {
