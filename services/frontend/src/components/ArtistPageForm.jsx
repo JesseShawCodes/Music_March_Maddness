@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import { useContext, useRef, useEffect } from "react";
 import { Context } from "./BracketContext";
-
+import BracketTable from "./BracketTable";
 
 import { useGetArtistInfoQuery } from '../services/jsonServerApi';
 import { useParams } from "react-router-dom";
@@ -79,13 +79,9 @@ const ArtistPageForm = () => {
                 </button>
               </>
             )
-            : <h1>TESTING</h1>
+            :  <BracketTable />
       }
     </>
   );
 };
 export default ArtistPageForm;
-
-/*
-<BracketTable bracket={state.bracket} selectSong={selectSong} round={"round" + state.round} />
-*/

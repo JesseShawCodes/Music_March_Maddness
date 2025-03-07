@@ -1,8 +1,12 @@
 /*eslint-disable*/
-import {React, useState} from 'react';
+import {React, useState, useContext} from 'react';
 import Matchup from './Matchup';
+import { Context } from './BracketContext';
 
 function Group({groupName, matchups, selectSong}) {
+  const value = useContext(Context);
+  const [state] = value;
+
   return (
     <div className={groupName} key={groupName}>
     <h2 className="mt-1">{groupName}</h2>
