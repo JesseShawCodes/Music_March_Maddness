@@ -1,20 +1,22 @@
 /*eslint-disable*/
-import React from 'react';
+import { React, useContext } from 'react';
+import { Context } from './BracketContext';
 import PropTypes from 'prop-types';
 
-export default function MatchupSong({ song, selectSong }) {
-  const dimensions = {
-    '{w}': 70,
-    '{h}': 70,
-  };
+export default function MatchupSong({ song }) {
+  const value = useContext(Context);
+  const [state, dispatch] = value;
+
+  /* Next Round Logic Needs to happen here*/
 
   const handleClick = () => {
-    selectSong(song);
+    console.log("Hello...");
+    dispatch({ type: 'setBracket', payload: { bracket: {round1: state.bracket.round1, round2: {}} } });
   };
 
   return (
     <div className="w-50" style={{ color: `#${song.attributes.artwork.textColor1}`, backgroundColor: `#${song.attributes.artwork.bgColor}` }} aria-hidden="true" data-song-id={song.id} onClick={handleClick}>
-      {song.attributes.name}
+      {song.attributes.name} {Object.keys(state.bracket.round1)}
     </div>
   );
 }
