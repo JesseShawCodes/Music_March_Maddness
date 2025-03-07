@@ -1,6 +1,6 @@
 /*eslint-disable*/
 import {React, useState} from 'react';
-import PropTypes from 'prop-types';
+import BracketContext from '../components/BracketContext';
 
 function GroupSelect() {
   const [selectedValue, setSelectedValue] = useState('');
@@ -11,6 +11,7 @@ function GroupSelect() {
   return (
     <div className='my-3 w-100 d-flex justify-content-center'>
       <label>Select Group</label>
+      <div>{BracketContext.selectedGroup}</div>
       <select value={selectedValue} onChange={handleChange} className='form-select w-50'>
         <option value="">Select an option</option>
         <option value="group1">Group 1</option>
