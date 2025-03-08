@@ -16,7 +16,7 @@ export default function MatchupSong({ song }) {
 
   return (
     <div className="w-50" style={{ color: `#${song.attributes.artwork.textColor1}`, backgroundColor: `#${song.attributes.artwork.bgColor}` }} aria-hidden="true" data-song-id={song.id} onClick={handleClick}>
-      {song.attributes.name} {Object.keys(state.bracket.round1)}
+      {song.attributes.name}
     </div>
   );
 }
