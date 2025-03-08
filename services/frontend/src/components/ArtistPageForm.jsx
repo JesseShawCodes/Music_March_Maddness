@@ -44,8 +44,21 @@ const ArtistPageForm = () => {
     const len = arr.length;
 
     for (let i = 0; i < Math.floor(len / 2); i += 1) {
-      // matchups.push([arr[i], arr[len - 1 - i]]);
-      matchups.push({song1: {song: arr[i], groupRank: i+1}, song2: {song: arr[len - 1 - i], groupRank: arr[len - 1 - i].rank}});
+      matchups.push(
+        {
+          song1: {
+            song: arr[i], 
+            groupRank: i+1
+          }, 
+          song2: {
+            song: arr[len - 1 - i], 
+            groupRank: arr[len - 1 - i].rank
+          },
+          complete: false,
+          winner: null,
+          loser: null,
+        }
+      );
     }
 
     const groups = {
