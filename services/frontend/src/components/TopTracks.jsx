@@ -1,7 +1,5 @@
 /*eslint-disable*/
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-
 import Song from '../pages/Song';
 import { Context } from './BracketContext';
 
@@ -25,21 +23,3 @@ function TopTracks() {
 }
 
 export default TopTracks;
-
-TopTracks.propTypes = {
-  musicQuery: PropTypes.shape({
-    top_songs_list: PropTypes.arrayOf(
-      PropTypes.shape({}),
-    ).isRequired,
-    attributes: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      albumName: PropTypes.string.isRequired,
-      artwork: PropTypes.shape({
-        textColor1: PropTypes.string.isRequired,
-        bgColor: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
-      }),
-    }),
-  }).isRequired,
-  values: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-};
