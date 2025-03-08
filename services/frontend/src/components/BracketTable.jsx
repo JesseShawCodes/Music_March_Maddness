@@ -7,6 +7,7 @@ function BracketTable() {
   const value = useContext(Context);
   const [state] = value;
   const currentRound = `round${state.round}`;
+  const roundHeader = `Round ${state.round}`;
 
   const groups = [
     { id: 1, name: 'Group 1' },
@@ -17,6 +18,9 @@ function BracketTable() {
 
   return (
     <>
+      <h2 className="my-3">
+        {roundHeader}
+      </h2>
       <GroupSelect groups={groups} />
       {
         state.selectedGroup === 'all'
