@@ -6,13 +6,7 @@ function ArtistName() {
   const [state] = value;
 
   return (
-    <>
-      <h1>{state.values.artist_name}</h1>
-      <h2>
-        Round
-        {state.round}
-      </h2>
-    </>
+    <h1>{state.values.artist_name}</h1>
   );
 }
 
