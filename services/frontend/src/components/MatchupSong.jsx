@@ -1,17 +1,23 @@
-/*eslint-disable*/
 import { React, useContext } from 'react';
-import { Context } from './BracketContext';
 import PropTypes from 'prop-types';
+import { Context } from './BracketContext';
 
 export default function MatchupSong({ song }) {
   const value = useContext(Context);
   const [state, dispatch] = value;
 
-  /* Next Round Logic Needs to happen here*/
+  /* Next Round Logic Needs to happen here */
 
   const handleClick = () => {
-    console.log("Hello...");
-    dispatch({ type: 'setBracket', payload: { bracket: {round1: state.bracket.round1, round2: {}} } });
+    dispatch({
+      type: 'setBracket',
+      payload: {
+        bracket: {
+          round1: state.bracket.round1,
+          round2: {},
+        },
+      },
+    });
   };
 
   return (
@@ -36,9 +42,12 @@ MatchupSong.propTypes = {
       }),
     }),
   }).isRequired,
-  selectSong: PropTypes.func.isRequired,
 };
 
 /*
-<img className="album-cover" src={`${song.attributes.artwork.url.replace(/{w}|{h}/g, (match) => dimensions[match])}`} alt={`${song.attributes.albumName} Album Cover`} />
+<img
+  className="album-cover"
+  src={`${song.attributes.artwork.url.replace(/{w}|{h}/g, (match) => dimensions[match])}`}
+  alt={`${song.attributes.albumName} Album Cover`}
+/>
 */
