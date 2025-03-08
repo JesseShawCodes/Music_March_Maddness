@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import { createContext, useReducer } from 'react';
+import { React, createContext, useReducer } from 'react';
 
 export const Context = createContext();
 
@@ -8,7 +8,7 @@ export const initialState = {
   bracket: {},
   round: 1,
   nextRound: 2,
-  selectedGroup: "group1"
+  selectedGroup: 'all',
 };
 
 export function bracketReducer(state, action) {
@@ -44,11 +44,11 @@ export function bracketReducer(state, action) {
   }
 }
 
-const BracketContext = ({ children }) => {
+function BracketContext({ children }) {
   const [state, dispatch] = useReducer(bracketReducer, initialState);
   return (
     <Context.Provider value={[state, dispatch]}>{children}</Context.Provider>
   );
-};
+}
 
 export default BracketContext;
