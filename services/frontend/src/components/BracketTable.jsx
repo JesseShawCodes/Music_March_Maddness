@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useContext } from 'react';
 import GroupSelect from './GroupSelect';
 import Group from './Group';
@@ -24,17 +26,24 @@ function BracketTable() {
       <GroupSelect groups={groups} />
       {
         state.selectedGroup === 'all'
-          ? Object.entries(state.bracket[currentRound]).map(([groupName, matchups]) => (
-            <Group groupName={groupName} matchups={matchups} key={groupName} />
-          ))
-          : groups.filter((group) => state.selectedGroup === 'all' || group.name === state.selectedGroup)
+          ? groups.filter((group) => state.selectedGroup === 'all' || group.name === state.selectedGroup)
             .map((group) => (
               <Group
                 groupName={group.name}
-                matchups={state.bracket[currentRound][groups[group.id - 1].name]}
+                matchups={state.bracket[groups[group.id - 1].name][currentRound]}
                 key={group.id}
               />
             ))
+          : Object.entries(state.bracket).map(([groupName, matchups], index) => (
+            state.selectedGroup === groupName
+              ? (
+                <Group
+                  groupName={groupName}
+                  matchups={matchups[currentRound]}
+                  key={`Group ${groups[index].id}`}
+                />
+              )
+              : null))
       }
     </>
   );

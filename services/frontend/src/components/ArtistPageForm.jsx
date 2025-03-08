@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import { useContext, useRef, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Context } from "./BracketContext";
 import BracketTable from "./BracketTable";
 
@@ -15,8 +15,7 @@ const ArtistPageForm = () => {
 
   const generateBracket = () => {
     const matchups = createMatchups(state.values.top_songs_list.slice(0, 64));
-    const bracketData = {};
-    bracketData[`round${state.round}`] = matchups;
+    const bracketData = matchups;
     dispatch({ type: 'setBracket', payload: { bracket: bracketData } });
   };
 
@@ -50,14 +49,22 @@ const ArtistPageForm = () => {
     }
 
     const groups = {
-      'Group 1': [],
-      'Group 2': [],
-      'Group 3': [],
-      'Group 4': [],
+      'Group 1': {
+        round1: []
+      },
+      'Group 2': {
+        round1: []
+      },
+      'Group 3': {
+        round1: []
+      },
+      'Group 4': {
+        round1: []
+      },
     };
 
     for (let i = 0; i < matchups.length; i += 1) {
-      groups[`Group ${(i % 4) + 1}`].push(matchups[i]);
+      groups[`Group ${(i % 4) + 1}`]['round1'].push(matchups[i]);
     }
     return groups;
   };
