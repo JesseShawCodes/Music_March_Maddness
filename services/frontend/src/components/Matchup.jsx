@@ -3,14 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MatchupSong from './MatchupSong';
 
-export default function Matchup({ song1, song2, selectSong }) {
+export default function Matchup({ song1, song2 }) {
   return (
     <>
-      <MatchupSong song={song1.song} selectSong={selectSong} />
+      <MatchupSong song={song1.song} />
       <div>
         vs.
       </div>
-      <MatchupSong song={song2.song} selectSong={selectSong} />
+      <MatchupSong song={song2.song} />
     </>
   );
 }
@@ -38,5 +38,4 @@ Matchup.propTypes = {
       }),
     }),
   }).isRequired,
-  selectSong: PropTypes.func.isRequired,
 };

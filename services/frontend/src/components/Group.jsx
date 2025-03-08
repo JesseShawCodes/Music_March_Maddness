@@ -2,7 +2,7 @@
 import { React } from 'react';
 import Matchup from './Matchup';
 
-function Group({ groupName, matchups, selectSong }) {
+function Group({ groupName, matchups }) {
   return (
     <div className={groupName} key={groupName}>
       <h2 className="mt-1">{groupName}</h2>
@@ -13,7 +13,6 @@ function Group({ groupName, matchups, selectSong }) {
               song1={matchup.song1}
               song2={matchup.song2}
               key={matchup.song1.song.id + '-' + matchup.song2.song.id}
-              selectSong={selectSong}
             />
           </li>
         ))}
