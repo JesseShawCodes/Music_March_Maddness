@@ -7,12 +7,14 @@ function Group({ groupName, matchups }) {
     <div className={groupName} key={groupName}>
       <h2 className="mt-1">{groupName}</h2>
       <ul className="list-group">
-        {matchups.map((matchup) => (
-          <li className="list-group-item d-flex justify-content-between mb-2 border-bottom" key={matchup.song1.groupRank + '_' + matchup.song2.groupRank}>
+        {matchups.map((matchup, index) => (
+          <li className="list-group-item" key={matchup.attributes.song1.groupRank + '_' + matchup.attributes.song2.groupRank}>
             <Matchup
-              song1={matchup.song1}
-              song2={matchup.song2}
-              key={matchup.song1.song.id + '-' + matchup.song2.song.id}
+              song1={matchup.attributes.song1}
+              song2={matchup.attributes.song2}
+              key={matchup.attributes.song1.song.id + '-' + matchup.attributes.song2.song.id}
+              groupName={groupName}
+              index={index}
             />
           </li>
         ))}

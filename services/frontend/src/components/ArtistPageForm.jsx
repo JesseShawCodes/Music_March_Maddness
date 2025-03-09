@@ -46,38 +46,43 @@ const ArtistPageForm = () => {
     for (let i = 0; i < Math.floor(len / 2); i += 1) {
       matchups.push(
         {
-          song1: {
-            song: arr[i], 
-            groupRank: i+1
-          }, 
-          song2: {
-            song: arr[len - 1 - i], 
-            groupRank: arr[len - 1 - i].rank
+          matchupId: arr[i].id + arr[len - 1 - i].id,
+          attributes: {
+            complete: false,
+            winner: null,
+            loser: null,
+            song1: {
+              song: arr[i], 
+              groupRank: i+1
+            }, 
+            song2: {
+              song: arr[len - 1 - i], 
+              groupRank: arr[len - 1 - i].rank
+            },
           },
-          complete: false,
-          winner: null,
-          loser: null,
         }
       );
     }
 
+    const currentRound = `round${state.round}`
+
     const groups = {
       'Group 1': {
-        round1: []
+        [currentRound]: []
       },
       'Group 2': {
-        round1: []
+        [currentRound]: []
       },
       'Group 3': {
-        round1: []
+        [currentRound]: []
       },
       'Group 4': {
-        round1: []
+        [currentRound]: []
       },
     };
 
     for (let i = 0; i < matchups.length; i += 1) {
-      groups[`Group ${(i % 4) + 1}`]['round1'].push(matchups[i]);
+      groups[`Group ${(i % 4) + 1}`][`round${state.round}`].push(matchups[i]);
     }
     return groups;
   };
