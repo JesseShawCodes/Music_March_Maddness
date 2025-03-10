@@ -10,10 +10,10 @@ export const initialState = {
   nextRound: 2,
   selectedGroup: 'all',
   groups: [
-    { id: 1, name: 'Group 1' },
-    { id: 2, name: 'Group 2' },
-    { id: 3, name: 'Group 3' },
-    { id: 4, name: 'Group 4' },
+    { id: 1, name: 'group1' },
+    { id: 2, name: 'group2' },
+    { id: 3, name: 'group3' },
+    { id: 4, name: 'group4' },
   ],
 };
 

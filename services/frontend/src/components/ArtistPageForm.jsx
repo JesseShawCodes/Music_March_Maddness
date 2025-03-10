@@ -67,22 +67,22 @@ const ArtistPageForm = () => {
     const currentRound = `round${state.round}`
 
     const groups = {
-      'Group 1': {
+      group1: {
         [currentRound]: []
       },
-      'Group 2': {
+      group2: {
         [currentRound]: []
       },
-      'Group 3': {
+      group3: {
         [currentRound]: []
       },
-      'Group 4': {
+      group4: {
         [currentRound]: []
       },
     };
 
     for (let i = 0; i < matchups.length; i += 1) {
-      groups[`Group ${(i % 4) + 1}`][`round${state.round}`].push(matchups[i]);
+      groups[`group${(i % 4) + 1}`][`round${state.round}`].push(matchups[i]);
     }
     return groups;
   };

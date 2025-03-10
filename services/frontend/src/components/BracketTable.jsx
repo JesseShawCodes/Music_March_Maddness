@@ -34,7 +34,7 @@ function BracketTable() {
                 <Group
                   groupName={groupName}
                   matchups={matchups[currentRound]}
-                  key={`Group ${state.groups[index].id}`}
+                  key={`group${state.groups[index].id}`}
                 />
               )
               : null))
