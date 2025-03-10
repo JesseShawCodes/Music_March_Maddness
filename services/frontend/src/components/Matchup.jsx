@@ -11,7 +11,7 @@ export default function Matchup({ song1, song2, groupName, round, index }) {
   return (
     <>
       <div className='d-flex justify-content-between mb-2 border-bottom'>
-      <MatchupSong song={song1.song} opponent={song2.song} />
+      <MatchupSong song={song1.song} opponent={song2.song} matchupId={state.bracket[groupName].round1[index].matchupId} />
       <div>
         vs.
       </div>

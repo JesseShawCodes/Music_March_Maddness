@@ -2,7 +2,7 @@
 import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Context } from './BracketContext';
-import { arrayHandler, findNestedObject } from '../services/dataService';
+import { arrayHandler, findNestedObject, findObjectById } from '../services/dataService';
 
 export default function MatchupSong({ song, opponent, matchupId }) {
   const value = useContext(Context);
@@ -19,9 +19,13 @@ export default function MatchupSong({ song, opponent, matchupId }) {
       ...state.bracket,
     }
 
-    let nestedObject = findNestedObject(state.bracket, "matchupId", matchupId)
+    // let nestedObject = findNestedObject(state.bracket, "matchupId", matchupId)
 
-    console.log(nestedObject);
+    console.log(state.bracket.group1.round1);
+
+    let findObject = findObjectById(state.bracket.group1.round1, matchupId);
+
+    console.log(findObject);
 
 
     // const newArray = arrayHandler(song.id, opponent.id, updatedBracket['Group 1']['round1Loser']);

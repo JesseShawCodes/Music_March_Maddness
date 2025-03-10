@@ -26,3 +26,8 @@ export function findNestedObject(obj, key, value) {
   }
   return undefined;
 }
+
+export function findObjectById(array, targetId) {
+  return array.find(obj => obj.matchupId === targetId); 
+}
+
