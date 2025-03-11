@@ -13,8 +13,9 @@ const ArtistPageForm = () => {
   const value = useContext(Context);
   const [state, dispatch] = value;
 
+  // generateBracket only runs on initial build of a bracket.
   const generateBracket = () => {
-    const matchups = createMatchups(state.values.top_songs_list.slice(0, 64));
+    const matchups = createMatchups(state.values.top_songs_list.slice(0, 64), 1);
     const bracketData = matchups;
     dispatch({ type: 'setBracket', payload: { bracket: bracketData } });
   };
@@ -38,8 +39,8 @@ const ArtistPageForm = () => {
     );
   }
 
-  
-  const createMatchups = (arr) => {
+  // createMatchups runs each round  
+  const createMatchups = (arr, round) => {
     const matchups = [];
     const len = arr.length;
 
@@ -47,17 +48,18 @@ const ArtistPageForm = () => {
       matchups.push(
         {
           matchupId: arr[i].id + arr[len - 1 - i].id,
+          round: round,
           attributes: {
             complete: false,
-            winner: null,
-            loser: null,
             song1: {
               song: arr[i], 
-              groupRank: i+1
+              groupRank: i+1,
+              winner: null
             }, 
             song2: {
               song: arr[len - 1 - i], 
-              groupRank: arr[len - 1 - i].rank
+              groupRank: arr[len - 1 - i].rank,
+              winner: null,
             },
           },
         }

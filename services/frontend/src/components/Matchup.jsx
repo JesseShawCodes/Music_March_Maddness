@@ -1,27 +1,39 @@
-/*eslint-disable*/
-import React from 'react';
+/* eslint-disable */
+import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
 import MatchupSong from './MatchupSong';
-import { useContext } from 'react';
 import { Context } from './BracketContext';
 
-export default function Matchup({ song1, song2, groupName, round, index }) {
+export default function Matchup({
+  song1, song2, matchup, groupName, index,
+}) {
   const value = useContext(Context);
   const [state] = value;
+
+  const matchupAttributes = state.bracket[`${groupName}`][`round${matchup.round}`][index].attributes;
+
   return (
     <>
-      <div className='d-flex justify-content-between mb-2 border-bottom'>
-      <MatchupSong song={song1.song} opponent={song2.song} matchupId={state.bracket[groupName].round1[index].matchupId} />
-      <div>
-        vs.
-      </div>
-      <MatchupSong song={song2.song} opponent={song1.song} matchupId={state.bracket[groupName].round1[index].matchupId} />
-      </div>
-      <div>
-        {state.bracket[groupName].round1[index].matchupId}
-      </div>
-      <div>
-        {state.bracket[groupName].round1[0].winner ? <span>Winner picked</span> : <span>No Winner Yet</span>}
+      <div className="d-flex justify-content-between mb-2 border-bottom">
+      <MatchupSong
+        thissong={song1}
+        opponent={song2}
+        matchupId={matchup.matchupId}
+        round={matchup.round}
+        group={groupName}
+        winner={matchupAttributes.winner}
+      />
+        <div>
+          vs.
+        </div>
+      <MatchupSong
+        thissong={song2}
+        opponent={song1}
+        matchupId={matchup.matchupId}
+        round={matchup.round}
+        group={groupName}
+        winner={matchupAttributes.winner}
+      />
       </div>
     </>
   );

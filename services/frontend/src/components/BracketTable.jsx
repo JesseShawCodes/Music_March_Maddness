@@ -23,16 +23,16 @@ function BracketTable() {
           ? state.groups.filter((group) => state.selectedGroup === 'all' || group.name === state.selectedGroup)
             .map((group) => (
               <Group
-                groupName={group.name}
+                groupName={group}
                 matchups={state.bracket[state.groups[group.id - 1].name][currentRound]}
                 key={group.id}
               />
             ))
-          : Object.entries(state.bracket).map(([groupName, matchups], index) => (
-            state.selectedGroup === groupName
+          : Object.entries(state.bracket).map(([group, matchups], index) => (
+            state.selectedGroup === group
               ? (
                 <Group
-                  groupName={groupName}
+                  groupName={group}
                   matchups={matchups[currentRound]}
                   key={`group${state.groups[index].id}`}
                 />
