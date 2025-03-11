@@ -16,8 +16,7 @@ const ArtistPageForm = () => {
   // generateBracket only runs on initial build of a bracket.
   const generateBracket = () => {
     const matchups = createMatchups(state.values.top_songs_list.slice(0, 64), 1);
-    const bracketData = matchups;
-    dispatch({ type: 'setBracket', payload: { bracket: bracketData } });
+    dispatch({ type: 'setBracket', payload: { bracket: matchups } });
   };
 
   const {

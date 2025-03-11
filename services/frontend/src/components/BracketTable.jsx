@@ -20,7 +20,6 @@ function BracketTable() {
     } else {
       group = groupName;
     }
-    // console.log(state.round);
     let round = `round${state.round}`
 
     let matchups = state.bracket[group][round];
