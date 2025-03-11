@@ -1,5 +1,5 @@
-/*eslint-disable*/
-import { useContext, useEffect } from "react";
+/* eslint-disable */
+import { React, useContext, useEffect } from "react";
 import { Context } from "./BracketContext";
 import BracketTable from "./BracketTable";
 

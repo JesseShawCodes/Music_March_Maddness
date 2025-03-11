@@ -8,8 +8,25 @@ import { Context } from './BracketContext';
 function BracketTable() {
   const value = useContext(Context);
   const [state] = value;
+  
   const currentRound = `round${state.round}`;
   const roundHeader = `Round ${state.round}`;
+
+  const groupContainer = (groupName, state) => {
+    let group;
+
+    if (typeof(groupName) == "object") {
+      group = groupName.name
+    } else {
+      group = groupName;
+    }
+    // console.log(state.round);
+    let round = `round${state.round}`
+
+    let matchups = state.bracket[group][round];
+
+    return <Group groupName={group} matchups={matchups} key={group} />
+  }
 
   return (
     <>
@@ -22,20 +39,16 @@ function BracketTable() {
         state.selectedGroup === 'all'
           ? state.groups.filter((group) => state.selectedGroup === 'all' || group.name === state.selectedGroup)
             .map((group) => (
-              <Group
-                groupName={group}
-                matchups={state.bracket[state.groups[group.id - 1].name][currentRound]}
-                key={group.id}
-              />
+              <>
+                {groupContainer(group, state)}
+              </>
             ))
           : Object.entries(state.bracket).map(([group, matchups], index) => (
             state.selectedGroup === group
               ? (
-                <Group
-                  groupName={group}
-                  matchups={matchups[currentRound]}
-                  key={`group${state.groups[index].id}`}
-                />
+                <>
+                  {groupContainer(group, state)}
+                </>
               )
               : null))
       }
