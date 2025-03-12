@@ -31,6 +31,15 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
     findObject.attributes.loser = opponent.song.id;
     findObject.attributes.complete = true;
 
+    console.log(updatedBracket[group][`round${round}`].roundMatchups);
+    let roundGroup = updatedBracket[group][`round${round}`].roundMatchups;
+
+    let completedProgress = 0;
+    for (let i = 0; i < roundGroup.length; i += 1 ) {
+      roundGroup[i].attributes.complete ? completedProgress += 1 : null;
+    }
+
+    updatedBracket[group][`round${round}`].progress = completedProgress/roundGroup.length;
     dispatch({
       type: 'setBracket',
       payload: {

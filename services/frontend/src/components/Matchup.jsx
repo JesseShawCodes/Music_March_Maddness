@@ -10,7 +10,7 @@ export default function Matchup({
   const value = useContext(Context);
   const [state] = value;
 
-  const matchupAttributes = state.bracket[`${groupName}`][`round${matchup.round}`][index].attributes;
+  const matchupAttributes = state.bracket[`${groupName}`][`round${matchup.round}`].roundMatchups[index].attributes;
 
   return (
     <>

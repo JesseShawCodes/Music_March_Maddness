@@ -23,8 +23,8 @@ function BracketTable() {
     let round = `round${state.round}`
 
     let matchups = state.bracket[group][round];
-
-    return <Group groupName={group} matchups={matchups} key={group} />
+    
+    return <Group groupName={group} matchups={matchups} key={group} round={round} />
   }
 
   return (
