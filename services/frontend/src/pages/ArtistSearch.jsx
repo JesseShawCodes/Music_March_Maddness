@@ -58,7 +58,7 @@ export default function ArtistSearch() {
               Choose this artist
             </a>
           </div>
-        )) : 'No Data Available'}
+        )) : null}
       </div>
 
     </div>

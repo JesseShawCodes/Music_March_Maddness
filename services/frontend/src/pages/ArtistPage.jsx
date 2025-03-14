@@ -7,16 +7,19 @@ import TopTracks from '../components/TopTracks';
 import BracketContext from '../components/BracketContext';
 import ArtistPageForm from '../components/ArtistPageForm';
 import ArtistName from '../components/ArtistName';
+import ErrorBoundary from '../boundary/ErrorBoundary';
 
 function ArtistPage() {
   return (
     <BracketContext>
-      <div className="container-lg">
-        <BackToTop />
-        <ArtistName />
-        <ArtistPageForm />
-        <TopTracks />
-      </div>
+      <ErrorBoundary>
+        <div className="container-lg">
+          <BackToTop />
+          <ArtistName />
+          <ArtistPageForm />
+          <TopTracks />
+        </div>
+      </ErrorBoundary>
     </BracketContext>
   );
 }

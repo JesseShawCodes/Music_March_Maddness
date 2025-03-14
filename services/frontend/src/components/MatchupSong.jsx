@@ -20,6 +20,25 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
     console.log("Calculate Group Progress");
   }
 
+  const nextRound = () => {
+    var len = Object.keys(state.bracket).length;
+    var groupProg = 0;
+    for (const key in state.bracket) {
+      if (typeof state.bracket[key][`round${state.round}`].progress != undefined) {
+        groupProg += state.bracket[key][`round${state.round}`].progress;
+      }
+    }
+    var currentRoundProgres = groupProg/len;
+    
+    dispatch(
+      { type: 'setCurrentRoundProgres', payload: {currentRoundProgres: currentRoundProgres}},
+    )
+    if (groupProg/len == 1) {
+      dispatch({ type: 'setRound', payload: { round: state.round + 1 } });
+      return "Round Completed! Click to load next round"
+    }
+  }
+
   const handleClick = () => {
     const updatedBracket = {
       ...state.bracket,
@@ -46,6 +65,8 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
         bracket: updatedBracket
       },
     });
+
+    nextRound();
   };
 
   return (

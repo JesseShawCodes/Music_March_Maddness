@@ -7,13 +7,13 @@ export const initialState = {
   values: [],
   bracket: {},
   round: 1,
-  nextRound: 2,
+  currentRoundProgres: 0,
   selectedGroup: 'all',
   groups: [
-    { id: 1, name: 'group1' },
-    { id: 2, name: 'group2' },
-    { id: 3, name: 'group3' },
-    { id: 4, name: 'group4' },
+    { id: 1, name: 'group1', progress: null },
+    { id: 2, name: 'group2', progress: null },
+    { id: 3, name: 'group3', progress: null },
+    { id: 4, name: 'group4', progress: null },
   ],
 };
 
@@ -35,10 +35,10 @@ export function bracketReducer(state, action) {
         ...state,
         round: action.payload.round,
       };
-    case 'setNextRound':
+    case 'setCurrentRoundProgres':
       return {
         ...state,
-        nextRound: action.payload.nextRound,
+        currentRoundProgres: action.payload.currentRoundProgres,
       };
     case 'setSelectedGroup':
       return {

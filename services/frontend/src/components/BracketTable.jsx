@@ -7,10 +7,13 @@ import { Context } from './BracketContext';
 
 function BracketTable() {
   const value = useContext(Context);
-  const [state] = value;
+  const [state, dispatch] = value;
   
   const currentRound = `round${state.round}`;
   const roundHeader = `Round ${state.round}`;
+  
+  let nextRoundMessage = state.currentRoundProgres;
+  let groupsList = state.groups
 
   const groupContainer = (groupName, state) => {
     let group;
@@ -36,13 +39,13 @@ function BracketTable() {
       <GroupSelect groups={state.groups} />
       {
         state.selectedGroup === 'all'
-          ? state.groups.filter((group) => state.selectedGroup === 'all' || group.name === state.selectedGroup)
+          ? groupsList.filter((group) => state.selectedGroup === 'all' || group.name === state.selectedGroup)
             .map((group) => (
               <>
                 {groupContainer(group, state)}
               </>
             ))
-          : Object.entries(state.bracket).map(([group, matchups], index) => (
+          : Object.entries(state.bracket).map(([group]) => (
             state.selectedGroup === group
               ? (
                 <>
