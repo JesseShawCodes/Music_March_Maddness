@@ -4,22 +4,25 @@ import PropTypes from 'prop-types';
 import Matchup from './Matchup';
 import { Context } from './BracketContext';
 import ProgressBar from './ProgressBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 function Group({ groupName, matchups, round }) {
   const value = useContext(Context);
   const [state] = value;
-  
+
   let groupMatchups = matchups.roundMatchups;
   return (
     <div className={groupName} key={groupName}>
       <h2 className="mt-1">
-        {groupName} 
+        {groupName} {state.bracket[groupName][round].progress == 1 ? <FontAwesomeIcon icon={faCheckCircle} className="text-success" /> : null}
       </h2>
-      <h3>
-        {state.bracket[groupName][round].progress == 1 ? "Complete" : null}
-      </h3>
       <div>
-        <ProgressBar value={state.bracket[groupName][round].progress * 100} />
+        { 
+          state.bracket[groupName][round].progress < 1 ? 
+          <ProgressBar value={state.bracket[groupName][round].progress * 100} key={`${groupName}_${round}_progress`}/>
+          : null
+        }
       </div>
       <ul className="list-group">
         {groupMatchups.map((matchup, index) => (

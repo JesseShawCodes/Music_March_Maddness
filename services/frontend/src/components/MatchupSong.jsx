@@ -2,8 +2,7 @@
 import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Context } from './BracketContext';
-import findObjectById from '../services/dataService';
-import { faUnderline } from '@fortawesome/free-solid-svg-icons';
+import { findObjectById, generateNextRound } from '../services/dataService';
 
 export default function MatchupSong({ thissong, opponent, matchupId, round, group, winner }) {
   const value = useContext(Context);
@@ -11,14 +10,6 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
 
   const bgColor = thissong.song.attributes.artwork.bgColor;
   /* Next Round Logic Needs to happen here */
-
-  const createNextRoundMatchup = () => {
-    console.log("Create Next Round Matchups");
-  }
-
-  const calculateGroupProgress = () => {
-    console.log("Calculate Group Progress");
-  }
 
   const nextRound = () => {
     var len = Object.keys(state.bracket).length;
@@ -35,7 +26,11 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
     )
     if (groupProg/len == 1) {
       dispatch({ type: 'setRound', payload: { round: state.round + 1 } });
+      generateNextRound(state);
       return "Round Completed! Click to load next round"
+    // THIS ELSE STATEMENT IS FOR TEST BUILDING PURPOSES ONLY. 
+    } else {
+      generateNextRound(state);
     }
   }
 
@@ -46,11 +41,10 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
 
     let findObject = findObjectById(state.bracket[group][`round${round}`], matchupId);
     
-    findObject.attributes.winner = thissong.song.id;
-    findObject.attributes.loser = opponent.song.id;
+    findObject.attributes.winner = thissong.song;
+    findObject.attributes.loser = opponent.song;
     findObject.attributes.complete = true;
 
-    console.log(updatedBracket[group][`round${round}`].roundMatchups);
     let roundGroup = updatedBracket[group][`round${round}`].roundMatchups;
 
     let completedProgress = 0;
@@ -70,7 +64,7 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
   };
 
   return (
-    <div className="w-50" style={{ 
+    <div className="w-50 user-select-none" style={{ 
       color: `#${thissong.song.attributes.artwork.textColor1}`, 
       backgroundColor: `#${bgColor}`,
       textDecoration: winner == thissong.song.id ? 'underline' : null,

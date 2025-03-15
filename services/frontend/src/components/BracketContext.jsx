@@ -17,6 +17,10 @@ export const initialState = {
   ],
 };
 
+const updateRound = () => {
+  console.log("updateRound");
+}
+
 export function bracketReducer(state, action) {
   switch (action.type) {
     case 'setValues': {
@@ -38,7 +42,7 @@ export function bracketReducer(state, action) {
     case 'setCurrentRoundProgres':
       return {
         ...state,
-        currentRoundProgres: action.payload.currentRoundProgres,
+        currentRoundProgres: action.payload.currentRoundProgres === 1 ? "0" : action.payload.currentRoundProgres,
       };
     case 'setSelectedGroup':
       return {

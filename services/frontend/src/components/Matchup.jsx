@@ -22,6 +22,7 @@ export default function Matchup({
         round={matchup.round}
         group={groupName}
         winner={matchupAttributes.winner}
+        key={`matchup_song_${song1.song.id}`}
       />
         <div>
           vs.
@@ -33,6 +34,7 @@ export default function Matchup({
         round={matchup.round}
         group={groupName}
         winner={matchupAttributes.winner}
+        key={`matchup_song_${song2.song.id}`}
       />
       </div>
     </>

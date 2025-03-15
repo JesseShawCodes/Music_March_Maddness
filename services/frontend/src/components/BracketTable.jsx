@@ -7,27 +7,28 @@ import { Context } from './BracketContext';
 
 function BracketTable() {
   const value = useContext(Context);
-  const [state, dispatch] = value;
-  
-  const currentRound = `round${state.round}`;
+  const [state] = value;
+
   const roundHeader = `Round ${state.round}`;
-  
-  let nextRoundMessage = state.currentRoundProgres;
-  let groupsList = state.groups
 
-  const groupContainer = (groupName, state) => {
+  const groupsList = state.groups;
+
+  const groupContainer = (groupName, stateContainer) => {
     let group;
-
-    if (typeof(groupName) == "object") {
-      group = groupName.name
+    if (typeof (groupName) === 'object') {
+      group = groupName.name;
     } else {
       group = groupName;
     }
-    let round = `round${state.round}`
+    const round = `round${stateContainer.round}`;
 
-    let matchups = state.bracket[group][round];
-    
-    return <Group groupName={group} matchups={matchups} key={group} round={round} />
+    const matchups = stateContainer.bracket[group][round];
+
+    if (typeof(matchups) == "undefined") {
+      return <h2>All Groups are completed. Time to select songs for round {stateContainer.round}</h2>
+    } else {
+      return <Group groupName={group} matchups={matchups} key={group} round={round} />
+    }
   }
 
   return (
