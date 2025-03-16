@@ -5,27 +5,30 @@ export function findObjectById(array, targetId) {
 }
 
 export function generateNextRound(stateObject) {
-  console.log(stateObject);
   let currentRound = stateObject.round;
-  let newRound = stateObject.round + 1;
   let groupList = stateObject.bracket;
+
+  let winnersGroup = {
+    group1: [],
+    group2: [],
+    group3: [],
+    group4: []
+  }
   
   for (const key in groupList) {
     if (groupList.hasOwnProperty(key)) {
-      // console.log(groupList[key][`round${currentRound}`].roundMatchups);
-      // console.log(getNextRoundMatchups(groupList[key][`round${currentRound}`].roundMatchups));
       let matchups = groupList[key][`round${currentRound}`].roundMatchups;
-      compileListOfWinners(matchups)
+      winnersGroup[`${key}`] = compileListOfWinners(matchups, key)
     }
   }
+  console.log(winnersGroup);
 }
 
-function compileListOfWinners(matchups) {
-  console.log(matchups);
+function compileListOfWinners(matchups, groupName, winnersGroup = []) {
   for (let i = 0; i < matchups.length; i++) {
-    console.log(matchups[i].attributes.winner)
+    typeof (matchups[i].attributes.winner) !== "undefined" ? winnersGroup.push(matchups[i].attributes.winner) : null;
   }
-  console.log("---------")
+  return winnersGroup;
 }
 
 function getNextRoundMatchups(matchups) {
@@ -33,7 +36,6 @@ function getNextRoundMatchups(matchups) {
     let nextRound = [];
     for (let i = 0; i < group.length; i += 2) {
       let matchup = [group[i], group[i + 1]];
-      console.log(matchup)
       nextRound.push(matchup);
     }
     return nextRound;
