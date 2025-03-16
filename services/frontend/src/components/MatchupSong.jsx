@@ -3,6 +3,8 @@ import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Context } from './BracketContext';
 import { findObjectById, generateNextRound } from '../services/dataService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default function MatchupSong({ thissong, opponent, matchupId, round, group, winner }) {
   const value = useContext(Context);
@@ -63,13 +65,14 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
     nextRound();
   };
 
+  winner = typeof (winner) !== "undefined" ? winner.id : null
+
   return (
     <div className="w-50 user-select-none" style={{ 
       color: `#${thissong.song.attributes.artwork.textColor1}`, 
       backgroundColor: `#${bgColor}`,
-      textDecoration: winner == thissong.song.id ? 'underline' : null,
     }} aria-hidden="true" data-song-id={thissong.song.id} onClick={handleClick}>
-      {thissong.song.attributes.name}
+      {thissong.song.attributes.name} { winner == thissong.song.id ? <FontAwesomeIcon icon={faCheckCircle} className='text-success' /> : null }
     </div>
   );
 }
