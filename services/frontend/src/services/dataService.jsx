@@ -14,6 +14,8 @@ export function generateNextRound(stateObject) {
     group3: [],
     group4: []
   }
+
+  let nextRoundMatchups = {}
   
   for (const key in groupList) {
     if (groupList.hasOwnProperty(key)) {
@@ -21,7 +23,12 @@ export function generateNextRound(stateObject) {
       winnersGroup[`${key}`] = compileListOfWinners(matchups, key)
     }
   }
-  console.log(winnersGroup);
+
+  for (const key in winnersGroup) {
+    nextRoundMatchups[key] = getNextRoundMatchups(winnersGroup[key]);
+  }
+
+  return nextRoundMatchups;
 }
 
 function compileListOfWinners(matchups, groupName, winnersGroup = []) {
@@ -32,12 +39,10 @@ function compileListOfWinners(matchups, groupName, winnersGroup = []) {
 }
 
 function getNextRoundMatchups(matchups) {
-  return matchups.map(group => {
-    let nextRound = [];
-    for (let i = 0; i < group.length; i += 2) {
-      let matchup = [group[i], group[i + 1]];
-      nextRound.push(matchup);
-    }
-    return nextRound;
-  })
+  let nextRound = [];
+  for (let i = 0; i < matchups.length; i += 2) {
+    let matchup = [matchups[i], matchups[i + 1]];
+    nextRound.push(matchup);
+  }
+  return nextRound;
 }

@@ -28,11 +28,19 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
     )
     if (groupProg/len == 1) {
       dispatch({ type: 'setRound', payload: { round: state.round + 1 } });
-      generateNextRound(state);
+      let nextRound = generateNextRound(state);
+      const updatedBracket = {
+        ...state.bracket
+      }
+
+      // Need to write a loop for this.
+      updatedBracket[`group1`].round2 = {progress: 0, roundMatchups: nextRound[`group1`]}
+      updatedBracket[`group2`].round2 = {progress: 0, roundMatchups: nextRound[`group2`]}
+      updatedBracket[`group3`].round2 = {progress: 0, roundMatchups: nextRound[`group3`]}
+      updatedBracket[`group4`].round2 = {progress: 0, roundMatchups: nextRound[`group4`]}
+
+      debugger;
       return "Round Completed! Click to load next round"
-    // THIS ELSE STATEMENT IS FOR TEST BUILDING PURPOSES ONLY. 
-    } else {
-      generateNextRound(state);
     }
   }
 
