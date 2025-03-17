@@ -23,6 +23,14 @@ Database Service using MySQL. MySQL container is currently ran locally via Docke
 
 Front end React Application
 
+To start Front End
+
+```
+cd services/frontend
+npm install
+npm start
+```
+
 ### Django documentation
 https://www.djangoproject.com/
 
