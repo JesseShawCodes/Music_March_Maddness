@@ -3,6 +3,10 @@ export function findObjectById(array, targetId) {
   return array.roundMatchups.find((obj) => obj.matchupId === targetId);
 }
 
+export function isObjectEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}
+
 function getNextRoundMatchups(songList, round) {
   const nextRound = [];
   for (let i = 0; i < songList.length; i += 2) {
