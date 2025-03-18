@@ -25,23 +25,34 @@ export function generateNextRound(stateObject) {
   }
 
   for (const key in winnersGroup) {
-    nextRoundMatchups[key] = getNextRoundMatchups(winnersGroup[key]);
+    nextRoundMatchups[key] = getNextRoundMatchups(winnersGroup[key], stateObject.round + 1);
   }
 
   return nextRoundMatchups;
 }
 
 function compileListOfWinners(matchups, groupName, winnersGroup = []) {
+  /*
+  This may need to be adjusted
+  Structure is not correct
+  */
   for (let i = 0; i < matchups.length; i++) {
     typeof (matchups[i].attributes.winner) !== "undefined" ? winnersGroup.push(matchups[i].attributes.winner) : null;
   }
   return winnersGroup;
 }
 
-function getNextRoundMatchups(matchups) {
+function getNextRoundMatchups(matchups, round) {
   let nextRound = [];
   for (let i = 0; i < matchups.length; i += 2) {
-    let matchup = [matchups[i], matchups[i + 1]];
+    let matchup = {
+      matchupId: `${matchups[i].id}${matchups[i+1].id}`,
+      round: round,
+      attributes: {
+        song1: matchups[i], 
+        song2: matchups[i + 1]
+      }
+    };
     nextRound.push(matchup);
   }
   return nextRound;

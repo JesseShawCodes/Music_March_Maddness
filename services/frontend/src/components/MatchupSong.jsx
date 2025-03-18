@@ -39,7 +39,6 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
       updatedBracket[`group3`].round2 = {progress: 0, roundMatchups: nextRound[`group3`]}
       updatedBracket[`group4`].round2 = {progress: 0, roundMatchups: nextRound[`group4`]}
 
-      debugger;
       return "Round Completed! Click to load next round"
     }
   }
