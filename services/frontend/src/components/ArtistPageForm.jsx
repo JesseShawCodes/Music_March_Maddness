@@ -102,9 +102,6 @@ function ArtistPageForm() {
 
   return (
     <>
-      <button type="button" className="btn btn-primary" onClick={generateBracket}>
-        Temporary Generate Bracket
-      </button>
       {
         Object.keys(state.bracket).length === 0
           ? (
