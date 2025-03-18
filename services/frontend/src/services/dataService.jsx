@@ -49,8 +49,17 @@ function getNextRoundMatchups(matchups, round) {
       matchupId: `${matchups[i].id}${matchups[i+1].id}`,
       round: round,
       attributes: {
-        song1: matchups[i], 
-        song2: matchups[i + 1]
+        complete: false,
+        song1: {
+          song: matchups[i],
+          groupRank: matchups[i].rank,
+          winner: null,
+        },
+        song2: {
+          song: matchups[i + 1],
+          groupRank: matchups[i + 1].rank,
+          winner: null
+        } 
       }
     };
     nextRound.push(matchup);
