@@ -1,27 +1,55 @@
 /* eslint-disable */
-
 export function findObjectById(array, targetId) {
   return array.roundMatchups.find((obj) => obj.matchupId === targetId);
 }
 
-export function generateNextRound(stateObject) {
-  let currentRound = stateObject.round;
-  let groupList = stateObject.bracket;
+function getNextRoundMatchups(songList, round) {
+  const nextRound = [];
+  for (let i = 0; i < songList.length; i += 2) {
+    const matchup = {
+      matchupId: `${songList[i].id}${songList[i + 1].id}`,
+      round: round,
+      attributes: {
+        complete: false,
+        song1: {
+          song: songList[i],
+          groupRank: songList[i].rank,
+          winner: null,
+        },
+        song2: {
+          song: songList[i + 1],
+          groupRank: songList[i + 1].rank,
+          winner: null,
+        },
+      },
+    };
+    nextRound.push(matchup);
+  }
+  return nextRound;
+}
 
-  let winnersGroup = {
+export function generateNextRound(stateObject) {
+  const currentRound = stateObject.round;
+  const groupList = stateObject.bracket;
+
+  const winnersGroup = {
     group1: [],
     group2: [],
     group3: [],
-    group4: []
-  }
+    group4: [],
+  };
 
-  let nextRoundMatchups = {}
-  
+  const nextRoundMatchups = {};
+
   for (const key in groupList) {
     if (groupList.hasOwnProperty(key)) {
-      let matchups = groupList[key][`round${currentRound}`].roundMatchups;
-      winnersGroup[`${key}`] = compileListOfWinners(matchups, key)
+      const matchups = groupList[key][`round${currentRound}`].roundMatchups;
+      winnersGroup[`${key}`] = compileListOfWinners(matchups);
     }
+  }
+
+  if (stateObject.finalRoundWithGroups) {
+    return getFinalFourMatchup(winnersGroup);
   }
 
   for (const key in winnersGroup) {
@@ -31,38 +59,18 @@ export function generateNextRound(stateObject) {
   return nextRoundMatchups;
 }
 
-function compileListOfWinners(matchups, groupName, winnersGroup = []) {
-  /*
-  This may need to be adjusted
-  Structure is not correct
-  */
-  for (let i = 0; i < matchups.length; i++) {
-    typeof (matchups[i].attributes.winner) !== "undefined" ? winnersGroup.push(matchups[i].attributes.winner) : null;
+function getFinalFourMatchup(finalFourSongs) {
+  const fourSongs = [];
+  for (const song in finalFourSongs) {
+    fourSongs.push(finalFourSongs[song][0])
   }
-  return winnersGroup;
+
+  return getNextRoundMatchups(fourSongs);
 }
 
-function getNextRoundMatchups(matchups, round) {
-  let nextRound = [];
-  for (let i = 0; i < matchups.length; i += 2) {
-    let matchup = {
-      matchupId: `${matchups[i].id}${matchups[i+1].id}`,
-      round: round,
-      attributes: {
-        complete: false,
-        song1: {
-          song: matchups[i],
-          groupRank: matchups[i].rank,
-          winner: null,
-        },
-        song2: {
-          song: matchups[i + 1],
-          groupRank: matchups[i + 1].rank,
-          winner: null
-        } 
-      }
-    };
-    nextRound.push(matchup);
+function compileListOfWinners(matchups, winnersGroup = []) {
+  for (let i = 0; i < matchups.length; i++) {
+    typeof (matchups[i].attributes.winner) !== 'undefined' ? winnersGroup.push(matchups[i].attributes.winner) : null;
   }
-  return nextRound;
+  return winnersGroup;
 }

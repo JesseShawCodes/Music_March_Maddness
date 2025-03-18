@@ -33,17 +33,34 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
         ...state.bracket
       }
 
-      let nextRoundNumber = `round${state.round + 1}`;
-      updatedBracket[`group1`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group1`]}
-      updatedBracket[`group2`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group2`]}
-      updatedBracket[`group3`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group3`]}
-      updatedBracket[`group4`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group4`]}
+      if (state.finalRoundWithGroups) {
+        updatedBracket[`finalFour`] = {progress: 0, roundMatchups: []};
+        dispatch( {type: 'setFinalFour', payload: { finalFour: true }});
+        
+        updatedBracket.finalFour = {round1: {progress: 0, roundMatchups: nextRound}}
 
-      if ("roundMatchups" in updatedBracket[`group1`][nextRoundNumber]) {
-        updatedBracket[`group1`][nextRoundNumber].roundMatchups.length == 1 ? dispatch({ type: 'setfinalRoundWithGroups', payload: { finalRoundWithGroups: true } }) : null
+        dispatch({
+          type: 'setBracket',
+          payload: {
+            bracket: updatedBracket
+          },
+        });
+
+        // debugger;
+
+      } else {
+        let nextRoundNumber = `round${state.round + 1}`;
+        updatedBracket[`group1`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group1`]}
+        updatedBracket[`group2`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group2`]}
+        updatedBracket[`group3`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group3`]}
+        updatedBracket[`group4`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group4`]}
+  
+        if ("roundMatchups" in updatedBracket[`group1`][nextRoundNumber]) {
+          updatedBracket[`group1`][nextRoundNumber].roundMatchups.length == 1 ? dispatch({ type: 'setfinalRoundWithGroups', payload: { finalRoundWithGroups: true } }) : null
+        }
       }
 
-      return "Round Completed! Click to load next round"
+      // return "Round Completed! Click to load next round"
     }
   }
 
@@ -116,12 +133,5 @@ MatchupSong.propTypes = {
         url: PropTypes.string.isRequired,
       }),
     }),
-  }).isRequired,};
-
-/*
-<img
-  className="album-cover"
-  src={`${song.attributes.artwork.url.replace(/{w}|{h}/g, (match) => dimensions[match])}`}
-  alt={`${song.attributes.albumName} Album Cover`}
-/>
-*/
+  }).isRequired,
+};

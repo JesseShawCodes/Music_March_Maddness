@@ -65,27 +65,3 @@ Matchup.propTypes = {
     }),
   }).isRequired,
 };
-
-/*
-  Disable winner vs. Loser (disabled or enabled)
-
-    import React from 'react';
-
-    function MyComponent({ disabled, children }) {
-      const style = {
-        opacity: disabled ? 0.6 : 1,
-        backgroundColor: disabled ? '#e0e0e0' : '#007bff', // Bootstrap primary color
-        color: disabled ? '#9e9e9e' : '#fff',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        border: 'none',
-        padding: '0.5rem 1rem',
-        borderRadius: '0.25rem',
-      };
-
-      return (
-        <button style={style} disabled={disabled}>
-          {children}
-        </button>
-      );
-    }
-*/

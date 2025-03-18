@@ -1,4 +1,4 @@
-/*eslint-disable*/
+/* eslint-disable */
 import { React, createContext, useReducer } from 'react';
 
 export const Context = createContext();
@@ -10,6 +10,8 @@ export const initialState = {
   currentRoundProgres: 0,
   selectedGroup: 'all',
   finalRoundWithGroups: false,
+  finalFour: false,
+  finalTwo: false,
   groups: [
     { id: 1, name: 'group1', progress: null },
     { id: 2, name: 'group2', progress: null },
@@ -17,10 +19,6 @@ export const initialState = {
     { id: 4, name: 'group4', progress: null },
   ],
 };
-
-const updateRound = () => {
-  console.log("updateRound");
-}
 
 export function bracketReducer(state, action) {
   switch (action.type) {
@@ -43,7 +41,7 @@ export function bracketReducer(state, action) {
     case 'setCurrentRoundProgres':
       return {
         ...state,
-        currentRoundProgres: action.payload.currentRoundProgres === 1 ? "0" : action.payload.currentRoundProgres,
+        currentRoundProgres: action.payload.currentRoundProgres === 1 ? '0' : action.payload.currentRoundProgres,
       };
     case 'setSelectedGroup':
       return {
@@ -54,6 +52,16 @@ export function bracketReducer(state, action) {
       return {
         ...state,
         finalRoundWithGroups: action.payload.finalRoundWithGroups,
+      };
+    case 'setFinalFour':
+      return {
+        ...state,
+        finalFour: action.payload.finalFour,
+      };
+    case 'setFinalTwo':
+      return {
+        ...state,
+        finalTwo: action.payload.finalTwo,
       };
     default:
       return state;
