@@ -6,13 +6,13 @@ function GroupSelect({ groups }) {
   const value = useContext(Context);
   const [state, dispatch] = value;
 
-  const handleChange = (event) => {
+  const selectGroup = (event) => {
     dispatch({ type: 'setSelectedGroup', payload: { selectedGroup: event.target.value } });
   };
   return (
     <div className="my-3 w-100 d-flex justify-content-center">
       <label>Select Group</label>
-      <select value={state.selectedGroup} onChange={handleChange} className="form-select w-50">
+      <select value={state.selectedGroup} onChange={selectGroup} className="form-select w-50">
         <option value="all">All</option>
         {
           groups.map((group) => (
