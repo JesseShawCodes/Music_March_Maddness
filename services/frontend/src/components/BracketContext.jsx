@@ -9,6 +9,7 @@ export const initialState = {
   round: 1,
   currentRoundProgres: 0,
   selectedGroup: 'all',
+  finalRoundWithGroups: false,
   groups: [
     { id: 1, name: 'group1', progress: null },
     { id: 2, name: 'group2', progress: null },
@@ -48,6 +49,11 @@ export function bracketReducer(state, action) {
       return {
         ...state,
         selectedGroup: action.payload.selectedGroup,
+      };
+    case 'setfinalRoundWithGroups':
+      return {
+        ...state,
+        finalRoundWithGroups: action.payload.finalRoundWithGroups,
       };
     default:
       return state;

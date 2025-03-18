@@ -39,6 +39,10 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
       updatedBracket[`group3`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group3`]}
       updatedBracket[`group4`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group4`]}
 
+      if ("roundMatchups" in updatedBracket[`group1`][nextRoundNumber]) {
+        updatedBracket[`group1`][nextRoundNumber].roundMatchups.length == 1 ? dispatch({ type: 'setfinalRoundWithGroups', payload: { finalRoundWithGroups: true } }) : null
+      }
+
       return "Round Completed! Click to load next round"
     }
   }
