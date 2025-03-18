@@ -33,11 +33,11 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
         ...state.bracket
       }
 
-      // Need to write a loop for this.
-      updatedBracket[`group1`].round2 = {progress: 0, roundMatchups: nextRound[`group1`]}
-      updatedBracket[`group2`].round2 = {progress: 0, roundMatchups: nextRound[`group2`]}
-      updatedBracket[`group3`].round2 = {progress: 0, roundMatchups: nextRound[`group3`]}
-      updatedBracket[`group4`].round2 = {progress: 0, roundMatchups: nextRound[`group4`]}
+      let nextRoundNumber = `round${state.round + 1}`;
+      updatedBracket[`group1`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group1`]}
+      updatedBracket[`group2`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group2`]}
+      updatedBracket[`group3`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group3`]}
+      updatedBracket[`group4`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group4`]}
 
       return "Round Completed! Click to load next round"
     }
