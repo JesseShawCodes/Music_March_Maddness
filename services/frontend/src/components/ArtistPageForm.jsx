@@ -101,7 +101,7 @@ function ArtistPageForm() {
   }
 
   return (
-    <>
+    <div>
       {
         Object.keys(state.bracket).length === 0
           ? (
@@ -116,7 +116,7 @@ function ArtistPageForm() {
           )
           : <BracketTable />
       }
-    </>
+    </div>
   );
 }
 
