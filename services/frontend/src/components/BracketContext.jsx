@@ -6,10 +6,11 @@ export const Context = createContext();
 export const initialState = {
   values: [],
   bracket: {},
+  championshipBracket: {},
   round: 1,
   currentRoundProgres: 0,
   selectedGroup: 'all',
-  finalRoundWithGroups: false,
+  nonGroupPlay: false,
   finalFour: false,
   finalTwo: false,
   groups: [
@@ -48,10 +49,10 @@ export function bracketReducer(state, action) {
         ...state,
         selectedGroup: action.payload.selectedGroup,
       };
-    case 'setfinalRoundWithGroups':
+    case 'setNonGroupPlay':
       return {
         ...state,
-        finalRoundWithGroups: action.payload.finalRoundWithGroups,
+        nonGroupPlay: action.payload.nonGroupPlay,
       };
     case 'setFinalFour':
       return {
@@ -63,6 +64,11 @@ export function bracketReducer(state, action) {
         ...state,
         finalTwo: action.payload.finalTwo,
       };
+    case 'setChampionshipBracket':
+      return {
+        ...state,
+        championshipBracket: action.payload.championshipBracket,
+      }
     default:
       return state;
   }

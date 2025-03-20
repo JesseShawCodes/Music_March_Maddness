@@ -3,10 +3,6 @@ import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Matchup from './Matchup';
 import { Context } from './BracketContext';
-import ProgressBar from './ProgressBar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-import FinalFourMatchup from './FinalFourMatchup';
 
 function FinalFour() {
   const value = useContext(Context);
@@ -15,7 +11,7 @@ function FinalFour() {
   return (
     <div className="Final Four" key="Final Four">
       <div>{state.bracket.finalFour.round1.roundMatchups.map((matchup, index) => (
-        <FinalFourMatchup
+        <Matchup
           song1={matchup.attributes.song1}
           song2={matchup.attributes.song2}
           matchup={matchup}

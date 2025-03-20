@@ -10,7 +10,17 @@ export default function Matchup({
   const value = useContext(Context);
   const [state] = value;
 
-  const matchupAttributes = state.bracket[`${groupName}`][`round${matchup.round}`].roundMatchups[index].attributes;
+  const getWinner = () => {
+    let winner;
+
+    if (!state.finalFour && !state.finalTwo) {
+      winner = state.bracket[`${groupName}`][`round${matchup.round}`].roundMatchups[index].attributes.winner;
+    } else {
+      winner = undefined;
+    }
+
+    return winner
+  }
 
   return (
     <>
@@ -21,7 +31,7 @@ export default function Matchup({
         matchupId={matchup.matchupId}
         round={matchup.round}
         group={groupName}
-        winner={matchupAttributes.winner}
+        winner={getWinner()}
         key={`matchup_song_${song1.song.id}`}
       />
         <div>
@@ -33,7 +43,7 @@ export default function Matchup({
         matchupId={matchup.matchupId}
         round={matchup.round}
         group={groupName}
-        winner={matchupAttributes.winner}
+        winner={getWinner()}
         key={`matchup_song_${song2.song.id}`}
       />
       </div>

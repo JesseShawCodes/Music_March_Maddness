@@ -7,7 +7,6 @@ function TopTracks() {
   const value = useContext(Context);
   const [state] = value;
   const bracketCreated = !isObjectEmpty(state.bracket);
-  console.log(bracketCreated);
 
   const songList = () => {
     const list = Object.prototype.hasOwnProperty.call(state.values, 'top_songs_list')

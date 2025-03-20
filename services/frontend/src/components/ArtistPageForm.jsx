@@ -1,11 +1,10 @@
 import { React, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import { Context } from './BracketContext';
 import BracketTable from './BracketTable';
 import { useGetArtistInfoQuery } from '../services/jsonServerApi';
+import Loading from './Loading';
 
 function ArtistPageForm() {
   const { handle } = useParams();
@@ -93,10 +92,7 @@ function ArtistPageForm() {
 
   if (!musicQuery.top_songs_list) {
     return (
-      <div className="loading">
-        Loading...
-        <FontAwesomeIcon icon={faSpinner} className="fa-spin" />
-      </div>
+      <Loading />
     );
   }
 

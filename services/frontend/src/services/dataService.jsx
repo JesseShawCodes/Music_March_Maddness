@@ -52,7 +52,7 @@ export function generateNextRound(stateObject) {
     }
   }
 
-  if (stateObject.finalRoundWithGroups) {
+  if (stateObject.nonGroupPlay) {
     return getFinalFourMatchup(winnersGroup);
   }
 

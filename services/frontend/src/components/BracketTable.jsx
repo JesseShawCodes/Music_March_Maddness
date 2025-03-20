@@ -4,12 +4,15 @@ import GroupSelect from './GroupSelect';
 import Group from './Group';
 import FinalFour from './FinalFour';
 import { Context } from './BracketContext';
+import Loading from './Loading';
+import { isObjectEmpty } from '../services/dataService';
 
 function BracketTable() {
   const value = useContext(Context);
   const [state] = value;
+  const championshipRound = !isObjectEmpty(state.championshipBracket);
 
-  const roundHeader = state.finalFour ? 'Final Four' : `Round ${state.round}`;
+  const roundHeader = championshipRound ? 'Final Four' : `Round ${state.round}`;
 
   const groupsList = state.groups;
 
@@ -34,10 +37,10 @@ function BracketTable() {
       </h2>
 
       {
-        state.finalFour !== true ? <GroupSelect groups={state.groups} /> : null
+        championshipRound !== true ? <GroupSelect groups={state.groups} key={'Group Select'}/> : null
       }
       {
-        state.finalFour === true ? <FinalFour />
+        championshipRound === true ? <FinalFour />
           : state.selectedGroup === 'all'
             ? groupsList.filter((group) => state.selectedGroup === 'all' || group.name === state.selectedGroup)
               .map((group) => (

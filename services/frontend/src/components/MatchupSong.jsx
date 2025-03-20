@@ -16,11 +16,15 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
   const nextRound = () => {
     var len = Object.keys(state.bracket).length;
     var groupProg = 0;
-    for (const key in state.bracket) {
-      if (typeof state.bracket[key][`round${state.round}`].progress != undefined) {
-        groupProg += state.bracket[key][`round${state.round}`].progress;
+
+    if (!state.finalFour && !state.finalTwo) {
+      for (const key in state.bracket) {
+        if (typeof state.bracket[key][`round${state.round}`].progress != undefined) {
+          groupProg += state.bracket[key][`round${state.round}`].progress;
+        }
       }
     }
+
     var currentRoundProgres = groupProg/len;
     
     dispatch(
@@ -33,7 +37,7 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
         ...state.bracket
       }
 
-      if (state.finalRoundWithGroups) {
+      if (state.nonGroupPlay) {
         updatedBracket[`finalFour`] = {progress: 0, roundMatchups: []};
         dispatch( {type: 'setFinalFour', payload: { finalFour: true }});
         
@@ -45,9 +49,12 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
             bracket: updatedBracket
           },
         });
-
-        // debugger;
-
+        dispatch({
+          type: 'setChampionshipBracket',
+          payload: {
+            championshipBracket: updatedBracket.finalFour,
+          }
+        })
       } else {
         let nextRoundNumber = `round${state.round + 1}`;
         updatedBracket[`group1`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group1`]}
@@ -56,11 +63,9 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
         updatedBracket[`group4`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group4`]}
   
         if ("roundMatchups" in updatedBracket[`group1`][nextRoundNumber]) {
-          updatedBracket[`group1`][nextRoundNumber].roundMatchups.length == 1 ? dispatch({ type: 'setfinalRoundWithGroups', payload: { finalRoundWithGroups: true } }) : null
+          updatedBracket[`group1`][nextRoundNumber].roundMatchups.length == 1 ? dispatch({ type: 'setNonGroupPlay', payload: { nonGroupPlay: true } }) : null
         }
       }
-
-      // return "Round Completed! Click to load next round"
     }
   }
 
@@ -68,21 +73,35 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
     const updatedBracket = {
       ...state.bracket,
     }
+    let objectToSearch;
+    if (state.finalFour || state.finalTwo) {
+      objectToSearch = state.bracket.finalFour.round1;
+    } else {
+      objectToSearch = state.bracket[group][`round${round}`]
+    }
 
-    let findObject = findObjectById(state.bracket[group][`round${round}`], matchupId);
-    
+    let findObject = findObjectById(objectToSearch, matchupId);
+
     findObject.attributes.winner = thissong.song;
     findObject.attributes.loser = opponent.song;
     findObject.attributes.complete = true;
 
-    let roundGroup = updatedBracket[group][`round${round}`].roundMatchups;
+    let roundGroup;
+
+    if (state.finalFour || state.finalTwo) {
+      roundGroup = updatedBracket.finalFour.round1.roundMatchups;
+    } else {
+      roundGroup = updatedBracket[group][`round${round}`].roundMatchups;
+    }
 
     let completedProgress = 0;
     for (let i = 0; i < roundGroup.length; i += 1 ) {
       roundGroup[i].attributes.complete ? completedProgress += 1 : null;
     }
 
-    updatedBracket[group][`round${round}`].progress = completedProgress/roundGroup.length;
+    if (!state.finalFour && !state.finalTwo) {
+      updatedBracket[group][`round${round}`].progress = completedProgress/roundGroup.length;
+    }
     dispatch({
       type: 'setBracket',
       payload: {

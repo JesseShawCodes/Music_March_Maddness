@@ -19,7 +19,7 @@ function Group({ groupName, matchups, round }) {
       </h2>
       <div>
         { 
-          state.bracket[groupName][round].progress < 1 && state.finalRoundWithGroups == false ? 
+          state.bracket[groupName][round].progress < 1 && state.nonGroupPlay == false ? 
           <ProgressBar value={state.bracket[groupName][round].progress * 100} key={`${groupName}_${round}_progress`}/>
           : null
         }
