@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import GroupSelect from './GroupSelect';
 import Group from './Group';
-import FinalFour from './FinalFour';
+import Championship from './Championship';
 import { Context } from './BracketContext';
 import Loading from './Loading';
 import { isObjectEmpty } from '../services/dataService';
@@ -12,7 +12,7 @@ function BracketTable() {
   const [state] = value;
   const championshipRound = !isObjectEmpty(state.championshipBracket);
 
-  const roundHeader = championshipRound ? 'Final Four' : `Round ${state.round}`;
+  const roundHeader = championshipRound ? 'Championship Round' : `Round ${state.round}`;
 
   const groupsList = state.groups;
 
@@ -40,7 +40,7 @@ function BracketTable() {
         championshipRound !== true ? <GroupSelect groups={state.groups} key={'Group Select'}/> : null
       }
       {
-        championshipRound === true ? <FinalFour />
+        championshipRound === true ? <Championship />
           : state.selectedGroup === 'all'
             ? groupsList.filter((group) => state.selectedGroup === 'all' || group.name === state.selectedGroup)
               .map((group) => (

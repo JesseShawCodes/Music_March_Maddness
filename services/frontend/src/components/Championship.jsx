@@ -4,19 +4,19 @@ import PropTypes from 'prop-types';
 import Matchup from './Matchup';
 import { Context } from './BracketContext';
 
-function FinalFour() {
+function Championship() {
   const value = useContext(Context);
   const [state] = value;
 
   return (
-    <div className="Final Four" key="Final Four">
-      <div>{state.bracket.finalFour.round1.roundMatchups.map((matchup, index) => (
+    <div className="" key="Championship Round">
+      <div>{state.championshipBracket.round1.roundMatchups.map((matchup, index) => (
         <Matchup
           song1={matchup.attributes.song1}
           song2={matchup.attributes.song2}
           matchup={matchup}
           key={matchup.matchupId}
-          groupName="Final Four"
+          groupName="Championship Round"
           index={index}
         />
       ))}</div>
@@ -24,9 +24,9 @@ function FinalFour() {
   );
 }
 
-export default FinalFour;
+export default Championship;
 
-FinalFour.propTypes = {
+Championship.propTypes = {
   groupName: PropTypes.shape({
     name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,

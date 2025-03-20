@@ -69,12 +69,12 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
     }
   }
 
-  const handleClick = () => {
+  const selectWinner = () => {
     const updatedBracket = {
       ...state.bracket,
     }
     let objectToSearch;
-    if (state.finalFour || state.finalTwo) {
+    if (Object.keys(state.championshipBracket).length !== 0) {
       objectToSearch = state.bracket.finalFour.round1;
     } else {
       objectToSearch = state.bracket[group][`round${round}`]
@@ -118,7 +118,7 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
     <div className="w-50 user-select-none" style={{ 
       color: `#${thissong.song.attributes.artwork.textColor1}`, 
       backgroundColor: `#${bgColor}`,
-    }} aria-hidden="true" data-song-id={thissong.song.id} onClick={handleClick}>
+    }} aria-hidden="true" data-song-id={thissong.song.id} onClick={selectWinner}>
       {thissong.song.attributes.name} { winner == thissong.song.id ? <FontAwesomeIcon icon={faCheckCircle} className='text-success' /> : null }
     </div>
   );

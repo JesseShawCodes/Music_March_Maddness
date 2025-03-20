@@ -13,7 +13,7 @@ export default function Matchup({
   const getWinner = () => {
     let winner;
 
-    if (!state.finalFour && !state.finalTwo) {
+    if (Object.keys(state.championshipBracket).length === 0) {
       winner = state.bracket[`${groupName}`][`round${matchup.round}`].roundMatchups[index].attributes.winner;
     } else {
       winner = undefined;
