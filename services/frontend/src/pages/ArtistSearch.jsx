@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useGetArtistsQuery } from '../services/jsonServerApi';
 
+import Loading from '../components/Loading';
+
 export default function ArtistSearch() {
   const location = useLocation();
   const [artist, setArtist] = useState();
@@ -42,7 +44,7 @@ export default function ArtistSearch() {
       }
 
       {
-        isLoading ? <div>Loading</div> : null
+        isLoading ? <Loading /> : null
       }
 
       <div className="grid d-flex flex-wrap justify-content-center">
