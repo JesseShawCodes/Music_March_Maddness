@@ -1,12 +1,14 @@
-/*eslint-disable*/
+/* eslint-disable */
 import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Context } from './BracketContext';
-import { findObjectById, generateNextRound } from '../services/dataService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { Context } from './BracketContext';
+import { findObjectById, generateNextRound, generateFinalRound } from '../services/dataService';
 
-export default function MatchupSong({ thissong, opponent, matchupId, round, group, winner }) {
+export default function MatchupSong({
+  thissong, opponent, matchupId, round, group, winner
+}) {
   const value = useContext(Context);
   const [state, dispatch] = value;
 
@@ -17,14 +19,19 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
     var len = Object.keys(state.bracket).length;
     var groupProg = 0;
 
-    if (!state.finalFour && !state.finalTwo) {
+    if (Object.keys(state.championshipBracket).length === 0) {
       for (const key in state.bracket) {
         if (typeof state.bracket[key][`round${state.round}`].progress != undefined) {
           groupProg += state.bracket[key][`round${state.round}`].progress;
         }
       }
+      var currentRoundProgres = groupProg/len;
+    } else {
+      for (const key in state.championshipBracket) {
+        groupProg += state.championshipBracket[key].progress;
+      }
+      var currentRoundProgres = groupProg;
     }
-
     var currentRoundProgres = groupProg/len;
     
     dispatch(
@@ -32,27 +39,44 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
     )
     if (groupProg/len == 1) {
       dispatch({ type: 'setRound', payload: { round: state.round + 1 } });
-      let nextRound = generateNextRound(state);
-      const updatedBracket = {
+      let nextRound;
+
+      if (Object.keys(state.championshipBracket).length === 0) {
+        nextRound = generateNextRound(state);
+      } else {
+        nextRound = generateFinalRound(state.championshipBracket.round1.roundMatchups);
+      }
+      let updatedBracket = {
         ...state.bracket
       }
-
+      // If Down to the final 4 songs (Championship Round)
       if (state.nonGroupPlay) {
-        updatedBracket[`finalFour`] = {progress: 0, roundMatchups: []};
-        dispatch( {type: 'setFinalFour', payload: { finalFour: true }});
-        
-        updatedBracket.finalFour = {round1: {progress: 0, roundMatchups: nextRound}}
+        updatedBracket = {...state.championshipBracket}
+        if ("final" in nextRound) {
+          if (nextRound.final.length === 2) {
+            updatedBracket = {
+              round1: state.championshipBracket.round1,
+              round2: {
+                progress: 0,
+                roundMatchups: nextRound
+              }
+            }
+          }
+        }
 
+
+        /*
         dispatch({
           type: 'setBracket',
           payload: {
             bracket: updatedBracket
           },
         });
+        */
         dispatch({
           type: 'setChampionshipBracket',
           payload: {
-            championshipBracket: updatedBracket.finalFour,
+            championshipBracket: updatedBracket,
           }
         })
       } else {
@@ -70,12 +94,12 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
   }
 
   const selectWinner = () => {
-    const updatedBracket = {
+    let updatedBracket = {
       ...state.bracket,
     }
     let objectToSearch;
     if (Object.keys(state.championshipBracket).length !== 0) {
-      objectToSearch = state.bracket.finalFour.round1;
+      objectToSearch = state.championshipBracket.round1;
     } else {
       objectToSearch = state.bracket[group][`round${round}`]
     }
@@ -86,10 +110,14 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
     findObject.attributes.loser = opponent.song;
     findObject.attributes.complete = true;
 
+    // Round group is a list of matchups for the current round and the selected group
     let roundGroup;
 
-    if (state.finalFour || state.finalTwo) {
-      roundGroup = updatedBracket.finalFour.round1.roundMatchups;
+    if (Object.keys(state.championshipBracket).length !== 0) {
+      updatedBracket = {
+        ...state.championshipBracket,
+      }
+      roundGroup = updatedBracket.round1.roundMatchups;
     } else {
       roundGroup = updatedBracket[group][`round${round}`].roundMatchups;
     }
@@ -99,8 +127,10 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
       roundGroup[i].attributes.complete ? completedProgress += 1 : null;
     }
 
-    if (!state.finalFour && !state.finalTwo) {
+    if (Object.keys(state.championshipBracket).length === 0) {
       updatedBracket[group][`round${round}`].progress = completedProgress/roundGroup.length;
+    } else {
+      updatedBracket.round1.progress = completedProgress/roundGroup.length;
     }
     dispatch({
       type: 'setBracket',
@@ -125,7 +155,7 @@ export default function MatchupSong({ thissong, opponent, matchupId, round, grou
 }
 
 MatchupSong.propTypes = {
-  song: PropTypes.shape({
+  thissong: PropTypes.shape({
     id: PropTypes.string.isRequired,
     rank: PropTypes.number.isRequired,
     attributes: PropTypes.shape({

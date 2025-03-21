@@ -7,6 +7,17 @@ export function isObjectEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
 
+// Winners list
+export function generateFinalRound(winnersList) {
+  const nextRound = {
+    final: []
+  };
+  for (let i = 0; i < winnersList.length; i++) {
+    nextRound.final.push(winnersList[i].attributes.winner);
+  }
+  return nextRound;
+}
+
 function getNextRoundMatchups(songList, round) {
   const nextRound = [];
   for (let i = 0; i < songList.length; i += 2) {

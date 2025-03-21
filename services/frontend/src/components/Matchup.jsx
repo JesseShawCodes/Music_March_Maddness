@@ -16,7 +16,7 @@ export default function Matchup({
     if (Object.keys(state.championshipBracket).length === 0) {
       winner = state.bracket[`${groupName}`][`round${matchup.round}`].roundMatchups[index].attributes.winner;
     } else {
-      winner = undefined;
+      winner = state.championshipBracket.round1.roundMatchups[index].attributes.winner;
     }
 
     return winner
