@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { React, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -90,6 +91,8 @@ function ArtistPageForm() {
     }
   }, [musicQuery]);
 
+  const songLengthMessage = () => (state.values.top_songs_list.length < 64 ? 'Available tracks for this artist is a bit short, there may be potential bugs in the bracket generating process' : null);
+
   if (!musicQuery.top_songs_list) {
     return (
       <Loading />
@@ -108,6 +111,15 @@ function ArtistPageForm() {
               <button type="button" className="btn btn-primary" onClick={generateBracket}>
                 Generate Bracket
               </button>
+              <div className="my-3 fst-italic">
+                {
+                  Object.keys(state.values).length !== 0
+                  ? (
+                    songLengthMessage()
+                  )
+                  : null
+                }
+              </div>
             </>
           )
           : <BracketTable />
