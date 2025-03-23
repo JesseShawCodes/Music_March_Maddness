@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import LoginPage from './pages/LoginPage';
 import CreateAccountPage from './pages/CreateAccountPage';
+import Footer from './components/Footer';
 
 import NotFoundPage from './pages/NotFoundPage';
 
@@ -22,19 +23,22 @@ function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
-        <div className="App">
+        <div className="App d-flex flex-column min-vh-100">
           <NavBar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage heading={content.aboutPage.aboutPageHeading} />} />
-            <Route path="/music_search" element={<ArtistSearch />} />
-            <Route path="/test" element={<TestPage />} />
-            {/* End Test Pages */}
-            <Route path="/artist/:handle" element={<ArtistPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/create_account" element={<CreateAccountPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
+          <main className="flex-grow-1">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage heading={content.aboutPage.aboutPageHeading} />} />
+              <Route path="/music_search" element={<ArtistSearch />} />
+              <Route path="/test" element={<TestPage />} />
+              {/* End Test Pages */}
+              <Route path="/artist/:handle" element={<ArtistPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/create_account" element={<CreateAccountPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </main>
+          <Footer />
         </div>
       </BrowserRouter>
     </ThemeProvider>
