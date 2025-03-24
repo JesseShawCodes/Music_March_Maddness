@@ -8,9 +8,9 @@ function ThemeToggleButton() {
 
   return (
     <div className="form-check form-switch mt-2 d-flex justify-content-center">
-      <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onChange={toggleTheme} />
-      <label className="nav-item mx-3" htmlFor="flexSwitchCheckDefault">
+      <label className="nav-item mx-3" htmlFor="theme-switch">
         {theme === 'light' ? <FontAwesomeIcon icon={faSun} className="text-warning" /> : <FontAwesomeIcon icon={faMoon} />}
+        <input className="form-check-input" type="checkbox" role="switch" title="Switch theme" id="theme-switch" onChange={toggleTheme} />
       </label>
     </div>
   );
