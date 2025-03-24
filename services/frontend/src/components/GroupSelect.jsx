@@ -14,7 +14,7 @@ function GroupSelect({ groups }) {
       <label htmlFor="group-select">Select Group</label>
       <select 
         value={state.selectedGroup}
-        name="group-select"
+        id="group-select"
         onChange={selectGroup} 
         className="form-select w-50"
       >
