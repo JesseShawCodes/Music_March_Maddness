@@ -10,9 +10,9 @@ function Footer() {
         <div className="col-md-4 d-flex align-items-center">
           <span className="mb-3 mb-md-0">© 2025 Music March Madness</span>
           <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
-      <li className="ms-3"><a className="text-body-secondary" href="#"><FontAwesomeIcon icon={faInstagram} /></a></li>
-      <li className="ms-3"><a className="text-body-secondary" href="#"><FontAwesomeIcon icon={faLinkedin} /></a></li>
-      <li className="ms-3"><a className="text-body-secondary" href="#"><FontAwesomeIcon icon={faXTwitter} /></a></li>
+      <li className="ms-3"><a className="text-body-secondary" href="#" title="Instagram"><FontAwesomeIcon icon={faInstagram} /></a></li>
+      <li className="ms-3"><a className="text-body-secondary" href="#" title="Linked In"><FontAwesomeIcon icon={faLinkedin} /></a></li>
+      <li className="ms-3"><a className="text-body-secondary" href="#" title="Twitter"><FontAwesomeIcon icon={faXTwitter} /></a></li>
     </ul>
         </div>
       </footer>
