@@ -11,8 +11,13 @@ function GroupSelect({ groups }) {
   };
   return (
     <div className="my-3 w-100 d-flex justify-content-center">
-      <label>Select Group</label>
-      <select value={state.selectedGroup} onChange={selectGroup} className="form-select w-50">
+      <label htmlFor="group-select">Select Group</label>
+      <select 
+        value={state.selectedGroup}
+        name="group-select"
+        onChange={selectGroup} 
+        className="form-select w-50"
+      >
         <option value="all">All</option>
         {
           groups.map((group) => (
