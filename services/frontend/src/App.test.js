@@ -4,5 +4,5 @@ import App from './App';
 
 test('renders App component without crashing', () => {
   render(<App />);
-  expect(screen.getByText("Music March Madness")).toBeInTheDocument();
+  expect(screen.getByText(`${process.env.REACT_APP_NAME}`)).toBeInTheDocument();
 });
