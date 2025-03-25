@@ -16,6 +16,7 @@ export default function ArtistSearch() {
   const [skip, setSkip] = React.useState(skipParam);
   const {
     data: musicQuery = [],
+    error,
     isLoading,
     isError,
   } = useGetArtistsQuery(artist, { skip });
@@ -40,7 +41,7 @@ export default function ArtistSearch() {
       />
 
       {
-        isError ? <div>Error</div> : null
+        isError ? <div className="text-danger">{error.error}</div> : null
       }
 
       {
