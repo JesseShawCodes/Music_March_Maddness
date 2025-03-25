@@ -11,6 +11,7 @@ export default function MatchupSong({
 }) {
   const value = useContext(Context);
   const [state, dispatch] = value;
+  const championship = Object.keys(state.championshipBracket).length !== 0
 
   const bgColor = thissong.song.attributes.artwork.bgColor;
   /* Next Round Logic Needs to happen here */
@@ -19,7 +20,7 @@ export default function MatchupSong({
     var len = Object.keys(state.bracket).length;
     var groupProg = 0;
 
-    if (Object.keys(state.championshipBracket).length === 0) {
+    if (!championship) {
       for (const key in state.bracket) {
         if (typeof state.bracket[key][`round${state.round}`].progress != undefined) {
           groupProg += state.bracket[key][`round${state.round}`].progress;
@@ -41,7 +42,7 @@ export default function MatchupSong({
       dispatch({ type: 'setRound', payload: { round: state.round + 1 } });
       let nextRound;
 
-      if (Object.keys(state.championshipBracket).length === 0) {
+      if (!championship) {
         nextRound = generateNextRound(state);
       } else {
         nextRound = generateFinalRound(state.championshipBracket.round1.roundMatchups);
@@ -72,6 +73,12 @@ export default function MatchupSong({
             bracket: updatedBracket
           },
         });
+       dispatch({
+        type: 'setNonGroupPlay',
+        payload: {
+          nonGroupPlay: true
+        }
+       })
         */
         dispatch({
           type: 'setChampionshipBracket',
@@ -85,27 +92,35 @@ export default function MatchupSong({
         updatedBracket[`group2`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group2`]}
         updatedBracket[`group3`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group3`]}
         updatedBracket[`group4`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group4`]}
-  
+        /*
         if ("roundMatchups" in updatedBracket[`group1`][nextRoundNumber]) {
           updatedBracket[`group1`][nextRoundNumber].roundMatchups.length == 1 ? dispatch({ type: 'setNonGroupPlay', payload: { nonGroupPlay: true } }) : null
         }
+        */
       }
     }
   }
 
+  // This function runs when winner is selected
   const selectWinner = () => {
-    let updatedBracket = {
-      ...state.bracket,
+    let bracketObject;
+    if (championship) {
+      bracketObject = state.championshipBracket;
+    } else {
+      bracketObject = state.bracket;
     }
+    let updatedBracket = {
+      ...bracketObject,
+    }
+
     let objectToSearch;
-    if (Object.keys(state.championshipBracket).length !== 0) {
+    if (championship) {
       objectToSearch = state.championshipBracket.round1;
     } else {
       objectToSearch = state.bracket[group][`round${round}`]
     }
 
     let findObject = findObjectById(objectToSearch, matchupId);
-
     findObject.attributes.winner = thissong.song;
     findObject.attributes.loser = opponent.song;
     findObject.attributes.complete = true;
@@ -113,7 +128,7 @@ export default function MatchupSong({
     // Round group is a list of matchups for the current round and the selected group
     let roundGroup;
 
-    if (Object.keys(state.championshipBracket).length !== 0) {
+    if (championship) {
       updatedBracket = {
         ...state.championshipBracket,
       }
@@ -127,7 +142,7 @@ export default function MatchupSong({
       roundGroup[i].attributes.complete ? completedProgress += 1 : null;
     }
 
-    if (Object.keys(state.championshipBracket).length === 0) {
+    if (!championship) {
       updatedBracket[group][`round${round}`].progress = completedProgress/roundGroup.length;
     } else {
       updatedBracket.round1.progress = completedProgress/roundGroup.length;
