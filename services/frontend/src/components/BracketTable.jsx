@@ -3,8 +3,9 @@ import React, { useContext } from 'react';
 import GroupSelect from './GroupSelect';
 import Group from './Group';
 import Championship from './Championship';
-import { Context } from './BracketContext';
+import { Context } from '../context/BracketContext';
 import { isObjectEmpty } from '../services/dataService';
+import ProgressCircle from './ProgressCircle';
 
 function BracketTable() {
   const value = useContext(Context);
@@ -34,7 +35,7 @@ function BracketTable() {
       <h2 className="my-3">
         {roundHeader}
       </h2>
-
+      <ProgressCircle />
       {
         championshipRound !== true ? <GroupSelect groups={state.groups} key="Group Select" /> : null
       }

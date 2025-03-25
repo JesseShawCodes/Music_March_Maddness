@@ -3,7 +3,7 @@ import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-import { Context } from './BracketContext';
+import { Context } from '../context/BracketContext';
 import { findObjectById, generateNextRound, generateFinalRound } from '../services/dataService';
 
 export default function MatchupSong({
@@ -11,10 +11,9 @@ export default function MatchupSong({
 }) {
   const value = useContext(Context);
   const [state, dispatch] = value;
-  const championship = Object.keys(state.championshipBracket).length !== 0
+  const championship = Object.keys(state.championshipBracket).length !== 0;
 
   const bgColor = thissong.song.attributes.artwork.bgColor;
-  /* Next Round Logic Needs to happen here */
 
   const nextRound = () => {
     var len = Object.keys(state.bracket).length;

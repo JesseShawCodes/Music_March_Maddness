@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { React, useContext } from 'react';
-import { Context } from './BracketContext';
+import { Context } from '../context/BracketContext';
 
 function GroupSelect({ groups }) {
   const value = useContext(Context);

@@ -2,7 +2,7 @@
 import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Matchup from './Matchup';
-import { Context } from './BracketContext';
+import { Context } from '../context/BracketContext';
 import ProgressBar from './ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';

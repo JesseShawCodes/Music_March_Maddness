@@ -3,7 +3,7 @@ import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Matchup from './Matchup';
 import ProgressBar from './ProgressBar';
-import { Context } from './BracketContext';
+import { Context } from '../context/BracketContext';
 
 function Championship() {
   const value = useContext(Context);

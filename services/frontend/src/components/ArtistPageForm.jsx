@@ -2,7 +2,7 @@
 import { React, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Context } from './BracketContext';
+import { Context } from '../context/BracketContext';
 import BracketTable from './BracketTable';
 import { useGetArtistInfoQuery } from '../services/jsonServerApi';
 import Loading from './Loading';

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Song from '../pages/Song';
-import { Context } from './BracketContext';
+import { Context } from '../context/BracketContext';
 import { isObjectEmpty } from '../services/dataService';
 
 function TopTracks() {

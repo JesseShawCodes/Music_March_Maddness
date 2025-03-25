@@ -1,5 +1,5 @@
 import { React, useContext } from 'react';
-import { Context } from './BracketContext';
+import { Context } from '../context/BracketContext';
 
 function ArtistName() {
   const value = useContext(Context);

@@ -2,7 +2,7 @@
 import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
 import MatchupSong from './MatchupSong';
-import { Context } from './BracketContext';
+import { Context } from '../context/BracketContext';
 
 export default function Matchup({
   song1, song2, matchup, groupName, index,
