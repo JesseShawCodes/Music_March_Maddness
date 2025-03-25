@@ -4,7 +4,6 @@ import GroupSelect from './GroupSelect';
 import Group from './Group';
 import Championship from './Championship';
 import { Context } from './BracketContext';
-import Loading from './Loading';
 import { isObjectEmpty } from '../services/dataService';
 
 function BracketTable() {
@@ -37,7 +36,7 @@ function BracketTable() {
       </h2>
 
       {
-        championshipRound !== true ? <GroupSelect groups={state.groups} key={'Group Select'}/> : null
+        championshipRound !== true ? <GroupSelect groups={state.groups} key="Group Select" /> : null
       }
       {
         championshipRound === true ? <Championship />
