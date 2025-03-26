@@ -2,7 +2,6 @@
 import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Matchup from './Matchup';
-import ProgressBar from './ProgressBar';
 import { Context } from '../context/BracketContext';
 
 function Championship() {
@@ -11,7 +10,7 @@ function Championship() {
 
   return (
     <div key="Championship Round">
-      <div>{state.championshipBracket.map((matchup, index) => (
+      <div>{state.championshipBracket[`round${state.round}`].roundMatchups.map((matchup, index) => (
         <Matchup
           song1={matchup.attributes.song1}
           song2={matchup.attributes.song2}

@@ -58,24 +58,25 @@ export default function MatchupSong({
       if (Array.isArray(nextRound)) {
 
         updatedBracket = {...state.championshipBracket}
-        if ("final" in nextRound) {
-          if (nextRound.final.length === 2) {
-            updatedBracket = {
-              round1: state.championshipBracket.round1,
-              round2: {
-                progress: 0,
-                roundMatchups: nextRound
-              }
-            }
+
+        if (nextRound.length == 2) {
+          updatedBracket = {
+            round5: {
+              progress: 0,
+              roundMatchups: nextRound,
+            },
+            round6: {
+              progress: null,
+              roundMatchups: null
+            },
           }
         }
         dispatch({
           type: 'setChampionshipBracket',
           payload: {
-            championshipBracket: nextRound,
+            championshipBracket: updatedBracket,
           }
         })
-        // dispatch({ type: 'setRound', payload: { round: 1 } });
 
       } else {
         let nextRoundNumber = `round${state.round + 1}`;
@@ -83,11 +84,6 @@ export default function MatchupSong({
         updatedBracket[`group2`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group2`]}
         updatedBracket[`group3`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group3`]}
         updatedBracket[`group4`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group4`]}
-        /*
-        if ("roundMatchups" in updatedBracket[`group1`][nextRoundNumber]) {
-          updatedBracket[`group1`][nextRoundNumber].roundMatchups.length == 1 ? dispatch({ type: 'setNonGroupPlay', payload: { nonGroupPlay: true } }) : null
-        }
-        */
       }
     }
   }
