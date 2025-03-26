@@ -15,7 +15,7 @@ export default function MatchupSong({
 
   const bgColor = thissong.song.attributes.artwork.bgColor;
 
-  const nextRound = (nextBracket) => {
+  const nextRound = () => {
     // debugger;
     var len = Object.keys(state.bracket).length;
     var groupProg = 0;
@@ -33,7 +33,6 @@ export default function MatchupSong({
       }
       var currentRoundProgres = groupProg;
     }
-    var currentRoundProgres = groupProg/len;
     
     dispatch(
       { type: 'setCurrentRoundProgres', payload: {currentRoundProgres: currentRoundProgres}},
@@ -102,7 +101,7 @@ export default function MatchupSong({
 
     let objectToSearch;
     if (championship) {
-      objectToSearch = state.championshipBracket.round1;
+      objectToSearch = state.championshipBracket[`round${state.round}`];
     } else {
       objectToSearch = state.bracket[group][`round${round}`]
     }
@@ -119,7 +118,7 @@ export default function MatchupSong({
       updatedBracket = {
         ...state.championshipBracket,
       }
-      roundGroup = updatedBracket.round1.roundMatchups;
+      roundGroup = updatedBracket[`round${state.round}`].roundMatchups;
     } else {
       roundGroup = updatedBracket[group][`round${round}`].roundMatchups;
     }
@@ -132,7 +131,7 @@ export default function MatchupSong({
     if (!championship) {
       updatedBracket[group][`round${round}`].progress = completedProgress/roundGroup.length;
     } else {
-      updatedBracket.round1.progress = completedProgress/roundGroup.length;
+      updatedBracket[`round${state.round}`].progress = completedProgress/roundGroup.length;
     }
     dispatch({
       type: 'setBracket',
@@ -141,7 +140,7 @@ export default function MatchupSong({
       },
     });
 
-    nextRound(updatedBracket);
+    nextRound();
   };
 
   winner = typeof (winner) !== "undefined" ? winner.id : null
