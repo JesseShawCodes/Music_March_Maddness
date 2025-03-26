@@ -54,7 +54,7 @@ export function generateNextRound(stateObject) {
     group4: [],
   };
 
-  const nextRoundMatchups = {};
+  let nextRoundMatchups = {};
 
   for (const key in groupList) {
     if (groupList.hasOwnProperty(key)) {
@@ -63,15 +63,33 @@ export function generateNextRound(stateObject) {
     }
   }
 
-  if (stateObject.nonGroupPlay) {
+  if (stateObject.round == 5) {
     return getFinalFourMatchup(winnersGroup);
   }
 
   for (const key in winnersGroup) {
-    nextRoundMatchups[key] = getNextRoundMatchups(winnersGroup[key], stateObject.round + 1);
+
+    // IF ALL ARRAYS in WINNERS GROUP are of length 1, need to run getFinalFourMatchup
+    
+    if (checkArrayLengths(winnersGroup)) {
+      nextRoundMatchups = getFinalFourMatchup(winnersGroup)
+    } else {
+      nextRoundMatchups[key] = getNextRoundMatchups(winnersGroup[key], stateObject.round + 1);
+    }
   }
 
   return nextRoundMatchups;
+}
+
+function checkArrayLengths(obj) {
+  for (const key in obj) {
+    if (Array.isArray(obj[key])) {
+      if (obj[key].length > 1) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 function getFinalFourMatchup(finalFourSongs) {

@@ -10,9 +10,8 @@ function Championship() {
   const [state] = value;
 
   return (
-    <div className="" key="Championship Round">
-      <ProgressBar value={state.championshipBracket.round1.progress * 100} key={`Champion Ship Round Progress`}/>
-      <div>{state.championshipBracket.round1.roundMatchups.map((matchup, index) => (
+    <div key="Championship Round">
+      <div>{state.championshipBracket.map((matchup, index) => (
         <Matchup
           song1={matchup.attributes.song1}
           song2={matchup.attributes.song2}

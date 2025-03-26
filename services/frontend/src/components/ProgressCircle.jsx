@@ -6,8 +6,6 @@ function ProgressCircle() {
   const value = useContext(Context);
   const [state] = value;
   const progress = Math.round(state.currentRoundProgres * 100);
-  // debugger;
-  console.log(state);
 
   return (
     <>

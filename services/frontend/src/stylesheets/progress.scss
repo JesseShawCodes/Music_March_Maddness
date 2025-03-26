@@ -35,7 +35,7 @@ $label-font-size-redo: $default-size * 4;
 }
 
 .set-size {
-  font-size: 7em;
+  font-size: 4em;
 }
 
 .charts-container {
@@ -69,17 +69,17 @@ $label-font-size-redo: $default-size * 4;
   .label {
     background: $bg-color;
     border-radius: 50%;
-    bottom: $label-font-size-redo / 10;
+    bottom: calc($label-font-size-redo / 10);
     color: #ecf0f1;
     cursor: default;
     display: block;
     font-size: $label-font-size;
-    left: $label-font-size-redo / 10;
-    line-height: $label-font-size-redo * .70;
+    left: calc($label-font-size-redo / 10);
+    line-height: calc($label-font-size-redo * .70);
     position: absolute;
-    right: $label-font-size-redo / 10;
+    right: calc($label-font-size-redo / 10);
     text-align: center;
-    top: $label-font-size-redo / 10;
+    top: calc($label-font-size-redo / 10);
 
     .smaller {
       color: #bdc3c7;
@@ -91,7 +91,7 @@ $label-font-size-redo: $default-size * 4;
 
   .shadow {
     @include size(100%, 100%);
-    border: $default-size / 10 solid #bdc3c7;
+    border: calc($default-size / 10) solid #bdc3c7;
     border-radius: 50%;
   }
 

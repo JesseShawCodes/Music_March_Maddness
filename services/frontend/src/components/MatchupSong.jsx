@@ -15,7 +15,8 @@ export default function MatchupSong({
 
   const bgColor = thissong.song.attributes.artwork.bgColor;
 
-  const nextRound = () => {
+  const nextRound = (nextBracket) => {
+    // debugger;
     var len = Object.keys(state.bracket).length;
     var groupProg = 0;
 
@@ -37,20 +38,25 @@ export default function MatchupSong({
     dispatch(
       { type: 'setCurrentRoundProgres', payload: {currentRoundProgres: currentRoundProgres}},
     )
-    if (groupProg/len == 1) {
+    if (currentRoundProgres === 1) {
       dispatch({ type: 'setRound', payload: { round: state.round + 1 } });
       let nextRound;
 
       if (!championship) {
         nextRound = generateNextRound(state);
       } else {
-        nextRound = generateFinalRound(state.championshipBracket.round1.roundMatchups);
+        nextRound = generateNextRound(state.championshipBracket.round1.roundMatchups);
       }
       let updatedBracket = {
         ...state.bracket
       }
+      // Final Four needs to be handled here
+      // nextRound is an array of 2 for Final Four
+      // nextRound is a object for prior rounds
+      console.log(nextRound);
       // If Down to the final 4 songs (Championship Round)
-      if (state.nonGroupPlay) {
+      if (Array.isArray(nextRound)) {
+
         updatedBracket = {...state.championshipBracket}
         if ("final" in nextRound) {
           if (nextRound.final.length === 2) {
@@ -63,28 +69,14 @@ export default function MatchupSong({
             }
           }
         }
-
-
-        /*
-        dispatch({
-          type: 'setBracket',
-          payload: {
-            bracket: updatedBracket
-          },
-        });
-       dispatch({
-        type: 'setNonGroupPlay',
-        payload: {
-          nonGroupPlay: true
-        }
-       })
-        */
         dispatch({
           type: 'setChampionshipBracket',
           payload: {
-            championshipBracket: updatedBracket,
+            championshipBracket: nextRound,
           }
         })
+        // dispatch({ type: 'setRound', payload: { round: 1 } });
+
       } else {
         let nextRoundNumber = `round${state.round + 1}`;
         updatedBracket[`group1`][nextRoundNumber] = {progress: 0, roundMatchups: nextRound[`group1`]}
@@ -100,7 +92,7 @@ export default function MatchupSong({
     }
   }
 
-  // This function runs when winner is selected
+  // This function runs when winner is selected. Initial handling of selection and state editing
   const selectWinner = () => {
     let bracketObject;
     if (championship) {
@@ -153,7 +145,7 @@ export default function MatchupSong({
       },
     });
 
-    nextRound();
+    nextRound(updatedBracket);
   };
 
   winner = typeof (winner) !== "undefined" ? winner.id : null
