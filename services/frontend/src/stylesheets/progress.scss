@@ -18,6 +18,7 @@ $label-font-size-redo: $default-size * 4;
 
     .left-side {
       transform: rotate($progress * 3.6deg);
+      transition-duration: 1s;
     }
 
     @if $progress <= 50 {
