@@ -9,12 +9,12 @@ function ProgressCircle() {
 
   return (
     <>
-      <div class="set-size charts-container">
-      <div class={`pie-wrapper progress-${progress}`}>
-        <span class="label">{progress}<span class="smaller">%</span></span>
-        <div class="pie">
-          <div class="left-side half-circle"></div>
-          <div class="right-side half-circle"></div>
+      <div className="set-size charts-container">
+      <div className={`pie-wrapper progress-${progress}`}>
+        <span className="label">{progress}<span className="smaller">%</span></span>
+        <div className="pie">
+          <div className="left-side half-circle"></div>
+          <div className="right-side half-circle"></div>
         </div>
       </div>
       </div>
