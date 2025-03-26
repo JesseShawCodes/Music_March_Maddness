@@ -9,14 +9,15 @@ export default function Matchup({
 }) {
   const value = useContext(Context);
   const [state] = value;
+  const championship = Object.keys(state.championshipBracket).length !== 0;
 
   const getWinner = () => {
     let winner;
 
-    if (Object.keys(state.championshipBracket).length === 0) {
+    if (!championship) {
       winner = state.bracket[`${groupName}`][`round${matchup.round}`].roundMatchups[index].attributes.winner;
     } else {
-      winner = state.championshipBracket.round1.roundMatchups[index].attributes.winner;
+      winner = state.championshipBracket[index].attributes.winner;
     }
 
     return winner
