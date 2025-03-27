@@ -1,4 +1,3 @@
-/*eslint-disable*/
 import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Matchup from './Matchup';
@@ -10,16 +9,18 @@ function Championship() {
 
   return (
     <div key="Championship Round">
-      <div>{state.championshipBracket[`round${state.round}`].roundMatchups.map((matchup, index) => (
-        <Matchup
-          song1={matchup.attributes.song1}
-          song2={matchup.attributes.song2}
-          matchup={matchup}
-          key={matchup.matchupId}
-          groupName="Championship Round"
-          index={index}
-        />
-      ))}</div>
+      <div>
+        {state.championshipBracket[`round${state.round}`].roundMatchups.map((matchup, index) => (
+          <Matchup
+            song1={matchup.attributes.song1}
+            song2={matchup.attributes.song2}
+            matchup={matchup}
+            key={matchup.matchupId}
+            groupName="Championship Round"
+            index={index}
+          />
+        ))}
+      </div>
     </div>
   );
 }

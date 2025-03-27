@@ -1,21 +1,21 @@
-/*eslint-disable*/
+/* eslint-disable */
 import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
-import Matchup from './Matchup';
-import { Context } from '../context/BracketContext';
-import ProgressBar from './ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import Matchup from './Matchup';
+import { Context } from '../context/BracketContext';
 
 function Group({ groupName, matchups, round }) {
   const value = useContext(Context);
   const [state] = value;
 
-  let groupMatchups = matchups.roundMatchups;
+  const groupMatchups = matchups.roundMatchups;
   return (
     <div className={groupName} key={groupName}>
       <h2 className="mt-1">
-        {groupName} {state.bracket[groupName][round].progress == 1 ? <FontAwesomeIcon icon={faCheckCircle} className="text-success" /> : null}
+        {groupName}
+        {state.bracket[groupName][round].progress === 1 ? <FontAwesomeIcon icon={faCheckCircle} className="text-success" /> : null}
       </h2>
       <ul className="list-group">
         {groupMatchups.map((matchup, index) => (
@@ -38,6 +38,7 @@ function Group({ groupName, matchups, round }) {
 export default Group;
 
 Group.propTypes = {
+  round: PropTypes.string().isRequired,
   groupName: PropTypes.shape({
     name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { React, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -113,11 +112,11 @@ function ArtistPageForm() {
               </button>
               <div className="my-3 fst-italic">
                 {
-                  Object.keys(state.values).length !== 0
-                  ? (
-                    songLengthMessage()
-                  )
-                  : null
+                    Object.keys(state.values).length !== 0
+                      ? (
+                        songLengthMessage()
+                      )
+                      : null
                 }
               </div>
             </>
