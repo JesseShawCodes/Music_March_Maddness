@@ -13,6 +13,7 @@ export const initialState = {
   nonGroupPlay: false,
   finalFour: false,
   finalTwo: false,
+  champion: undefined,
   groups: [
     { id: 1, name: 'group1', progress: null },
     { id: 2, name: 'group2', progress: null },
@@ -68,6 +69,11 @@ export function bracketReducer(state, action) {
       return {
         ...state,
         championshipBracket: action.payload.championshipBracket,
+      };
+    case 'setChampion':
+      return {
+        ...state,
+        champion: action.payload.champion,
       }
     default:
       return state;

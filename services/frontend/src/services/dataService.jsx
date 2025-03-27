@@ -10,8 +10,9 @@ export function isObjectEmpty(obj) {
 // Winners list
 export function generateFinalRound(winnersList) {
   const nextRound = {
-    final: []
+    final: [],
   };
+  // Something isn't right here.
   for (let i = 0; i < winnersList.length; i++) {
     nextRound.final.push(winnersList[i].attributes.winner);
   }
@@ -45,9 +46,15 @@ function getNextRoundMatchups(songList, round) {
 
 export function generateNextRound(stateObject) {
   const currentRound = stateObject.round;
-  const groupList = stateObject.bracket;
+  let groupList = undefined;
+  if (currentRound > 4) {
+    groupList = stateObject.championshipBracket;
+  } else {
+    groupList = stateObject.bracket;
+  }
+  // const groupList = stateObject.bracket;
 
-  const winnersGroup = {
+  let winnersGroup = {
     group1: [],
     group2: [],
     group3: [],
@@ -56,15 +63,40 @@ export function generateNextRound(stateObject) {
 
   let nextRoundMatchups = {};
 
-  for (const key in groupList) {
-    if (groupList.hasOwnProperty(key)) {
-      const matchups = groupList[key][`round${currentRound}`].roundMatchups;
-      winnersGroup[`${key}`] = compileListOfWinners(matchups);
+  if (currentRound < 5) {
+    for (const key in groupList) {
+      if (groupList.hasOwnProperty(key)) {
+        const matchups = groupList[key][`round${currentRound}`].roundMatchups;
+        winnersGroup[`${key}`] = compileListOfWinners(matchups);
+      }
     }
+  } else {
+    let matchups = groupList[`round${currentRound}`].roundMatchups;
+    winnersGroup = compileListOfWinners(matchups);
   }
 
+  // winnersgroup should be an array of objects
+
+
   if (stateObject.round == 5) {
-    return getFinalFourMatchup(winnersGroup);
+    // return generateFinalRound(winnersGroup);
+    const finalMatchup = {
+      matchupId: `${winnersGroup[0].id}${winnersGroup[1].id}`,
+      attributes: {
+        complete: false,
+        song1: {
+          song: winnersGroup[0],
+          groupRank: winnersGroup[0].rank,
+          winner: null,
+        },
+        song2: {
+          song: winnersGroup[1],
+          groupRank: winnersGroup[1].rank,
+          winner: null,
+        },
+      }
+    }
+    return [finalMatchup];
   }
 
   for (const key in winnersGroup) {

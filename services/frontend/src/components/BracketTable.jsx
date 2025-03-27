@@ -30,6 +30,8 @@ function BracketTable() {
     return <Group groupName={group} matchups={matchups} key={group} round={round} />;
   };
 
+  const championContainer = () => <h2>{state.champion.song.attributes.name}</h2>;
+
   return (
     <>
       <h2 className="my-3">
@@ -56,6 +58,9 @@ function BracketTable() {
                   </>
                 )
                 : null))
+      }
+      {
+        state.champion ? championContainer() : null
       }
     </>
   );
