@@ -20,8 +20,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <ThemeProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <ThemeProvider>
         <div className="App d-flex flex-column min-vh-100">
           <NavBar />
           <main className="flex-grow-1">
@@ -38,8 +38,8 @@ function App() {
           </main>
           <Footer />
         </div>
-      </BrowserRouter>
-    </ThemeProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 
