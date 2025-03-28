@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { React, useContext } from 'react';
+import { React, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
@@ -7,11 +7,12 @@ import { Context } from '../context/BracketContext';
 import { findObjectById, generateNextRound } from '../services/dataService';
 
 export default function MatchupSong({
-  thissong, opponent, matchupId, round, group, winner
+  thissong, opponent, matchupId, round, group, winner,
 }) {
   const value = useContext(Context);
   const [state, dispatch] = value;
   const championship = Object.keys(state.championshipBracket).length !== 0;
+  const [boxShadow, setBoxShadow] = useState('none');
   let finalTwo;
 
   if (championship) {
@@ -72,14 +73,14 @@ export default function MatchupSong({
             },
             round6: {
               progress: null,
-              roundMatchups: null
+              roundMatchups: null,
             },
           }
         }
         if (nextRound.length == 1) {
           updatedBracket.round6 = {
             progress: 0,
-            roundMatchups: [nextRound[0]]
+            roundMatchups: [nextRound[0]],
           }
         }
         dispatch({
@@ -168,12 +169,19 @@ export default function MatchupSong({
   winner = typeof (winner) !== "undefined" ? winner.id : null
 
   return (
-    <div className="w-50 user-select-none" style={{ 
-      color: `#${thissong.song.attributes.artwork.textColor1}`, 
-      backgroundColor: `#${bgColor}`,
-    }} aria-hidden="true" data-song-id={thissong.song.id} onClick={selectWinner}>
+    <button className="w-50 user-select-none btn" 
+      style={{ 
+        color: `#${thissong.song.attributes.artwork.textColor1}`, 
+        backgroundColor: `#${bgColor}`,
+        boxShadow: boxShadow,
+      }}
+      onFocus={() =>
+        setBoxShadow(`0 0 10px #${bgColor}, 0 0 10px #${thissong.song.attributes.artwork.textColor1}`)
+      }
+      onBlur={() => setBoxShadow('none')}
+    data-song-id={thissong.song.id} onClick={selectWinner}>
       {thissong.song.attributes.name} { winner == thissong.song.id ? <FontAwesomeIcon icon={faCheckCircle} className='text-success' /> : null }
-    </div>
+    </button>
   );
 }
 

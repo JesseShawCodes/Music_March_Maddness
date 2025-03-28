@@ -100,3 +100,7 @@
       border-radius: 12px;
   }
 }
+
+.btn:focus {
+  text-decoration: underline;
+}
