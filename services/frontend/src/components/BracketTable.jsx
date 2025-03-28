@@ -6,6 +6,7 @@ import Championship from './Championship';
 import { Context } from '../context/BracketContext';
 import { isObjectEmpty } from '../services/dataService';
 import ProgressCircle from './ProgressCircle';
+import Champion from './Champion';
 
 function BracketTable() {
   const value = useContext(Context);
@@ -30,14 +31,14 @@ function BracketTable() {
     return <Group groupName={group} matchups={matchups} key={group} round={round} />;
   };
 
-  const championContainer = () => <h2>{state.champion.song.attributes.name}</h2>;
-
   return (
     <>
       <h2 className="my-3">
         {roundHeader}
       </h2>
-      <ProgressCircle />
+      {
+        !state.champion ? <ProgressCircle /> : null
+      }
       {
         championshipRound !== true ? <GroupSelect groups={state.groups} key="Group Select" /> : null
       }
@@ -60,7 +61,7 @@ function BracketTable() {
                 : null))
       }
       {
-        state.champion ? championContainer() : null
+        state.champion ? <Champion /> : null
       }
     </>
   );
