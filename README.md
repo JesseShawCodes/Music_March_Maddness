@@ -8,6 +8,13 @@ This is the foundation for a March Madness Music App, but is also used as a plac
 
 Backend of application built using Django Framework. Work in Progress
 
+To start server
+
+```
+cd services/django_backend
+python3 manage.py runserver
+```
+
 ### DB
 
 Database Service using MySQL. MySQL container is currently ran locally via Docker. Working on setting up an AWS Hosted MySQL database.
@@ -15,6 +22,14 @@ Database Service using MySQL. MySQL container is currently ran locally via Docke
 ### Front End
 
 Front end React Application
+
+To start Front End
+
+```
+cd services/frontend
+npm install
+npm start
+```
 
 ### Django documentation
 https://www.djangoproject.com/

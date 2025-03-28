@@ -1,22 +1,24 @@
-/* eslint-disable react/prop-types, react/no-array-index-key */
+import React, { useContext } from 'react';
+import Song from '../pages/Song';
+import { Context } from '../context/BracketContext';
+import { isObjectEmpty } from '../services/dataService';
 
-import React from 'react';
+function TopTracks() {
+  const value = useContext(Context);
+  const [state] = value;
+  const bracketCreated = !isObjectEmpty(state.bracket);
 
-function TopTracks({ listItems }) {
-  return (
-    <div className="tracks_container">
-      <ol className="list-group list-group-numbered">
-        {listItems?.map((key, index) => (
-          <li className="list-group-item" key={index}>
-            {key.name}
-            -
-            {key.album.name}
-            <iframe style={{ borderRadius: 12 }} src={`https://open.spotify.com/embed/track/${key.id}?utm_source=generator&theme=0`} width="100%" height="152" allowFullScreen="" title={key.album.name} allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" />
-          </li>
-        ))}
-      </ol>
-    </div>
-  );
+  const songList = () => {
+    const list = Object.prototype.hasOwnProperty.call(state.values, 'top_songs_list')
+      ? (
+        state.values.top_songs_list.map((song) => (
+          <Song song={song} key={song.id} />
+        ))
+      )
+      : null;
+    return list;
+  };
+  return (bracketCreated === false ? <ol className="song-list" id="collapseExample">{songList()}</ol> : '');
 }
 
 export default TopTracks;

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useGetArtistsQuery } from '../services/jsonServerApi';
 
+import Loading from '../components/Loading';
+
 export default function ArtistSearch() {
   const location = useLocation();
   const [artist, setArtist] = useState();
@@ -14,6 +16,7 @@ export default function ArtistSearch() {
   const [skip, setSkip] = React.useState(skipParam);
   const {
     data: musicQuery = [],
+    error,
     isLoading,
     isError,
   } = useGetArtistsQuery(artist, { skip });
@@ -38,11 +41,11 @@ export default function ArtistSearch() {
       />
 
       {
-        isError ? <div>Error</div> : null
+        isError ? <div className="text-danger">{error.error}</div> : null
       }
 
       {
-        isLoading ? <div>Loading</div> : null
+        isLoading ? <Loading /> : null
       }
 
       <div className="grid d-flex flex-wrap justify-content-center">
@@ -58,7 +61,7 @@ export default function ArtistSearch() {
               Choose this artist
             </a>
           </div>
-        )) : 'No Data Available'}
+        )) : null}
       </div>
 
     </div>

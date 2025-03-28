@@ -1,15 +1,53 @@
-import React from 'react';
+/* eslint-disable */
+import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
 import MatchupSong from './MatchupSong';
+import { Context } from '../context/BracketContext';
 
-export default function Matchup({ song1, song2, selectSong }) {
+export default function Matchup({
+  song1, song2, matchup, groupName, index,
+}) {
+  const value = useContext(Context);
+  const [state] = value;
+  const championship = Object.keys(state.championshipBracket).length !== 0;
+
+  const getWinner = () => {
+    let winner;
+
+    if (!championship) {
+      winner = state.bracket[`${groupName}`][`round${matchup.round}`].roundMatchups[index].attributes.winner;
+    } else {
+      winner = state.championshipBracket[`round${state.round}`].roundMatchups[index].attributes.winner;
+    }
+
+    return winner
+  }
+
   return (
     <>
-      <MatchupSong song={song1} selectSong={selectSong} />
-      <div>
-        vs.
+      <div className="d-flex justify-content-between mb-2 border-bottom">
+      <MatchupSong
+        thissong={song1}
+        opponent={song2}
+        matchupId={matchup.matchupId}
+        round={matchup.round}
+        group={groupName}
+        winner={getWinner()}
+        key={`matchup_song_${song1.song.id}`}
+      />
+        <div>
+          vs.
+        </div>
+      <MatchupSong
+        thissong={song2}
+        opponent={song1}
+        matchupId={matchup.matchupId}
+        round={matchup.round}
+        group={groupName}
+        winner={getWinner()}
+        key={`matchup_song_${song2.song.id}`}
+      />
       </div>
-      <MatchupSong song={song2} selectSong={selectSong} />
     </>
   );
 }
@@ -37,5 +75,4 @@ Matchup.propTypes = {
       }),
     }),
   }).isRequired,
-  selectSong: PropTypes.func.isRequired,
 };
