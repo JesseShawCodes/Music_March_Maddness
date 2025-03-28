@@ -38,7 +38,7 @@ function Group({ groupName, matchups, round }) {
 export default Group;
 
 Group.propTypes = {
-  round: PropTypes.string().isRequired,
+  round: PropTypes.string.isRequired,
   groupName: PropTypes.shape({
     name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
