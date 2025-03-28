@@ -62,7 +62,6 @@ export default function MatchupSong({
       // nextRound is a object for prior rounds
       // If Down to the final 4 songs (Championship Round)
       if (Array.isArray(nextRound)) {
-        debugger;
         updatedBracket = {...state.championshipBracket}
 
         if (nextRound.length == 2) {
@@ -102,11 +101,7 @@ export default function MatchupSong({
 
   // This function runs when winner is selected. Initial handling of selection and state editing
   const selectWinner = () => {
-    debugger;
-
     if (finalTwo) {
-      debugger;
-      console.log("CHAMP!!!");
       dispatch({
         type: 'setChampion',
         payload: {
