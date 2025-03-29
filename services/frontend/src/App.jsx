@@ -17,6 +17,7 @@ import ArtistSearch from './pages/ArtistSearch';
 import content from './data/data.json';
 import { ThemeProvider } from './ThemeContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';
 
 function App() {
   return (
