@@ -26,7 +26,12 @@ SECRET_KEY = 'django-insecure-n^n9^_+4b49k6^+58b_qx!kgomjx43n6y0-pfon^)*)z!s6s6o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".awsapprunner.com"]
+ALLOWED_HOSTS = [".awsapprunner.com", "localhost:8000", "localhost", "127.0.0.1", " django-env.eba-8ppapbtp.us-west-2.elasticbeanstalk.com"]
+
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S#boto3Storage'
 
 # Application definition
 
@@ -53,7 +58,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.apple',
 
     #
-    'dj_rest_auth'
+    # 'dj_rest_auth'
 ]
 
 ACCOUNT_FORMS = {
@@ -126,11 +131,11 @@ WSGI_APPLICATION = 'madness_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ['database_name'],
-        'USER': os.environ['database_user'],
-        'HOST': os.environ['database_host'],
-        'PORT': os.environ['database_port'],
-        'PASSWORD': os.environ['database_password']
+        'NAME': os.getenv['database_name'],
+        'USER': os.getenv['database_user'],
+        'HOST': os.getenv['database_host'],
+        'PORT': os.getenv['database_port'],
+        'PASSWORD': os.getenv['database_password']
     }
 }
 
