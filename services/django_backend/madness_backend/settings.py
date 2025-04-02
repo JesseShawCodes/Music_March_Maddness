@@ -131,11 +131,11 @@ WSGI_APPLICATION = 'madness_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv['database_name'],
-        'USER': os.getenv['database_user'],
-        'HOST': os.getenv['database_host'],
-        'PORT': os.getenv['database_port'],
-        'PASSWORD': os.getenv['database_password']
+        'NAME': os.environ['database_name'],
+        'USER': os.environ['database_user'],
+        'HOST': os.environ['database_host'],
+        'PORT': os.environ['database_port'],
+        'PASSWORD': os.environ['database_password']
     }
 }
 
