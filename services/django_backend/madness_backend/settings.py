@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-n^n9^_+4b49k6^+58b_qx!kgomjx43n6y0-pfon^)*)z!s6s6o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".awsapprunner.com", "localhost:8000", "localhost", "127.0.0.1", " django-env.eba-8ppapbtp.us-west-2.elasticbeanstalk.com"]
+ALLOWED_HOSTS = [".awsapprunner.com", "localhost:8000", "localhost", "127.0.0.1", "music-march-maddness.onrender.com", "*"]
 
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
