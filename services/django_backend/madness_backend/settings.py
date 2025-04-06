@@ -98,6 +98,7 @@ CORS_ALLOWED_ORIGINS = [
 
     "http://localhost:8080",
     "http://localhost:3000",
+    "https://dadgad.netlify.app/"
 ]
 
 ROOT_URLCONF = 'madness_backend.urls'
