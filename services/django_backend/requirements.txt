@@ -2,6 +2,7 @@ amqp==5.3.1
 asgiref==3.8.1
 astroid==3.3.9
 asttokens==3.0.0
+async-timeout==5.0.1
 attrs==25.3.0
 awsebcli==3.21.0
 backcall==0.2.0
@@ -92,6 +93,7 @@ python-dateutil==2.9.0.post0
 pytz==2024.2
 PyYAML==6.0.2
 pyzmq==26.2.0
+redis==5.2.1
 referencing==0.35.1
 requests==2.32.3
 requests-oauthlib==2.0.0

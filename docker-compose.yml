@@ -1,7 +1,7 @@
 volumes:
   db_mysql:
+  redis:
 
-  phpmyadmin:
 
 services:
   mysql_db:
@@ -17,3 +17,13 @@ services:
       MYSQL_USER: test
       MYSQL_PASS: pass
       MYSQL_DATABASE: maddness
+  redis:
+    image: "redis:7.0"
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    stop_grace_period: "3s"
+    ports: 
+      - "6379:6379"
+    environment:
+      TZ: "America/New_York"
+    volumes:
+      - "redis:/data"
