@@ -4,10 +4,9 @@ from apple_search.artist_page import artist_content
 from apple_search.tasks import fetch_artist_data
 
 def artist_search_view(request):
-    print(request)
     data = artist_search(f"{request.GET.get('q', '')}")
     task = fetch_artist_data.delay(data)
-    return JsonResponse(data)
+    return JsonResponse({"task_id": task.id, "status": "queued"})
 
 def artist_page_view(request, artist_id):
     data = {

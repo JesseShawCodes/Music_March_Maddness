@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useGetArtistsQuery } from '../services/jsonServerApi';
@@ -23,6 +24,7 @@ export default function ArtistSearch() {
 
   const handleChange = (event) => {
     // navigate(`${location.pathname}?q=${event.target.value}`)
+    console.log(musicQuery);
     if (event.target.value.length > 0) {
       setArtist(event.target.value);
       setSkip(false);
@@ -49,19 +51,7 @@ export default function ArtistSearch() {
       }
 
       <div className="grid d-flex flex-wrap justify-content-center">
-        {musicQuery.length !== 0 ? musicQuery.results.artists.data.map((artistResult) => (
-          <div className="mt-4 mx-4 card border-secondary artist-search-card g-col-6 g-col-md-4" key={artistResult.id}>
-            {
-              Object.prototype.hasOwnProperty.call(artistResult.attributes, 'artwork') ? <img src={artistResult.attributes.artwork.url} className="card-img-top" alt={`${artistResult.attributes.name} promo`} /> : <p> No Image Available</p>
-            }
-            <h2>
-              {artistResult.attributes.name}
-            </h2>
-            <a href={`artist/${artistResult.id}`} className="btn btn-primary" id={artistResult.id}>
-              Choose this artist
-            </a>
-          </div>
-        )) : null}
+        
       </div>
 
     </div>
