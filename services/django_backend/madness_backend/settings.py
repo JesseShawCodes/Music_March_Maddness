@@ -98,7 +98,7 @@ CORS_ALLOWED_ORIGINS = [
 
     "http://localhost:8080",
     "http://localhost:3000",
-    "https://dadgad.netlify.app/"
+    "https://dadgad.netlify.app"
 ]
 
 ROOT_URLCONF = 'madness_backend.urls'
@@ -135,7 +135,7 @@ DATABASES = {
         'NAME': os.environ['database_name'],
         'USER': os.environ['database_user'],
         'HOST': os.environ['database_host'],
-        'PORT': os.environ['database_port'],
+        'PORT': 3306,
         'PASSWORD': os.environ['database_password']
     }
 }
