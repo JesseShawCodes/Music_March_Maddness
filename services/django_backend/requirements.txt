@@ -4,7 +4,6 @@ astroid==3.3.9
 asttokens==3.0.0
 async-timeout==5.0.1
 attrs==25.3.0
-awsebcli==3.21.0
 backcall==0.2.0
 beautifulsoup4==4.13.3
 billiard==4.2.1
