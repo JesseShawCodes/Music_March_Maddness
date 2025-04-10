@@ -18,7 +18,15 @@ export const jsonServerApi = createApi({
         url: `/artist-page/${artistId}`,
       }),
     }),
+    getTaskStatus: builder.query({
+      query: (taskId) => `/api/task-status?q=${taskId}`,
+    }),
   }),
 });
 
-export const { useGetArtistsQuery, useGetArtistInfoQuery } = jsonServerApi;
+export const {
+  useGetArtistsQuery,
+  useGetArtistInfoQuery,
+  useGetTaskStatusQuery,
+  useLazyGetTaskStatusQuery,
+} = jsonServerApi;
