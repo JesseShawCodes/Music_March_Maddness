@@ -1,9 +1,7 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useLazyGetTaskStatusQuery, useGetArtistsQuery } from '../services/jsonServerApi';
-import { useDispatch, useSelector } from 'react-redux';
-import { startTask } from '../services/taskStatus';
+import { useGetArtistsQuery } from '../services/jsonServerApi';
 
 import Loading from '../components/Loading';
 
@@ -13,75 +11,19 @@ export default function ArtistSearch() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState("");
   const [artist, setArtist] = useState();
-  const [taskId, setTaskId] = useState(null);
-  const [polling, setPolling] = useState(false);
-  const [triggerStatus, { data: taskStatus }] = useLazyGetTaskStatusQuery();
-  
+
   let skipParam = true;
-  const [skip, setSkip] = React.useState(skipParam);
-
-
   if (location.search) {
     skipParam = false;
   }
 
+  const [skip, setSkip] = React.useState(skipParam);
   const {
     data: musicQuery = [],
     error,
     isLoading,
     isError,
   } = useGetArtistsQuery(artist, { skip });
-
-  /*
-  const handleChange = (event) => {
-    // navigate(`${location.pathname}?q=${event.target.value}`)
-    if (event.target.value.length > 0) {
-      setArtist(event.target.value);
-      setSkip(false);
-      if (musicQuery['status'] == 'queued') {
-        setTaskId(musicQuery['task_id'])
-        pollTaskStatus(taskId);
-      }
-    } else {
-      setArtist('');
-      setSkip(true);
-    }
-  };
-  */
-  /*
-  useEffect(() => {
-    let interval;
-    console.log("Effect...")
-  })
-  */
-
-  const handleChange = async (event) => {
-    // console.log(event.target.value);
-    if (event.target.value.length > 0) {
-      const { task_id } = await startSearch(event.target.value).unwrap();
-      setTaskId(task_id);
-      pollTaskStatus(task_id);
-      setArtist(event.target.value);
-      setSkip(false);
-    } else {
-      setArtist('');
-      setSkip(true);
-    }
-  }
-
-  const pollTaskStatus = async (taskId) => {
-    console.log(taskId);
-    const interval = setInterval(async () => {
-      const data = await triggerStatus(taskId).unwrap();
-      if (data.status === 'SUCCESS') {
-        console.log('TASK RESULT')
-      } else if (data.status === "FAILURE") {
-        console.log("FAILURE")
-      } else {
-        console.log(data)
-      }
-    }, 3000) // poll every 10 seconds
-  }
 
   const handleSearch = () => {
     debugger;
@@ -108,11 +50,27 @@ export default function ArtistSearch() {
       <button onClick={handleSearch} className="btn btn-primary">Search</button>
 
       {
-        loading ? <Loading /> : null
+        isError ? <div className="text-danger">{error.error}</div> : null
+      }
+
+      {
+        isLoading ? <Loading /> : null
       }
 
       <div className="grid d-flex flex-wrap justify-content-center">
-        
+        {musicQuery.length !== 0 ? musicQuery.results.artists.data.map((artistResult) => (
+          <div className="mt-4 mx-4 card border-secondary artist-search-card g-col-6 g-col-md-4" key={artistResult.id}>
+            {
+              Object.prototype.hasOwnProperty.call(artistResult.attributes, 'artwork') ? <img src={artistResult.attributes.artwork.url} className="card-img-top" alt={`${artistResult.attributes.name} promo`} /> : <p> No Image Available</p>
+            }
+            <h2>
+              {artistResult.attributes.name}
+            </h2>
+            <a href={`artist/${artistResult.id}`} className="btn btn-primary" id={artistResult.id}>
+              Choose this artist
+            </a>
+          </div>
+        )) : null}
       </div>
 
     </div>

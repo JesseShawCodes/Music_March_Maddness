@@ -7,8 +7,10 @@ from celery.result import AsyncResult
 
 def artist_search_view(request):
     data = artist_search(f"{request.GET.get('q', '')}")
-    task = fetch_artist_data.delay(data)
-    return JsonResponse({"task_id": task.id, "status": "queued"})
+    # Potential task functions / returns
+    # task = fetch_artist_data.delay(data)
+    # return JsonResponse({"task_id": task.id, "status": "queued"})
+    return JsonResponse(data)
 
 def artist_page_view(request, artist_id):
     data = {
