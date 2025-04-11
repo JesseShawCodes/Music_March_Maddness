@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useGetArtistsQuery } from '../services/jsonServerApi';
@@ -7,9 +6,7 @@ import Loading from '../components/Loading';
 
 export default function ArtistSearch() {
   const location = useLocation();
-  const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState("");
+  const [query, setQuery] = useState('');
   const [artist, setArtist] = useState();
 
   let skipParam = true;
@@ -25,15 +22,11 @@ export default function ArtistSearch() {
     isError,
   } = useGetArtistsQuery(artist, { skip });
 
-  const handleSearch = () => {
-    debugger;
+  const handleSearch = (e) => {
+    e.preventDefault();
     if (query.length > 0) {
       setArtist(query);
       setSkip(false);
-      if (musicQuery['status'] == 'queued') {
-        setTaskId(musicQuery['task_id'])
-        pollTaskStatus(taskId);
-      }
     } else {
       setArtist('');
       setSkip(true);
@@ -42,12 +35,14 @@ export default function ArtistSearch() {
 
   return (
     <div className="my-4 w-90 mx-auto">
-      <input
-        type="text"
-        placeholder="Search"
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <button onClick={handleSearch} className="btn btn-primary">Search</button>
+      <form>
+        <input
+          type="text"
+          placeholder="Search"
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button onClick={handleSearch} className="btn btn-primary" type="submit">Search</button>
+      </form>
 
       {
         isError ? <div className="text-danger">{error.error}</div> : null
