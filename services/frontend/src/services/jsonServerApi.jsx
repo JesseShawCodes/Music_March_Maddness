@@ -18,7 +18,23 @@ export const jsonServerApi = createApi({
         url: `/artist-page/${artistId}`,
       }),
     }),
+    getTaskStatus: builder.query({
+      query: (taskId) => `/api/task-status?q=${taskId}`,
+      keepUnusedDataFor: 0,
+    }),
+    startSearch: builder.mutation({
+      query: (queryParam) => ({
+        url: `/artist?q=${queryParam}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useGetArtistsQuery, useGetArtistInfoQuery } = jsonServerApi;
+export const {
+  useGetArtistsQuery,
+  useGetArtistInfoQuery,
+  useGetTaskStatusQuery,
+  useLazyGetTaskStatusQuery,
+  useStartSearchMutation,
+} = jsonServerApi;
