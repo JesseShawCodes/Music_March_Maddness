@@ -20,6 +20,13 @@ export const jsonServerApi = createApi({
     }),
     getTaskStatus: builder.query({
       query: (taskId) => `/api/task-status?q=${taskId}`,
+      keepUnusedDataFor: 0,
+    }),
+    startSearch: builder.mutation({
+      query: (queryParam) => ({
+        url: `/artist?q=${queryParam}`,
+        method: 'GET',
+      }),
     }),
   }),
 });
@@ -29,4 +36,5 @@ export const {
   useGetArtistInfoQuery,
   useGetTaskStatusQuery,
   useLazyGetTaskStatusQuery,
+  useStartSearchMutation,
 } = jsonServerApi;

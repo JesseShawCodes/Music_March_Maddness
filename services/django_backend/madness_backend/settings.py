@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-n^n9^_+4b49k6^+58b_qx!kgomjx43n6y0-pfon^)*)z!s6s6o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".awsapprunner.com", "localhost:8000", "localhost", "127.0.0.1", "music-march-maddness.onrender.com", "*"]
+ALLOWED_HOSTS = ["localhost:3000", "localhost", "127.0.0.1", "music-march-maddness.onrender.com", "*"]
 
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
@@ -206,7 +206,7 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_USERNAME_REQUIRED = False
 
 # Celery Settings
-CELERY_BROKER_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
-CELERY_RESULT_BACKEND=os.getenv("REDIS_URL")
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
