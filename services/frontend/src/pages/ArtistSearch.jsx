@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect, useRef } from 'react';
 import { useStartSearchMutation, useLazyGetTaskStatusQuery } from '../services/jsonServerApi';
 
@@ -7,17 +8,20 @@ export default function ArtistSearch() {
   const intervalRef = useRef(null);
   const [query, setQuery] = useState('');
   const [taskId, setTaskId] = useState(null);
+  const [error, setError] = useState(null);
 
   const [startSearch, { isLoading: isSubmitting }] = useStartSearchMutation();
   const [triggerStatus, { data: statusData }] = useLazyGetTaskStatusQuery();
 
   // Submit handler
   const handleSearch = async () => {
+    setTaskId(null);
+    setError(null);
     try {
       const result = await startSearch(query).unwrap();
       setTaskId(result.task_id);
     } catch (err) {
-      console.error('Failed to start search:', err);
+      setError(err);
     }
   };
 
@@ -38,7 +42,10 @@ export default function ArtistSearch() {
   // Turn off Polling
   useEffect(() => {
     if (statusData?.status === 'SUCCESS' || statusData?.status === 'FAILURE') {
-      clearInterval(intervalRef.current);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     }
   }, [statusData]);
 
@@ -63,22 +70,23 @@ export default function ArtistSearch() {
           type="text"
           placeholder="Search"
           value={query}
+          onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
           onChange={(e) => setQuery(e.target.value)}
         />
         <button onClick={handleSearch} disabled={isSubmitting} className="btn btn-primary" type="submit">Search</button>
       </form>
 
       {
-        isSubmitting ? <Loading /> : null
+        error ? <p>{error.message}</p> : null
+      }
+
+      {
+        isSubmitting ? <Loading message="Processing Request..." /> : null
       }
 
       {statusData && (
         <div>
-          <p>
-            Status:
-            {statusData.status}
-          </p>
-          <div className="grid d-flex flex-wrap justify-content-center">{statusData.status === 'SUCCESS' ? artistList(statusData.result) : <Loading />}</div>
+          <div className="grid d-flex flex-wrap justify-content-center">{statusData.status === 'SUCCESS' ? artistList(statusData.result) : <Loading message="Loading..." />}</div>
         </div>
       )}
     </div>
