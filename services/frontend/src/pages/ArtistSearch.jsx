@@ -1,65 +1,54 @@
 /* eslint-disable */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useGetArtistsQuery, useStartSearchMutation, useLazyGetTaskStatusQuery } from '../services/jsonServerApi';
 
 import Loading from '../components/Loading';
 
 export default function ArtistSearch() {
-  const location = useLocation();
+  const intervalRef = useRef(null);
   const [query, setQuery] = useState('');
-  const [artist, setArtist] = useState();
   const [taskId, setTaskId] = useState(null);
-  const [results, setResults] = useState();
+  const [checkStatus, setCheckStatus] = useState(null)
 
-  const [startSearch, { isLoading: isSubmitting }] = useStartSearchMutation();
+  const [startSearch, { isLoading: isSubmitting, error: isError }] = useStartSearchMutation();
   const [triggerStatus, { data: statusData }] = useLazyGetTaskStatusQuery();
 
-  let skipParam = true;
-  if (location.search) {
-    skipParam = false;
-  }
-
-  const [skip, setSkip] = React.useState(skipParam);
-  const {
-    data: musicQuery = [],
-    error,
-    isLoading,
-    isError,
-  } = useGetArtistsQuery(artist, { skip });
-  
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (query.length > 0) {
-      try {
-        console.log("...")
-        setArtist(query);
-        setSkip(false);
-        const result = await startSearch(query).unwrap();
-        setTaskId(result.task_id);
-      } catch (err) {
-        console.error('Failed to start search:', err);
-      }
-
-    } else {
-      setArtist('');
-      setSkip(true);
+  // Submit handler
+  const handleSearch = async () => {
+    try {
+      const result = await startSearch(query).unwrap();
+      setTaskId(result.task_id);
+    } catch (err) {
+      console.error('Failed to start search:', err);
     }
   };
 
+  // Initiate Polling
   useEffect(() => {
     if (!taskId) return;
+    console.log("Start polling task");
 
     const interval = setInterval(() => {
-      console.log(taskId);
+      // debugger;
+      console.log("setInterval!");
+
       triggerStatus(taskId);
     }, 2000); // poll every 2 seconds
 
     return () => clearInterval(interval);
-  }, [taskId, triggerStatus]); 
+  }, [taskId, triggerStatus]);
 
-  const artistList = () => {
-    return musicQuery.results.artists.data.map((artistResult) => (
+  // Turn off Polling
+  useEffect(() => {
+    if (statusData?.status === 'SUCCESS' || statusData?.status === 'FAILURE') {
+      console.log("STATUS 1")
+      clearInterval(intervalRef.current);
+    }
+  }, [statusData])
+
+  const artistList = (res) => {
+    return res.results.artists.data.map((artistResult) => (
       <div className="mt-4 mx-4 card border-secondary artist-search-card g-col-6 g-col-md-4" key={artistResult.id}>
           {
             Object.prototype.hasOwnProperty.call(artistResult.attributes, 'artwork') ? <img src={artistResult.attributes.artwork.url} className="card-img-top" alt={`${artistResult.attributes.name} promo`} /> : <p> No Image Available</p>
@@ -80,25 +69,23 @@ export default function ArtistSearch() {
         <input
           type="text"
           placeholder="Search"
+          value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button onClick={handleSearch} className="btn btn-primary" type="submit">Search</button>
+        <button onClick={handleSearch} disabled={isSubmitting} className="btn btn-primary" type="submit">Search</button>
       </form>
 
       {
-        isError ? <div className="text-danger">{error.error}</div> : null
+        isSubmitting ? <Loading /> : null
       }
 
-      {
-        isLoading ? <Loading /> : null
-      }
-
-      <div className="grid d-flex flex-wrap justify-content-center">
-        {
-          musicQuery.status === 'success' ? artistList() : (<div><div>`Your search is {musicQuery.status}.</div><div> task: {musicQuery.task_id}`</div></div>)
-        }
-      </div>
-
+      {statusData && (
+        <div>
+          <p>Status: {statusData.status}</p>
+          <div className="grid d-flex flex-wrap justify-content-center">{statusData.status === "SUCCESS" ? artistList(statusData.result) : <Loading />}</div>
+          {statusData.result && <p>Result: {JSON.stringify(statusData.result)}</p>}
+        </div>
+      )}
     </div>
   );
 }
