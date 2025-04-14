@@ -201,9 +201,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 REST_USE_JWT = True
 ACCOUNT_EMAIL_VERIFICATION = "none"  # Simplify development; adjust for production
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 
 # Celery Settings
 CELERY_BROKER_URL = os.environ.get("REDIS_URL")
