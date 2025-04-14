@@ -42,21 +42,19 @@ export default function ArtistSearch() {
     }
   }, [statusData]);
 
-  const artistList = (res) => {
-    return res.results.artists.data.map((artistResult) => (
-      <div className="mt-4 mx-4 card border-secondary artist-search-card g-col-6 g-col-md-4" key={artistResult.id}>
-        {
-          Object.prototype.hasOwnProperty.call(artistResult.attributes, 'artwork') ? <img src={artistResult.attributes.artwork.url} className="card-img-top" alt={`${artistResult.attributes.name} promo`} /> : <p> No Image Available</p>
-        }
-        <h2>
-          {artistResult.attributes.name}
-        </h2>
-        <a href={`artist/${artistResult.id}`} className="btn btn-primary" id={artistResult.id}>
-          Choose this artist
-        </a>
-      </div>
-    ));
-  };
+  const artistList = (res) => res.results.artists.data.map((artistResult) => (
+    <div className="mt-4 mx-4 card border-secondary artist-search-card g-col-6 g-col-md-4" key={artistResult.id}>
+      {
+        Object.prototype.hasOwnProperty.call(artistResult.attributes, 'artwork') ? <img src={artistResult.attributes.artwork.url} className="card-img-top" alt={`${artistResult.attributes.name} promo`} /> : <p> No Image Available</p>
+      }
+      <h2>
+        {artistResult.attributes.name}
+      </h2>
+      <a href={`artist/${artistResult.id}`} className="btn btn-primary" id={artistResult.id}>
+        Choose this artist
+      </a>
+    </div>
+  ));
 
   return (
     <div className="my-4 w-90 mx-auto">
