@@ -1,11 +1,12 @@
 from celery import shared_task
+from apple_search.artist_search import artist_search
 import time
 
 @shared_task
 def fetch_artist_data(artist_name):
-  print("fetch_artist_data")
+  res = artist_search(artist_name)
   time.sleep(2)
-  return {"artist": artist_name, "status": "fetched"}
+  return res
 
 @shared_task
 def add(x, y):
