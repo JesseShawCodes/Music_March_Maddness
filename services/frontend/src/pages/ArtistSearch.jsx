@@ -23,7 +23,7 @@ export default function ArtistSearch() {
 
   // Initiate Polling
   useEffect(() => {
-    if (!taskId) return;
+    if (!taskId) return undefined;
     intervalRef.current = setInterval(() => {
       triggerStatus(taskId);
     }, 2000);
