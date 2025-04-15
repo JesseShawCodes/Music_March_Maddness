@@ -215,3 +215,5 @@ BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
 CELERY_REDIS_BACKEND_USE_SSL = {
   "ssl_cert_reqs": ssl.CERT_NONE
 }
+
+CELERY_WORKER_STATE_DB = "/tmp/celery-worker-state"
