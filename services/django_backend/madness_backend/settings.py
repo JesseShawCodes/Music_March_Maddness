@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-
+import ssl
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -204,7 +204,15 @@ ACCOUNT_EMAIL_VERIFICATION = "none"  # Simplify development; adjust for producti
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 
 # Celery Settings
-CELERY_BROKER_URL = os.environ.get("REDIS_URL")
-CELERY_RESULT_BACKEND = os.environ.get("REDIS_URL")
+CELERY_BROKER_URL = os.environ.get("UPSTASH_REDIS_URL")
+CELERY_RESULT_BACKEND = os.environ.get("UPSTASH_REDIS_URL")
+print("hello...")
+print(os.environ.get("UPSTASH_REDIS_URL"))
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
+
+CELERY_REDIS_BACKEND_USE_SSL = {
+  "ssl_cert_reqs": ssl.CERT_NONE
+}
+
+print("CERT updated...")
