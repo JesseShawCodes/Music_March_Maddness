@@ -4,6 +4,7 @@ django-allauth==65.7.0
 django-cors-headers==4.7.0
 django-filter==25.1
 djangorestframework==3.16.0
+gunicorn
 jwt
 mysqlclient==2.1.1
 redis==5.2.1
