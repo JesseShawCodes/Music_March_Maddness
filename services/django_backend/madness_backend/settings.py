@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-n^n9^_+4b49k6^+58b_qx!kgomjx43n6y0-pfon^)*)z!s6s6o'
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -215,5 +215,3 @@ BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
 CELERY_REDIS_BACKEND_USE_SSL = {
   "ssl_cert_reqs": ssl.CERT_NONE
 }
-
-print("CERT updated...")
