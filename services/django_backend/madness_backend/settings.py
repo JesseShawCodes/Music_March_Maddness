@@ -210,6 +210,7 @@ print("hello...")
 print(os.environ.get("UPSTASH_REDIS_URL"))
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
+CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 
 BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
 
