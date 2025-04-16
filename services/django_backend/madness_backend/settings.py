@@ -218,4 +218,5 @@ if os.environ.get("DJANGO_ENV") == "production":
     "ssl_cert_reqs": ssl.CERT_NONE
   }
 
-CELERY_WORKER_STATE_DB = "/tmp/celery-worker-state"
+if os.environ.get("DJANGO_ENV") != "production":
+  CELERY_WORKER_STATE_DB = "/tmp/celery-worker-state"
