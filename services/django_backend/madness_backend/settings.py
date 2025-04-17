@@ -17,6 +17,7 @@ import ssl
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -219,5 +220,4 @@ if os.environ.get("DJANGO_ENV") == "production":
     "ssl_cert_reqs": ssl.CERT_NONE
   }
 
-if os.environ.get("DJANGO_ENV") != "production":
-  CELERY_WORKER_STATE_DB = "/tmp/celery-worker-state"
+CELERY_WORKER_STATE_DB = "/tmp/celery-worker-state"
