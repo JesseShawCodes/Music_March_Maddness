@@ -13,11 +13,10 @@ app = Celery('madness_backend')
 #   should have a `CELERY_` prefix.
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
-app.conf.worker_state_db = None
-
-# app.conf.worker_state_db = '/tmp/celery-worker.db'
+app.conf.worker_state_db = '/tmp/celery-worker.db'
 # app.conf.worker_prefetch_multiplier = 1
 
+print("Option 2... test ")
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
 
