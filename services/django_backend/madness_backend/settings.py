@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-from kombu import SSLTransport
 import os
 import ssl
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
