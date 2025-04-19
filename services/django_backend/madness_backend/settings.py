@@ -207,17 +207,12 @@ ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 # Celery Settings
 CELERY_BROKER_URL = os.environ.get("UPSTASH_REDIS_URL")
 CELERY_RESULT_BACKEND = os.environ.get("UPSTASH_REDIS_URL")
-print("hello...")
-print(os.environ.get("UPSTASH_REDIS_URL"))
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 
 BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
 
-if os.environ.get("DJANGO_ENV") == "production":
-  CELERY_REDIS_BACKEND_USE_SSL = {
-    "ssl_cert_reqs": ssl.CERT_NONE
-  }
-
-CELERY_WORKER_STATE_DB = "/tmp/celery-worker-state"
+CELERY_REDIS_BACKEND_USE_SSL = {
+  "ssl_cert_reqs": ssl.CERT_NONE
+}
