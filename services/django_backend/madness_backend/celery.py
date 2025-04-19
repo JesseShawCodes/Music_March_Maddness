@@ -7,19 +7,10 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'madness_backend.settings')
 
 app = Celery('madness_backend')
 
-# Using a string here means the worker doesn't have to serialize
-# the configuration object to child processes.
-# - namespace='CELERY' means all celery-related configuration keys
-#   should have a `CELERY_` prefix.
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
-app.conf.worker_state_db = '/tmp/celery-worker.db'
-# app.conf.worker_prefetch_multiplier = 1
-
-print("Option 2... test ")
-# Load task modules from all registered Django apps.
+# Discover tasks
 app.autodiscover_tasks()
 
-@app.task(bind=True, ignore_result=True)
-def debug_task(self):
-    print(f'Request: {self.request!r}')
+# Prevent worker_state_db crash in production
+app.conf.worker_state_db = None  # Or use '/tmp/celery_worker_state.db'
