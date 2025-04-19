@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from kombu import SSLTransport
 import os
 import ssl
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -209,7 +210,17 @@ CELERY_BROKER_URL = os.environ.get("UPSTASH_REDIS_URL")
 CELERY_RESULT_BACKEND = os.environ.get("UPSTASH_REDIS_URL")
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
 CELERY_WORKER_PREFETCH_MULTIPLIER = 1
+
+CELERY_BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
+CELERY_REDIS_BACKEND_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
+
+CELERY_RESULT_EXPIRES = 3600
+
+CELERY_RESULT_BACKEND_TRANSPORT_OPTIONS = {
+  "ssl_cert_reqs": ssl.CERT_NONE
+}
 
 BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
 
