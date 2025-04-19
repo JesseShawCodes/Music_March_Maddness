@@ -13,6 +13,8 @@ app = Celery('madness_backend')
 #   should have a `CELERY_` prefix.
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
+app.conf.worker_state_db = None
+
 # app.conf.worker_state_db = '/tmp/celery-worker.db'
 # app.conf.worker_prefetch_multiplier = 1
 
