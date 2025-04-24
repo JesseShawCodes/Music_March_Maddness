@@ -1,7 +1,7 @@
 '''Apple Music API Authorization Related Functions'''
 import time
 import os
-import jwt
+import jwt as pyjwt
 from apple_search.models import AppleAuth
 
 def get_auth_token():
@@ -21,7 +21,7 @@ def get_auth_token():
       "exp": int(time.time()) + 3600,
     }
 
-    developer_token = jwt.encode(payload, private_key, algorithm="ES256", headers=headers)
+    developer_token = pyjwt.encode(payload, private_key, algorithm="ES256", headers=headers)
     AppleAuth.objects.add_auth(developer_token)
     return developer_token
 
