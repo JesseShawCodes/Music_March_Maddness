@@ -6,7 +6,7 @@ from apple_search.models import AppleAuth
 
 def get_auth_token():
     '''Initial Get Auth Token. This should run if newest auth_token has expired'''
-    private_key = open(os.environ["apple_auth_key"], encoding='UTF-8').read()
+    private_key = os.environ['apple_auth_key'].replace('\\n', '\n')
     key_id = os.environ["apple_key_id"]
     team_id = os.environ["apple_team_id"]
 
