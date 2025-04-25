@@ -22,7 +22,11 @@ def artist_page_view(request, artist_id):
 
 def task_status_view(request):
     result = AsyncResult(request.GET.get('q'))
+    print("------hello....--")
+    print(request)
+    print("=-=----------request.......")
     print(result)
+    print("TEST!!!!")
     if result.ready():
       return JsonResponse({
           "status": result.status,
