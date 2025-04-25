@@ -212,9 +212,11 @@ CELERY_RESULT_BACKEND = 'django-db'
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
+
+CELERY_TASK_ALWAYS_EAGER = False
 # CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 
-# CELERY_BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
+CELERY_BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
 # CELERY_REDIS_BACKEND_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
 
 # CELERY_RESULT_EXPIRES = 3600
@@ -223,7 +225,7 @@ CELERY_RESULT_SERIALIZER = "json"
 #  "ssl_cert_reqs": ssl.CERT_NONE
 # }
 
-# BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
+BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
 
 # CELERY_REDIS_BACKEND_USE_SSL = {
 #  "ssl_cert_reqs": ssl.CERT_NONE
