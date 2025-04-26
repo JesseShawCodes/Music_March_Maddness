@@ -47,3 +47,10 @@ To view coverage report
 ```
 coverage report
 ```
+
+#### Celery
+Start Celery from the django_backend/madness_backend folder
+```
+celery -A madness_backend worker --concurrency=4 --loglevel=DEBUG
+```
+
