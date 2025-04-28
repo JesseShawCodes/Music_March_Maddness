@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from apple_search.artist_search import artist_search
 from apple_search.artist_page import artist_content
-from apple_search.tasks import fetch_artist_data
+from apple_search.tasks import fetch_artist_data, add
 
 from celery.result import AsyncResult
 
@@ -10,8 +10,6 @@ def artist_search_view(request):
     # Potential task functions / returns
     task = fetch_artist_data.delay(data)
     return JsonResponse({"task_id": task.id, "status": "queued"})
-    # data['status'] = "success"
-    # return JsonResponse(data)
 
 def artist_page_view(request, artist_id):
     data = {
@@ -21,17 +19,18 @@ def artist_page_view(request, artist_id):
     return JsonResponse(data)
 
 def task_status_view(request):
-    result = AsyncResult(request.GET.get('q'))
-    print("------hello....--")
-    print(request)
-    print("=-=----------request.......")
-    print(result)
-    print("TEST!!!!")
-    if result.ready():
-      return JsonResponse({
-          "status": result.status,
-          "result": result.result
-      })
+  task_id = request.GET.get('q')
+  result = AsyncResult(task_id)
 
-    
-    return JsonResponse({"status": result.status, "request_id": request.GET.get('q', '')})
+  response_data = {
+      "status": result.status,
+      "request_id": task_id
+  }
+
+  if result.ready():
+     if result.successful():
+         response_data['result'] = result.result
+     else:
+         response_data['error'] = str(result.result)
+  
+  return JsonResponse(response_data)

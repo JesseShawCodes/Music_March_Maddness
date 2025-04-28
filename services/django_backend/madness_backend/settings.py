@@ -24,15 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = ["localhost:3000", "localhost", "127.0.0.1", "music-march-maddness.onrender.com", "*"]
-
-AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S#boto3Storage'
 
 # Application definition
 
@@ -207,16 +199,16 @@ ACCOUNT_EMAIL_VERIFICATION = "none"  # Simplify development; adjust for producti
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 
 # Celery Settings
-CELERY_BROKER_URL = os.environ.get("UPSTASH_REDIS_URL")
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 
-CELERY_TASK_ALWAYS_EAGER = False
+# CELERY_TASK_ALWAYS_EAGER = True
 # CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 
-CELERY_BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
+# CELERY_BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
 # CELERY_REDIS_BACKEND_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
 
 # CELERY_RESULT_EXPIRES = 3600
@@ -225,8 +217,23 @@ CELERY_BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
 #  "ssl_cert_reqs": ssl.CERT_NONE
 # }
 
-BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
+# BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
 
 # CELERY_REDIS_BACKEND_USE_SSL = {
 #  "ssl_cert_reqs": ssl.CERT_NONE
 # }
+
+# Backend Expiration to clean celery results in 1 hour.
+CELERY_RESULT_EXPIRES = 3600
+
+if os.environ.get("environment") == "production":
+    # Production settings
+    DEBUG = False
+    CELERY_TASKS_ALWAYS_EAGER = True
+    CELERY_TASKS_EAGER_PROPAGATES = True
+    print("Production settings loaded")
+else:
+    # Development settings
+    DEBUG = True
+    print("Development settings loaded")
+    CELERY_TASKS_ALWAYS_EAGER = True
