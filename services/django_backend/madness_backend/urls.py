@@ -21,9 +21,6 @@ from apple_search.views import artist_search_view, artist_page_view, task_status
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    # Auths are currently being rendered for testing purposes
-    path('api/apple/auths', AppleAuthListView.as_view()),
     path('artist', artist_search_view),
     path('artist-page/<int:artist_id>', artist_page_view),
 
