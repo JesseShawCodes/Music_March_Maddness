@@ -199,7 +199,7 @@ ACCOUNT_EMAIL_VERIFICATION = "none"  # Simplify development; adjust for producti
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 
 # Celery Settings
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = os.environ.get("UPSTASH_REDIS_URL")
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
