@@ -40,9 +40,6 @@ function BracketTable() {
         !state.champion ? <ProgressCircle /> : null
       }
       {
-        championshipRound !== true ? <GroupSelect groups={state.groups} key="Group Select" /> : null
-      }
-      {
         championshipRound === true ? <Championship />
           : state.selectedGroup === 'all'
             ? groupsList.filter((group) => state.selectedGroup === 'all' || group.name === state.selectedGroup)
