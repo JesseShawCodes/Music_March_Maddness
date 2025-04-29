@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect, useRef } from 'react';
 import { useStartSearchMutation, useLazyGetTaskStatusQuery } from '../services/jsonServerApi';
 
@@ -9,14 +8,18 @@ export default function ArtistSearch() {
   const [query, setQuery] = useState('');
   const [taskId, setTaskId] = useState(null);
   const [error, setError] = useState(null);
+  const [results, setResults] = useState(null);
 
   const [startSearch, { isLoading: isSubmitting }] = useStartSearchMutation();
   const [triggerStatus, { data: statusData }] = useLazyGetTaskStatusQuery();
+
+  const isPolling = taskId && (!statusData || (statusData.status !== 'SUCCESS' && statusData.status !== 'FAILURE'));
 
   // Submit handler
   const handleSearch = async () => {
     setTaskId(null);
     setError(null);
+    setResults(null);
     try {
       const result = await startSearch(query).unwrap();
       setTaskId(result.task_id);
@@ -41,7 +44,14 @@ export default function ArtistSearch() {
 
   // Turn off Polling
   useEffect(() => {
-    if (statusData?.status === 'SUCCESS' || statusData?.status === 'FAILURE') {
+    console.log(statusData);
+    if (statusData?.status === 'SUCCESS') {
+      setResults(statusData.result);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    } else if (statusData?.status === 'FAILURE') {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
@@ -65,29 +75,32 @@ export default function ArtistSearch() {
 
   return (
     <div className="my-4 w-90 mx-auto">
-      <form>
+      <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
         <input
           type="text"
           placeholder="Search"
           value={query}
-          onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
           onChange={(e) => setQuery(e.target.value)}
         />
         <button onClick={handleSearch} disabled={isSubmitting} className="btn btn-primary" type="submit">Search</button>
       </form>
 
-      {
-        error ? <p>{error.message}</p> : null
-      }
+      {error && <p>{error.message}</p>}
 
-      {
-        isSubmitting ? <Loading message="Processing Request..." /> : null
-      }
+      {(isSubmitting || isPolling) && <Loading message="Submitting Search..." />}
 
-      {statusData && (
-        <div>
-          <div className="grid d-flex flex-wrap justify-content-center">{statusData.status === 'SUCCESS' ? artistList(statusData.result) : <Loading message="Loading..." />}</div>
+      {statusData && statusData.status === 'PENDING' && (
+        <Loading message="Queued... waiting for results." />
+      )}
+
+      {results && (
+        <div className="grid d-flex flex-wrap justify-content-center">
+          {artistList(results)}
         </div>
+      )}
+
+      {statusData && statusData.status === 'FAILURE' && (
+        <p className="text-danger">There was an error processing your search. Please try again.</p>
       )}
     </div>
   );
