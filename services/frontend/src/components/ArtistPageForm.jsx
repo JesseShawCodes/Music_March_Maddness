@@ -94,7 +94,7 @@ function ArtistPageForm() {
 
   if (!musicQuery.top_songs_list) {
     return (
-      <Loading />
+      <Loading message="Loading artist list of songs..." />
     );
   }
 
