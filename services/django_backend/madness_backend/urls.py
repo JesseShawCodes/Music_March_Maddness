@@ -16,7 +16,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apple_search.api_views import AppleAuthListView
 from apple_search.views import artist_search_view, artist_page_view, task_status_view
 
 urlpatterns = [
