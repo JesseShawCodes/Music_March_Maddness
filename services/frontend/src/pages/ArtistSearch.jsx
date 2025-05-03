@@ -44,7 +44,6 @@ export default function ArtistSearch() {
 
   // Turn off Polling
   useEffect(() => {
-    console.log(statusData);
     if (statusData?.status === 'SUCCESS') {
       setResults(statusData.result);
       if (intervalRef.current) {

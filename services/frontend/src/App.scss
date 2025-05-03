@@ -72,8 +72,9 @@
   height: 100px;
   z-index: 100;
   position: fixed;
-  bottom: 20px; 
-  right: 30px; 
+  bottom: 30px; 
+  right: 30px;
+  transition: opacity 0.4s ease-in-out;
   #back_to_top {
 
       z-index: 99; 

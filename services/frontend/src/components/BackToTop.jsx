@@ -1,9 +1,9 @@
-import { React, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
 function BackToTop() {
-  const setShowButton = () => false;
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
     const handleScrollButtonVisibility = () => {
@@ -14,6 +14,8 @@ function BackToTop() {
       }
     };
     window.addEventListener('scroll', handleScrollButtonVisibility);
+    handleScrollButtonVisibility(); // Call once on mount to set initial state
+
     return () => {
       window.removeEventListener('scroll', handleScrollButtonVisibility);
     };
@@ -24,11 +26,19 @@ function BackToTop() {
   };
 
   return (
-    <div className="scrollToTop" id="back_to_top_container">
-      <button aria-label="Back to Top" id="back_to_top" className="btn-secondary" onClick={handleScrollToTop} type="button">
-        <FontAwesomeIcon icon={faAngleUp} />
-      </button>
-    </div>
+    showButton && (
+      <div className="scrollToTop" id="back_to_top_container">
+        <button
+          aria-label="Back to Top"
+          id="back_to_top"
+          className="btn-secondary"
+          onClick={handleScrollToTop}
+          type="button"
+        >
+          <FontAwesomeIcon icon={faAngleUp} />
+        </button>
+      </div>
+    )
   );
 }
 

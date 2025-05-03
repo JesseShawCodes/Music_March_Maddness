@@ -28,7 +28,7 @@ function App() {
           <main className="flex-grow-1">
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/about" element={<AboutPage heading={content.aboutPage.aboutPageHeading} />} />
+              <Route path="/about" element={<AboutPage heading={content.aboutPage.aboutPageHeading} aboutPageContent={content.aboutPage.aboutPageContent} />} />
               <Route path="/music_search" element={<ArtistSearch />} />
               {/* End Test Pages */}
               <Route path="/artist/:handle" element={<ArtistPage />} />
