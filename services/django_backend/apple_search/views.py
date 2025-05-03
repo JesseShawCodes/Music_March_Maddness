@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from apple_search.artist_search import artist_search
 from apple_search.artist_page import artist_content
 from apple_search.tasks import fetch_artist_data, add
 
