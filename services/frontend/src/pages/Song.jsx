@@ -8,7 +8,7 @@ export default function Song({ song }) {
   };
   return (
     <li className="d-flex justify-content-between song-row" style={{ color: `#${song.attributes.artwork.textColor1}`, backgroundColor: `#${song.attributes.artwork.bgColor}` }}>
-      <img className="album-cover" src={`${song.attributes.artwork.url.replace(/{w}|{h}/g, (match) => dimensions[match])}`} alt={`${song.attributes.albumName} Album Cover`} />
+      <img className="rounded" src={`${song.attributes.artwork.url.replace(/{w}|{h}/g, (match) => dimensions[match])}`} alt={`${song.attributes.albumName} Album Cover`} />
       <div>
         {song.attributes.name }
         -
