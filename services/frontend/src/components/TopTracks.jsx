@@ -18,7 +18,7 @@ function TopTracks() {
       : null;
     return list;
   };
-  return (bracketCreated === false ? <ol className="song-list" id="collapseExample">{songList()}</ol> : '');
+  return (bracketCreated === false ? <ol className="song-list px-0">{songList()}</ol> : '');
 }
 
 export default TopTracks;
