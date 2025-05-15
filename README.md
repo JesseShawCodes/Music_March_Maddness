@@ -19,6 +19,15 @@ python3 manage.py runserver
 
 Database Service using MySQL. MySQL container is currently ran locally via Docker. Working on setting up an AWS Hosted MySQL database.
 
+If you have docker:
+
+```
+docker compose up -d
+```
+
+This starts redis and a Mysql database
+
+
 ### Front End
 
 Front end React Application
@@ -52,5 +61,13 @@ coverage report
 Start Celery from the django_backend/madness_backend folder
 ```
 celery -A madness_backend worker --concurrency=4 --loglevel=DEBUG
+```
+
+### Environment Variables
+
+```
+export apple_search_url="https://api.music.apple.com/v1/catalog/us/search?term="
+apple_artist_details_url="https://api.music.apple.com/v1/catalog/us/"
+UPSTASH_REDIS_URL="redis://localhost:6379/0"
 ```
 
