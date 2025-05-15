@@ -18,6 +18,7 @@ import content from './data/data.json';
 import { ThemeProvider } from './ThemeContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
+import DownloadableP5Image from './components/Bracket';
 
 function App() {
   return (
@@ -30,8 +31,8 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/about" element={<AboutPage heading={content.aboutPage.aboutPageHeading} aboutPageContent={content.aboutPage.aboutPageContent} />} />
               <Route path="/music_search" element={<ArtistSearch />} />
-              {/* End Test Pages */}
               <Route path="/artist/:handle" element={<ArtistPage />} />
+              <Route path="/bracket" element={<DownloadableP5Image />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/create_account" element={<CreateAccountPage />} />
               <Route path="*" element={<NotFoundPage />} />
