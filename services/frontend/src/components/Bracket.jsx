@@ -2,24 +2,18 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import p5 from 'p5';
 
-function DownloadP5ImageHidden(bracketDetails) {
+const DownloadP5ImageHidden = (bracketDetails) => {
     const p5Ref = useRef(null);
     const offscreenCanvasRef = useRef(null);
 
-    const bracketWeight = 5;
-    const bracketColor = "#000"
-    const textWeight = 1;
-    const matchUpSpace = 60;
-    const matchUpHeight = 160;
-    const numTeams = 64;
-    const numRounds = Math.log2(numTeams);
-    let rounds = [];
-    let teams = [];
-
-    // Song boxes
-    let padding = 30;
-
     const generateAndDownload = useCallback(() => {
+        function round1(p, width, height) {
+          console.log("ROUND 1");
+          p.fill(0, 0, 100);
+          p.rect(30, 30, 300, 200);
+          p.fill(255);
+          p.text("HEllo", width/3, height/3);
+        }
         if (p5Ref.current) {
             const p = p5Ref.current;
             const width = 3200;
@@ -28,11 +22,16 @@ function DownloadP5ImageHidden(bracketDetails) {
             offscreenCanvasRef.current = offscreenCanvas.canvas; // Store the canvas element for potential later use
 
             // Draw onto the off-screen canvas
-            offscreenCanvas.background(255, 250, 255);
-            offscreenCanvas.fill(255, 0, 100);
-            offscreenCanvas.textAlign(p.CENTER, p.CENTER);
-            offscreenCanvas.rect(width / 2, height / 2, 300, 200);
+            offscreenCanvas.textSize(36);
+            offscreenCanvas.background(255);
+            offscreenCanvas.fill(0, 0, 1);
+            // offscreenCanvas.rect(50, 50, 300, 200);
             offscreenCanvas.fill(0);
+            offscreenCanvas.textSize(74);
+            offscreenCanvas.textAlign(p.CENTER, p.CENTER);
+            round1(offscreenCanvas, width, height)
+            offscreenCanvas.fill(0);
+            offscreenCanvas.textStyle(p.BOLD);
             offscreenCanvas.textSize(24);
             offscreenCanvas.text(bracketDetails.song, width / 2, height / 2);
 
@@ -58,7 +57,10 @@ function DownloadP5ImageHidden(bracketDetails) {
 
     return (
         <div>
-          <button onClick={handleDownloadClick} className="btn btn-primary">Download your Bracket</button>
+            <button onClick={handleDownloadClick} class="btn btn-primary">Download your Bracket</button>
+            {/* You can optionally add a ref to a div if you want p5 to manage its lifecycle there, */}
+            {/* but for a hidden download, it's not strictly necessary for the visual rendering. */}
+            {/* <div ref={canvasRef} style={{ display: 'none' }} /> */}
         </div>
     );
 };
