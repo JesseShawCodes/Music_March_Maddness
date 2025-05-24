@@ -18,8 +18,6 @@ const DownloadP5ImageHidden = (bracketDetails) => {
     const matchUpSpace = 60;
     const matchUpHeight = 160;
 
-    const numTeams = 64;
-
     // Song boxes
     let padding = 30;
 
@@ -35,15 +33,9 @@ const DownloadP5ImageHidden = (bracketDetails) => {
           offScreenCanvas.line(lineStartX, yStart, lineEndX, yStart);
           offScreenCanvas.line(lineEndX, yStart, lineEndX, yStart + height);
           offScreenCanvas.line(lineEndX, yStart + height, lineStartX, yStart + height);
-          console.log(`
-            ${yStart}
-            ${lineStartX}  
-            ${lineEndX}
-          `)
           offScreenCanvas.textSize(45)
 
           var songAttrs = getSongAttributes(group, iteration, 'song1');
-          console.log(songAttrs);
           bracketContentSong(
             offScreenCanvas,
             yStart, 
@@ -55,7 +47,6 @@ const DownloadP5ImageHidden = (bracketDetails) => {
             position
           );
           var songAttrs = getSongAttributes(group, iteration, 'song2');
-          console.log(songAttrs);
           bracketContentSong(
             offScreenCanvas,
             yStart + height, 
@@ -68,7 +59,7 @@ const DownloadP5ImageHidden = (bracketDetails) => {
           );
         }
 
-        function bracketContentSong(offScreenCanvas, yStart, rectStart, rectEnd, bgColor, songName, textColor, position, fontSize = 36, rectangleHeight = 40, yStartSong = 10) {
+        function bracketContentSong(offScreenCanvas, yStart, rectStart, rectEnd, bgColor, songName, textColor, position, fontSize = 18, rectangleHeight = 40, yStartSong = 10) {
           offScreenCanvas.textSize(fontSize)
           let rectWidth = offScreenCanvas.textWidth(songName) + 2 * padding;
           if (position === "right") {
@@ -102,11 +93,21 @@ const DownloadP5ImageHidden = (bracketDetails) => {
           let groups = [groupA, groupB];
           for (let i = 0; i < groups.length; i++) {
             for (let r = 0; r < groups[i].length; r++) {
-              bracketContent(offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, yStart, color, position, height);
+              bracketContent(offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, color, position, height);
               yStart += (matchUpHeight * 2) + (matchUpSpace * 2);
             }
           }
-        }        
+        }
+        function round3(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height) {
+          console.log("Round 2...")
+          let groups = [groupA, groupB];
+          for (let i = 0; i < groups.length; i++) {
+            for (let r = 0; r < groups[i].length; r++) {
+              bracketContent(offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, color, position, height);
+              yStart += (matchUpHeight * 4) + (matchUpSpace * 4);
+            }
+          }
+        }   
         if (p5Ref.current) {
             const p = p5Ref.current;
 
@@ -139,7 +140,6 @@ const DownloadP5ImageHidden = (bracketDetails) => {
               "left",
               (matchUpHeight * 1.5)
             )
-            /*
             round2(
               offscreenCanvas,
               55 + (matchUpHeight / 2), 
@@ -150,8 +150,32 @@ const DownloadP5ImageHidden = (bracketDetails) => {
               state.bracket.group4.round2.roundMatchups, 
               "right",
               (matchUpHeight * 1.5)
-            )
-            */
+            );
+
+            round3(
+              offscreenCanvas,
+              55 + (matchUpHeight * 1.5), 
+              bracketColor, 
+              390, 
+              640,
+              state.bracket.group1.round3.roundMatchups, 
+              state.bracket.group2.round3.roundMatchups, 
+              "left",
+              matchUpHeight * 2.5
+            );
+
+            round3(
+              offscreenCanvas,
+              55 + (matchUpHeight * 1.5), 
+              bracketColor, 
+              width - 390, 
+              width - 640,
+              state.bracket.group3.round3.roundMatchups, 
+              state.bracket.group4.round3.roundMatchups, 
+              "right",
+              matchUpHeight * 2.5
+            );
+
             offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
         }
     }, []);
