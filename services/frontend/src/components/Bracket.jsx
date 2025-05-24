@@ -89,7 +89,6 @@ const DownloadP5ImageHidden = (bracketDetails) => {
             }
         }
         function round2(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height) {
-          console.log("Round 2...")
           let groups = [groupA, groupB];
           for (let i = 0; i < groups.length; i++) {
             for (let r = 0; r < groups[i].length; r++) {
@@ -99,12 +98,21 @@ const DownloadP5ImageHidden = (bracketDetails) => {
           }
         }
         function round3(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height) {
-          console.log("Round 2...")
           let groups = [groupA, groupB];
           for (let i = 0; i < groups.length; i++) {
             for (let r = 0; r < groups[i].length; r++) {
               bracketContent(offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, color, position, height);
               yStart += (matchUpHeight * 4) + (matchUpSpace * 4);
+            }
+          }
+        }  
+        
+        function round4(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height) {
+          let groups = [groupA, groupB];
+          for (let i = 0; i < groups.length; i++) {
+            for (let r = 0; r < groups[i].length; r++) {
+              bracketContent(offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, color, position, height);
+              yStart += (matchUpHeight * 8) + (matchUpSpace * 8);
             }
           }
         }   
@@ -121,11 +129,7 @@ const DownloadP5ImageHidden = (bracketDetails) => {
             offscreenCanvas.background(255, 255, 255);
             
             offscreenCanvas.strokeWeight(bracketWeight);
-            /*
-            round parameters
-            offScreenCanvase
 
-            */
             round1(offscreenCanvas, 55, bracketColor, 10, 200, state.bracket.group1.round1.roundMatchups, state.bracket.group2.round1.roundMatchups, "left", matchUpHeight)
             round1(offscreenCanvas, 55, bracketColor, width - 10, width - 200, state.bracket.group3.round1.roundMatchups, state.bracket.group4.round1.roundMatchups, "right", matchUpHeight)
 
@@ -174,6 +178,30 @@ const DownloadP5ImageHidden = (bracketDetails) => {
               state.bracket.group4.round3.roundMatchups, 
               "right",
               matchUpHeight * 2.5
+            );
+
+            round4(
+              offscreenCanvas,
+              55 + (matchUpHeight * 3), 
+              bracketColor, 
+              640, 
+              900,
+              state.bracket.group1.round4.roundMatchups,
+              state.bracket.group2.round4.roundMatchups,
+              "left",
+              matchUpHeight * 5
+            );
+
+            round4(
+              offscreenCanvas,
+              55 + (matchUpHeight * 3), 
+              bracketColor, 
+              width - 640, 
+              width - 900,
+              state.bracket.group3.round4.roundMatchups,
+              state.bracket.group4.round4.roundMatchups,
+              "right",
+              matchUpHeight * 5
             );
 
             offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
