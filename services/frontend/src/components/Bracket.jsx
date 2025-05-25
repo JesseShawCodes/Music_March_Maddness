@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {
   useRef,
   useEffect,
@@ -39,24 +38,24 @@ const DownloadP5ImageHidden = (bracketDetails) => {
       var songAttrs = getSongAttributes(group, iteration, 'song1');
       bracketContentSong(
         offScreenCanvas,
-        yStart, 
-        lineStartX, 
+        yStart,
+        lineStartX,
         lineEndX,
-        songAttrs.artwork.bgColor, 
-        songAttrs.name, 
-        songAttrs.artwork.textColor2, 
-        position
+        songAttrs.artwork.bgColor,
+        songAttrs.name,
+        songAttrs.artwork.textColor2,
+        position,
       );
       var songAttrs = getSongAttributes(group, iteration, 'song2');
       bracketContentSong(
         offScreenCanvas,
-        yStart + height, 
-        lineStartX, 
+        yStart + height,
+        lineStartX,
         lineEndX,
-        songAttrs.artwork.bgColor, 
-        songAttrs.name, 
-        songAttrs.artwork.textColor2, 
-        position
+        songAttrs.artwork.bgColor,
+        songAttrs.name,
+        songAttrs.artwork.textColor2,
+        position,
       );
     }
 
@@ -118,7 +117,7 @@ const DownloadP5ImageHidden = (bracketDetails) => {
       }
     }
     function round5(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, position, height, iteration) {
-      bracketContent(offScreenCanvas, yStart, groupA, iteration, lineStartX, lineEndX, yStart, color, position, height)
+      bracketContent(offScreenCanvas, yStart, groupA, iteration, lineStartX, lineEndX, yStart, color, position, height);
     }
     if (p5Ref.current) {
         const p = p5Ref.current;
@@ -139,46 +138,46 @@ const DownloadP5ImageHidden = (bracketDetails) => {
 
         round2(
           offscreenCanvas,
-          55 + (matchUpHeight / 2), 
-          bracketColor, 
-          200, 
-          200 + 190, 
-          state.bracket.group1.round2.roundMatchups, 
+          55 + (matchUpHeight / 2),
+          bracketColor,
+          200,
+          200 + 190,
+          state.bracket.group1.round2.roundMatchups,
           state.bracket.group2.round2.roundMatchups, 
           "left",
           (matchUpHeight * 1.5)
         )
         round2(
           offscreenCanvas,
-          55 + (matchUpHeight / 2), 
-          bracketColor, 
-          width - (200), 
-          width - (420), 
-          state.bracket.group3.round2.roundMatchups, 
-          state.bracket.group4.round2.roundMatchups, 
+          55 + (matchUpHeight / 2),
+          bracketColor,
+          width - (200),
+          width - (420),
+          state.bracket.group3.round2.roundMatchups,
+          state.bracket.group4.round2.roundMatchups,
           "right",
           (matchUpHeight * 1.5)
         );
 
         round3(
           offscreenCanvas,
-          55 + (matchUpHeight * 1.5), 
-          bracketColor, 
-          390, 
+          55 + (matchUpHeight * 1.5),
+          bracketColor,
+          390,
           640,
-          state.bracket.group1.round3.roundMatchups, 
-          state.bracket.group2.round3.roundMatchups, 
+          state.bracket.group1.round3.roundMatchups,
+          state.bracket.group2.round3.roundMatchups,
           "left",
           matchUpHeight * 2.5
         );
 
         round3(
           offscreenCanvas,
-          55 + (matchUpHeight * 1.5), 
-          bracketColor, 
-          width - 390, 
+          55 + (matchUpHeight * 1.5),
+          bracketColor,
+          width - 390,
           width - 640,
-          state.bracket.group3.round3.roundMatchups, 
+          state.bracket.group3.round3.roundMatchups,
           state.bracket.group4.round3.roundMatchups, 
           "right",
           matchUpHeight * 2.5
@@ -237,29 +236,29 @@ const DownloadP5ImageHidden = (bracketDetails) => {
     }
   }, []);
 
-    useEffect(() => {
-        p5Ref.current = new p5(() => {}, document.createElement('div')); // Create a p5 instance without attaching to DOM
+  useEffect(() => {
+      p5Ref.current = new p5(() => {}, document.createElement('div')); // Create a p5 instance without attaching to DOM
 
-        return () => {
-            if (p5Ref.current) {
-                p5Ref.current.remove();
-                p5Ref.current = null;
-            }
-        };
-    }, []);
+      return () => {
+          if (p5Ref.current) {
+              p5Ref.current.remove();
+              p5Ref.current = null;
+          }
+      };
+  }, []);
 
-    const handleDownloadClick = () => {
-        generateAndDownload();
-    };
+  const handleDownloadClick = () => {
+      generateAndDownload();
+  };
 
-    return (
-        <div>
-            <button onClick={handleDownloadClick} className="btn btn-primary">Download your Bracket</button>
-            {/* You can optionally add a ref to a div if you want p5 to manage its lifecycle there, */}
-            {/* but for a hidden download, it's not strictly necessary for the visual rendering. */}
-            {/* <div ref={canvasRef} style={{ display: 'none' }} /> */}
-        </div>
-    );
+  return (
+    <div>
+      <button onClick={handleDownloadClick} className="btn btn-primary" type="button">Download your Bracket</button>
+      {/* You can optionally add a ref to a div if you want p5 to manage its lifecycle there, */}
+      {/* but for a hidden download, it's not strictly necessary for the visual rendering. */}
+      {/* <div ref={canvasRef} style={{ display: 'none' }} /> */}
+    </div>
+  );
 };
 
 export default DownloadP5ImageHidden;
