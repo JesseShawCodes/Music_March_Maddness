@@ -23,20 +23,32 @@ const DownloadP5ImageHidden = (bracketDetails) => {
   const matchUpSpace = 60;
   const matchUpHeight = 160;
 
+  const bracketXStart = 10;
+
   // Song boxes
   const padding = 30;
 
   const generateAndDownload = useCallback(() => {
-
-    function bracketContent(offScreenCanvas, yStart, group, iteration, lineStartX, lineEndX, color, position, height, fontSize = 45, rectangleHeight = 40) {
+    function bracketContent(
+      offScreenCanvas,
+      yStart,
+      group,
+      iteration,
+      lineStartX,
+      lineEndX,
+      color,
+      position,
+      height,
+      fontSize = 45,
+      rectangleHeight = 40,
+    ) {
+      var songAttrs = getSongAttributes(group, iteration, 'song1');
       offScreenCanvas.stroke(color);
       offScreenCanvas.strokeWeight(bracketWeight);
       offScreenCanvas.line(lineStartX, yStart, lineEndX, yStart);
       offScreenCanvas.line(lineEndX, yStart, lineEndX, yStart + height);
       offScreenCanvas.line(lineEndX, yStart + height, lineStartX, yStart + height);
-      offScreenCanvas.textSize(fontSize)
-
-      var songAttrs = getSongAttributes(group, iteration, 'song1');
+      offScreenCanvas.textSize(fontSize);
       bracketContentSong(
         offScreenCanvas,
         yStart,
@@ -47,9 +59,9 @@ const DownloadP5ImageHidden = (bracketDetails) => {
         songAttrs.artwork.textColor2,
         position,
         fontSize,
-        rectangleHeight
+        rectangleHeight,
       );
-      var songAttrs = getSongAttributes(group, iteration, 'song2');
+      songAttrs = getSongAttributes(group, iteration, 'song2');
       bracketContentSong(
         offScreenCanvas,
         yStart + height,
@@ -60,11 +72,23 @@ const DownloadP5ImageHidden = (bracketDetails) => {
         songAttrs.artwork.textColor2,
         position,
         fontSize,
-        rectangleHeight
+        rectangleHeight,
       );
     }
 
-    function bracketContentSong(offScreenCanvas, yStart, rectStart, rectEnd, bgColor, songName, textColor, position, fontSize = 18, rectangleHeight = 40, yStartSong = 10) {
+    function bracketContentSong(
+      offScreenCanvas,
+      yStart,
+      rectStart,
+      rectEnd,
+      bgColor,
+      songName,
+      textColor,
+      position,
+      fontSize = 18,
+      rectangleHeight = 40,
+      yStartSong = 10
+    ) {
       offScreenCanvas.textSize(fontSize)
       let rectWidth = offScreenCanvas.textWidth(songName) + 2 * padding;
       if (position === "right") {
@@ -147,9 +171,32 @@ const DownloadP5ImageHidden = (bracketDetails) => {
         offscreenCanvas.strokeWeight(bracketWeight);
 
         let round1Length = 200;
+        let round2length;
+        let round3length;
+        let round4length;
 
-        round1(offscreenCanvas, 55, bracketColor, 10, round1Length, state.bracket.group1.round1.roundMatchups, state.bracket.group2.round1.roundMatchups, "left", matchUpHeight)
-        round1(offscreenCanvas, 55, bracketColor, width - 10, width - round1Length, state.bracket.group3.round1.roundMatchups, state.bracket.group4.round1.roundMatchups, "right", matchUpHeight)
+        round1(
+          offscreenCanvas, 
+          55, 
+          bracketColor, 
+          bracketXStart, 
+          round1Length + bracketXStart, 
+          state.bracket.group1.round1.roundMatchups, 
+          state.bracket.group2.round1.roundMatchups, 
+          "left", // Left or Right Side of Bracket
+          matchUpHeight
+        )
+        round1(
+          offscreenCanvas, 
+          55, 
+          bracketColor, 
+          width - bracketXStart, 
+          width - round1Length, 
+          state.bracket.group3.round1.roundMatchups, 
+          state.bracket.group4.round1.roundMatchups, 
+          "right", 
+          matchUpHeight
+        )
 
         round2(
           offscreenCanvas,
