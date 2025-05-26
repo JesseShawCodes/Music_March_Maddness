@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {
   useRef,
   useEffect,
@@ -117,7 +118,15 @@ const DownloadP5ImageHidden = (bracketDetails) => {
       }
     }
     function round5(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, position, height, iteration) {
-      bracketContent(offScreenCanvas, yStart, groupA, iteration, lineStartX, lineEndX, yStart, color, position, height);
+      bracketContent(offScreenCanvas, yStart, groupA, iteration, lineStartX, lineEndX, color, position, height);
+    }
+
+    function round6(offScreenCanvas, yStart, xStart, xEnd, color, groupA) {
+      // stroke(color);
+
+      bracketContentSong(offScreenCanvas, yStart, xStart, xEnd, groupA[0].attributes.song1.song.attributes.artwork.bgColor, groupA[0].attributes.song1.song.attributes.name, groupA[0].attributes.song1.song.attributes.artwork.textColor2, "left", 56, 100, 40);
+
+      bracketContentSong(offScreenCanvas, yStart, width - xEnd, width - xStart, groupA[0].attributes.song2.song.attributes.artwork.bgColor, groupA[0].attributes.song2.song.attributes.name, groupA[0].attributes.song2.song.attributes.artwork.textColor2, "right", 56, 100, 40);
     }
     if (p5Ref.current) {
         const p = p5Ref.current;
@@ -231,6 +240,9 @@ const DownloadP5ImageHidden = (bracketDetails) => {
           matchUpHeight * 10,
           1
         );
+
+        round6(offscreenCanvas, height - (height * 0.05), 600, 600, bracketColor, state.championshipBracket.round5.roundMatchups);
+
 
         offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
     }
