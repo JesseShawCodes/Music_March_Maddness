@@ -15,7 +15,7 @@ const DownloadP5ImageHidden = (bracketDetails) => {
   const value = useContext(Context);
   const [state] = value;
 
-  const width = 3200;
+  const width = 4200;
   const height = 3800;
 
   const bracketWeight = 5;
@@ -28,13 +28,13 @@ const DownloadP5ImageHidden = (bracketDetails) => {
 
   const generateAndDownload = useCallback(() => {
 
-    function bracketContent(offScreenCanvas, yStart, group, iteration, lineStartX, lineEndX, color, position, height) {
+    function bracketContent(offScreenCanvas, yStart, group, iteration, lineStartX, lineEndX, color, position, height, fontSize = 45, rectangleHeight = 40) {
       offScreenCanvas.stroke(color);
       offScreenCanvas.strokeWeight(bracketWeight);
       offScreenCanvas.line(lineStartX, yStart, lineEndX, yStart);
       offScreenCanvas.line(lineEndX, yStart, lineEndX, yStart + height);
       offScreenCanvas.line(lineEndX, yStart + height, lineStartX, yStart + height);
-      offScreenCanvas.textSize(45)
+      offScreenCanvas.textSize(fontSize)
 
       var songAttrs = getSongAttributes(group, iteration, 'song1');
       bracketContentSong(
@@ -46,6 +46,8 @@ const DownloadP5ImageHidden = (bracketDetails) => {
         songAttrs.name,
         songAttrs.artwork.textColor2,
         position,
+        fontSize,
+        rectangleHeight
       );
       var songAttrs = getSongAttributes(group, iteration, 'song2');
       bracketContentSong(
@@ -57,6 +59,8 @@ const DownloadP5ImageHidden = (bracketDetails) => {
         songAttrs.name,
         songAttrs.artwork.textColor2,
         position,
+        fontSize,
+        rectangleHeight
       );
     }
 
@@ -108,17 +112,17 @@ const DownloadP5ImageHidden = (bracketDetails) => {
       }
     }  
     
-    function round4(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height) {
+    function round4(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height, fontSize) {
       let groups = [groupA, groupB];
       for (let i = 0; i < groups.length; i++) {
         for (let r = 0; r < groups[i].length; r++) {
-          bracketContent(offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, color, position, height);
+          bracketContent(offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, color, position, height, fontSize);
           yStart += (matchUpHeight * 8) + (matchUpSpace * 8);
         }
       }
     }
-    function round5(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, position, height, iteration) {
-      bracketContent(offScreenCanvas, yStart, groupA, iteration, lineStartX, lineEndX, color, position, height);
+    function round5(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, position, height, iteration, fontSize) {
+      bracketContent(offScreenCanvas, yStart, groupA, iteration, lineStartX, lineEndX, color, position, height, fontSize, 50);
     }
 
     function round6(offScreenCanvas, yStart, xStart, xEnd, color, groupA) {
@@ -126,7 +130,7 @@ const DownloadP5ImageHidden = (bracketDetails) => {
 
       bracketContentSong(offScreenCanvas, yStart, xStart, xEnd, groupA[0].attributes.song1.song.attributes.artwork.bgColor, groupA[0].attributes.song1.song.attributes.name, groupA[0].attributes.song1.song.attributes.artwork.textColor2, "left", 56, 100, 40);
 
-      bracketContentSong(offScreenCanvas, yStart, width - xEnd, width - xStart, groupA[0].attributes.song2.song.attributes.artwork.bgColor, groupA[0].attributes.song2.song.attributes.name, groupA[0].attributes.song2.song.attributes.artwork.textColor2, "right", 56, 100, 40);
+      bracketContentSong(offScreenCanvas, yStart, width - xEnd, width - xStart, groupA[1].attributes.song2.song.attributes.artwork.bgColor, groupA[1].attributes.song2.song.attributes.name, groupA[1].attributes.song2.song.attributes.artwork.textColor2, "right", 56, 100, 40);
     }
     if (p5Ref.current) {
         const p = p5Ref.current;
@@ -142,14 +146,16 @@ const DownloadP5ImageHidden = (bracketDetails) => {
         
         offscreenCanvas.strokeWeight(bracketWeight);
 
-        round1(offscreenCanvas, 55, bracketColor, 10, 200, state.bracket.group1.round1.roundMatchups, state.bracket.group2.round1.roundMatchups, "left", matchUpHeight)
-        round1(offscreenCanvas, 55, bracketColor, width - 10, width - 200, state.bracket.group3.round1.roundMatchups, state.bracket.group4.round1.roundMatchups, "right", matchUpHeight)
+        let round1Length = 200;
+
+        round1(offscreenCanvas, 55, bracketColor, 10, round1Length, state.bracket.group1.round1.roundMatchups, state.bracket.group2.round1.roundMatchups, "left", matchUpHeight)
+        round1(offscreenCanvas, 55, bracketColor, width - 10, width - round1Length, state.bracket.group3.round1.roundMatchups, state.bracket.group4.round1.roundMatchups, "right", matchUpHeight)
 
         round2(
           offscreenCanvas,
           55 + (matchUpHeight / 2),
           bracketColor,
-          200,
+          round1Length,
           200 + 190,
           state.bracket.group1.round2.roundMatchups,
           state.bracket.group2.round2.roundMatchups, 
@@ -160,7 +166,7 @@ const DownloadP5ImageHidden = (bracketDetails) => {
           offscreenCanvas,
           55 + (matchUpHeight / 2),
           bracketColor,
-          width - (200),
+          width - (round1Length),
           width - (420),
           state.bracket.group3.round2.roundMatchups,
           state.bracket.group4.round2.roundMatchups,
@@ -201,7 +207,8 @@ const DownloadP5ImageHidden = (bracketDetails) => {
           state.bracket.group1.round4.roundMatchups,
           state.bracket.group2.round4.roundMatchups,
           "left",
-          matchUpHeight * 5
+          matchUpHeight * 5,
+          60
         );
 
         round4(
@@ -213,7 +220,8 @@ const DownloadP5ImageHidden = (bracketDetails) => {
           state.bracket.group3.round4.roundMatchups,
           state.bracket.group4.round4.roundMatchups,
           "right",
-          matchUpHeight * 5
+          matchUpHeight * 5,
+          60
         );
 
 
@@ -226,7 +234,8 @@ const DownloadP5ImageHidden = (bracketDetails) => {
           state.championshipBracket.round5.roundMatchups,
           "left",
           matchUpHeight * 10,
-          0
+          0,
+          45
         )
 
         round5(
@@ -238,7 +247,8 @@ const DownloadP5ImageHidden = (bracketDetails) => {
           state.championshipBracket.round5.roundMatchups,
           "right",
           matchUpHeight * 10,
-          1
+          1,
+          45
         );
 
         round6(offscreenCanvas, height - (height * 0.05), 600, 600, bracketColor, state.championshipBracket.round5.roundMatchups);
