@@ -5,7 +5,6 @@ import DownloadP5ImageHidden from './Bracket';
 function Champion() {
   const value = useContext(Context);
   const [state] = value;
-  console.log(state.values.artist_name);
 
   return (
     <div className="mt-4">
