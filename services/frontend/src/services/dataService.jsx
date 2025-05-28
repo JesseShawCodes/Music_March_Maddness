@@ -12,7 +12,6 @@ export function generateFinalRound(winnersList) {
   const nextRound = {
     final: [],
   };
-  // Something isn't right here.
   for (let i = 0; i < winnersList.length; i++) {
     nextRound.final.push(winnersList[i].attributes.winner);
   }
@@ -52,7 +51,6 @@ export function generateNextRound(stateObject) {
   } else {
     groupList = stateObject.bracket;
   }
-  // const groupList = stateObject.bracket;
 
   let winnersGroup = {
     group1: [],
@@ -79,7 +77,6 @@ export function generateNextRound(stateObject) {
 
 
   if (stateObject.round == 5) {
-    // return generateFinalRound(winnersGroup);
     const finalMatchup = {
       matchupId: `${winnersGroup[0].id}${winnersGroup[1].id}`,
       attributes: {

@@ -10,10 +10,8 @@ function LoginPage() {
 
   const login = async () => {
     try {
-      // console.log('Login');
       navigate('/about');
     } catch (e) {
-      // console.log('Login error');
       setError(e.message);
     }
   };
