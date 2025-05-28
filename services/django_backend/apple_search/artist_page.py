@@ -2,11 +2,14 @@
 import os
 import requests
 from apple_search.auth import get_auth_token, get_newest_auth
+from apple_search.artist_search import format_image
 
 def artist_content(artist_id):
     '''Final render of output to the page'''
     output = {}
-    output['artist_name'] = artist_name(artist_id)
+    artist_details = get_artist_high_level_details(artist_id)
+    output['artist_name'] = artist_details['name']
+    output['artist_image'] = format_image(artist_details['image_url'])
     output['featured_albums'] = featured_album_details(artist_id)
     if "errors" in output['featured_albums']:
         output['top_songs_list'] = add_weight_to_songs(
@@ -20,8 +23,8 @@ def artist_content(artist_id):
         )
     return output
 
-def artist_name(artist_id):
-    '''Get High Level Artist Details'''
+def get_artist_high_level_details(artist_id):
+    '''Get High Level Artist Details including name and image URL'''
     headers = {'Authorization': f'Bearer {get_newest_auth()}'}
     artist = requests.get(
         f"{os.environ['apple_artist_details_url']}artists/{artist_id}",
@@ -34,7 +37,11 @@ def artist_name(artist_id):
                       headers=headers,
                       timeout=5
                     )
-    return artist.json()['data'][0]['attributes']['name']
+    artist_data = artist.json()['data'][0]['attributes']
+    return {
+        'name': artist_data['name'],
+        'image_url': artist_data['artwork']['url']
+    }
 
 
 def check_substrings(string, substrings):
@@ -115,9 +122,6 @@ def add_weight_to_songs(songs_list, albums_list):
         albums_name_list.append(album['attributes']['name'])
     for idx, song in enumerate(songs_list):
         song['rank'] = idx + 1
-        if song['attributes']['albumName'] in albums_name_list:
-            song['featured_album'] = True
-        else:
-            song['featured_album'] = False
+        song['featured_album'] = song['attributes']['albumName'] in albums_name_list
     # Remove objects with the attribute 'has_attribute' set to True
     return songs_list

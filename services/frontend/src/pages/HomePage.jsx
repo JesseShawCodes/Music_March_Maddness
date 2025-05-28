@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function HomePage({ homeHeading = 'This is the Home page', homeContent = 'sfsafs' }) {
+function HomePage({
+  homeHeading = 'Build the Ultimate Song Bracket for Your Favorite Artist',
+  homeSubHeading = 'Pick your favorites, round by round. Crown your winner. Share your bracket with the world.',
+  homeContent = 'Turn a musician’s discography into your own personal tournament. We rank the songs—your job is to pick the winners until one song is left standing. Once your bracket is complete, export and share it with friends.',
+}) {
   return (
-    <div className="container app-container">
+    <div className="container">
       <h1>{homeHeading}</h1>
+      <h2>{homeSubHeading}</h2>
       {homeContent}
     </div>
   );
@@ -13,11 +18,7 @@ function HomePage({ homeHeading = 'This is the Home page', homeContent = 'sfsafs
 export default HomePage;
 
 HomePage.propTypes = {
-  homeHeading: PropTypes.string,
-  homeContent: PropTypes.string,
-};
-
-HomePage.defaultProps = {
-  homeHeading: 'This is the Home page',
-  homeContent: 'fff',
+  homeHeading: PropTypes.string.isRequired,
+  homeSubHeading: PropTypes.string.isRequired,
+  homeContent: PropTypes.string.isRequired,
 };

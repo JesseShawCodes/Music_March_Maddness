@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function AboutPage({ aboutHeading = 'This is the About page', aboutPageContent = 'sfsafs' }) {
   return (
-    <div className="container app-container">
+    <div className="container">
       <h1>{aboutHeading}</h1>
       {aboutPageContent}
     </div>
