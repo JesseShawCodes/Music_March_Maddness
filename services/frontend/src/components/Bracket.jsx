@@ -155,6 +155,15 @@ const DownloadP5ImageHidden = (bracketDetails) => {
 
       bracketContentSong(offScreenCanvas, yStart, width - xEnd, width - xStart, groupA[1].attributes.song2.song.attributes.artwork.bgColor, groupA[1].attributes.song2.song.attributes.name, groupA[1].attributes.song2.song.attributes.artwork.textColor2, "right", 56, 100, 40);
     }
+
+
+    function drawCenteredRect(offScreenCanvas, centerX, centerY, rectWidth, rectHeight, winner) {
+      offScreenCanvas.fill(`#${winner.song.attributes.artwork.bgColor}`);
+      let x = centerX - rectWidth / 2;
+      let y = centerY - rectHeight / 2;
+      offScreenCanvas.rect(x, y, rectWidth, rectHeight);
+    }
+
     if (p5Ref.current) {
         const p = p5Ref.current;
 
@@ -167,6 +176,15 @@ const DownloadP5ImageHidden = (bracketDetails) => {
 
         let img; 
         const targetImageWidth = 400;
+        function winner(offScreenCanvas, winner) {
+          offScreenCanvas.noStroke();
+          offScreenCanvas.fontSize(50);
+          offScreenCanvas.textAlign(p.CENTER);
+          offScreenCanvas.fill(`#${winner.song.attributes.artwork.textColor2}`);
+          offScreenCanvas.text("Winner:", width - (width * 0.5), height - (height * 0.25))
+          offScreenCanvas.text(winner.song.attributes.name, width - (width * 0.5), height - (height * 0.2))
+          offScreenCanvas.textAlign(p.LEFT)
+        }
 
         if (state.values.artist_image) {
             img = p.loadImage(state.values.artist_image,
@@ -175,6 +193,7 @@ const DownloadP5ImageHidden = (bracketDetails) => {
                     const imgX = (width / 2) - (targetImageWidth / 2);
 
                     // Draw the image at the calculated centered position
+                    // Example: Image Url, x, y, width, height
                     offscreenCanvas.image(img, imgX, 400, targetImageWidth, 400);
 
                     // Continue with other drawing operations
@@ -322,6 +341,8 @@ const DownloadP5ImageHidden = (bracketDetails) => {
             );
 
             round6(offScreenCanvas, height - (height * 0.05), 600, 600, bracketColor, state.championshipBracket.round5.roundMatchups);
+
+            winner(offScreenCanvas, state.champion);
         }
     }
   }, [bracketDetails, state.values.artist_image, state]);
@@ -337,17 +358,10 @@ const DownloadP5ImageHidden = (bracketDetails) => {
       };
   }, []);
 
-  const handleDownloadClick = () => {
-      generateAndDownload();
-  };
-
   return (
-    <div>
-      <button onClick={handleDownloadClick} className="btn btn-primary" type="button">Download your Bracket</button>
-      {/* You can optionally add a ref to a div if you want p5 to manage its lifecycle there, */}
-      {/* but for a hidden download, it's not strictly necessary for the visual rendering. */}
-      {/* <div ref={canvasRef} style={{ display: 'none' }} /> */}
-    </div>
+    <>
+      <button onClick={generateAndDownload} className="btn btn-primary" type="button">Download your Bracket</button>
+    </>
   );
 };
 
