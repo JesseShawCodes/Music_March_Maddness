@@ -25,9 +25,6 @@ function DownloadP5ImageHidden(bracketDetails) {
 
   const bracketXStart = 10;
 
-  // Song boxes
-  const padding = 30;
-
   const generateAndDownload = useCallback(() => {
     function bracketContent(
       offScreenCanvas,
@@ -89,19 +86,40 @@ function DownloadP5ImageHidden(bracketDetails) {
       rectangleHeight = 40,
       yStartSong = 10
     ) {
-      offScreenCanvas.textSize(fontSize)
+      offScreenCanvas.textSize(fontSize);
+
+      const padding = 10;
+
       let rectWidth = offScreenCanvas.textWidth(songName) + 2 * padding;
+
       if (position === "right") {
-        var endX = (width) - 10 - (width - rectStart);
+        let canvasWidth = offScreenCanvas.width || width;
+        var endX = (canvasWidth) - 10 - (canvasWidth - rectStart);
         rectStart = endX - rectWidth;
       }
+
       offScreenCanvas.noStroke();
       offScreenCanvas.fill(`#${bgColor}`);
-      offScreenCanvas.rect(rectStart, yStart - 20, rectWidth, rectangleHeight + 10, 12, 12, 12, 12);
 
-      offScreenCanvas.fill(`#${textColor}`)
+      let rectY = yStart - 20;
+      let actualRectangleHeight = rectangleHeight + 10;
+      offScreenCanvas.rect(rectStart, rectY, rectWidth, actualRectangleHeight, 12, 12, 12, 12);
 
-      offScreenCanvas.text(songName, rectStart + (padding * 0.4), yStart + yStartSong);
+      offScreenCanvas.fill(`#${textColor}`);
+
+      // Calculate the vertical center of the rectangle
+      let textY = rectY + actualRectangleHeight / 2;
+      
+      // Calculate the horizontal center of the rectangle
+      let textX = rectStart + rectWidth / 2;
+
+      // Set text alignment to center both horizontally and vertically
+      offScreenCanvas.textAlign(offScreenCanvas.CENTER, offScreenCanvas.CENTER);
+
+      offScreenCanvas.text(songName, textX, textY);
+
+      // reset textAlign
+      offScreenCanvas.textAlign(offScreenCanvas.LEFT, offScreenCanvas.TOP);
     }
 
     function getSongAttributes(group, iteration, songKey) {
@@ -126,7 +144,17 @@ function DownloadP5ImageHidden(bracketDetails) {
         }
       }
     }
-    function round3(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height) {
+    function round3(
+      offScreenCanvas,
+      yStart,
+      color,
+      lineStartX,
+      lineEndX,
+      groupA,
+      groupB,
+      position,
+      height
+    ) {
       const groups = [groupA, groupB];
       for (let i = 0; i < groups.length; i++) {
         for (let r = 0; r < groups[i].length; r++) {
@@ -146,7 +174,7 @@ function DownloadP5ImageHidden(bracketDetails) {
       }
     }
     function round5(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, position, height, iteration, fontSize) {
-      bracketContent(offScreenCanvas, yStart, groupA, iteration, lineStartX, lineEndX, color, position, height, fontSize, 50);
+      bracketContent(offScreenCanvas, yStart, groupA, iteration, lineStartX, lineEndX, color, position, height, fontSize, 70);
     }
 
     function round6(offScreenCanvas, yStart, xStart, xEnd, color, groupA) {
@@ -154,14 +182,6 @@ function DownloadP5ImageHidden(bracketDetails) {
       bracketContentSong(offScreenCanvas, yStart, xStart, xEnd, groupA[0].attributes.song1.song.attributes.artwork.bgColor, groupA[0].attributes.song1.song.attributes.name, groupA[0].attributes.song1.song.attributes.artwork.textColor2, "left", 56, 100, 40);
 
       bracketContentSong(offScreenCanvas, yStart, width - xEnd, width - xStart, groupA[1].attributes.song2.song.attributes.artwork.bgColor, groupA[1].attributes.song2.song.attributes.name, groupA[1].attributes.song2.song.attributes.artwork.textColor2, "right", 56, 100, 40);
-    }
-
-
-    function drawCenteredRect(offScreenCanvas, centerX, centerY, rectWidth, rectHeight, winner) {
-      offScreenCanvas.fill(`#${winner.song.attributes.artwork.bgColor}`);
-      const x = centerX - rectWidth / 2;
-      const y = centerY - rectHeight / 2;
-      offScreenCanvas.rect(x, y, rectWidth, rectHeight);
     }
 
     if (p5Ref.current) {
