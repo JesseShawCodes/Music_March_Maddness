@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {
   useRef,
   useEffect,
@@ -8,7 +9,7 @@ import p5 from 'p5';
 
 import { Context } from '../context/BracketContext';
 
-const DownloadP5ImageHidden = (bracketDetails) => {
+function DownloadP5ImageHidden(bracketDetails) {
   const p5Ref = useRef(null);
   const offscreenCanvasRef = useRef(null);
   const value = useContext(Context);
@@ -158,8 +159,8 @@ const DownloadP5ImageHidden = (bracketDetails) => {
 
     function drawCenteredRect(offScreenCanvas, centerX, centerY, rectWidth, rectHeight, winner) {
       offScreenCanvas.fill(`#${winner.song.attributes.artwork.bgColor}`);
-      let x = centerX - rectWidth / 2;
-      let y = centerY - rectHeight / 2;
+      const x = centerX - rectWidth / 2;
+      const y = centerY - rectHeight / 2;
       offScreenCanvas.rect(x, y, rectWidth, rectHeight);
     }
 
@@ -178,7 +179,7 @@ const DownloadP5ImageHidden = (bracketDetails) => {
 
         function winner(offScreenCanvas, winner) {
           offScreenCanvas.noStroke();
-          offScreenCanvas.fontSize(50);
+          offScreenCanvas.textSize(50);
           offScreenCanvas.textAlign(p.CENTER);
           offScreenCanvas.fill(`#${winner.song.attributes.artwork.textColor2}`);
           offScreenCanvas.text("Winner:", width - (width * 0.5), height - (height * 0.25));
