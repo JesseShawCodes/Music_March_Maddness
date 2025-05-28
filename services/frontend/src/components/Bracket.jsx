@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {
   useRef,
   useEffect,
@@ -109,7 +108,7 @@ const DownloadP5ImageHidden = (bracketDetails) => {
     }
 
     function round1(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height) {
-        let groups = [groupA, groupB]
+        const groups = [groupA, groupB]
         for (let i = 0; i < groups.length; i++) {
           for (let r = 0; r < groups[i].length; r++) {
             bracketContent(offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, color, position, height);
@@ -118,7 +117,7 @@ const DownloadP5ImageHidden = (bracketDetails) => {
         }
     }
     function round2(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height) {
-      let groups = [groupA, groupB];
+      const groups = [groupA, groupB];
       for (let i = 0; i < groups.length; i++) {
         for (let r = 0; r < groups[i].length; r++) {
           bracketContent(offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, color, position, height);
@@ -127,7 +126,7 @@ const DownloadP5ImageHidden = (bracketDetails) => {
       }
     }
     function round3(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height) {
-      let groups = [groupA, groupB];
+      const groups = [groupA, groupB];
       for (let i = 0; i < groups.length; i++) {
         for (let r = 0; r < groups[i].length; r++) {
           bracketContent(offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, color, position, height);
@@ -137,7 +136,7 @@ const DownloadP5ImageHidden = (bracketDetails) => {
     }  
     
     function round4(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height, fontSize) {
-      let groups = [groupA, groupB];
+      const groups = [groupA, groupB];
       for (let i = 0; i < groups.length; i++) {
         for (let r = 0; r < groups[i].length; r++) {
           bracketContent(offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, color, position, height, fontSize);
@@ -176,14 +175,15 @@ const DownloadP5ImageHidden = (bracketDetails) => {
 
         let img; 
         const targetImageWidth = 400;
+
         function winner(offScreenCanvas, winner) {
           offScreenCanvas.noStroke();
           offScreenCanvas.fontSize(50);
           offScreenCanvas.textAlign(p.CENTER);
           offScreenCanvas.fill(`#${winner.song.attributes.artwork.textColor2}`);
-          offScreenCanvas.text("Winner:", width - (width * 0.5), height - (height * 0.25))
-          offScreenCanvas.text(winner.song.attributes.name, width - (width * 0.5), height - (height * 0.2))
-          offScreenCanvas.textAlign(p.LEFT)
+          offScreenCanvas.text("Winner:", width - (width * 0.5), height - (height * 0.25));
+          offScreenCanvas.text(winner.song.attributes.name, width - (width * 0.5), height - (height * 0.2));
+          offScreenCanvas.textAlign(p.LEFT);
         }
 
         if (state.values.artist_image) {
@@ -205,163 +205,168 @@ const DownloadP5ImageHidden = (bracketDetails) => {
                     // If image fails to load, still draw the rest of the bracket
                     drawBracketContent(offscreenCanvas);
                     offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
-                }
+                },
             );
         } else {
-            console.warn('No header image URL provided.');
-            // If no image URL, just draw the bracket content
-            drawBracketContent(offscreenCanvas);
-            offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
+          console.warn('No header image URL provided.');
+          // If no image URL, just draw the bracket content
+          drawBracketContent(offscreenCanvas);
+          offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
         }
 
-        // --- Extracted bracket drawing logic into a new function ---
-        function drawBracketContent(offScreenCanvas) {
-            let round1Length = 200;
+      // --- Extracted bracket drawing logic into a new function ---
+      function drawBracketContent(offScreenCanvas) {
+        const round1Length = 200;
 
-            round1(
-              offScreenCanvas,
-              55,
-              bracketColor,
-              bracketXStart,
-              round1Length + bracketXStart,
-              state.bracket.group1.round1.roundMatchups,
-              state.bracket.group2.round1.roundMatchups,
-              "left", // Left or Right Side of Bracket
-              matchUpHeight
-            )
-            round1(
-              offScreenCanvas,
-              55,
-              bracketColor,
-              width - bracketXStart,
-              width - round1Length,
-              state.bracket.group3.round1.roundMatchups,
-              state.bracket.group4.round1.roundMatchups,
-              "right",
-              matchUpHeight
-            )
+        round1(
+          offScreenCanvas,
+          55,
+          bracketColor,
+          bracketXStart,
+          round1Length + bracketXStart,
+          state.bracket.group1.round1.roundMatchups,
+          state.bracket.group2.round1.roundMatchups,
+          'left', // Left or Right Side of Bracket
+          matchUpHeight,
+        );
+        round1(
+          offScreenCanvas,
+          55,
+          bracketColor,
+          width - bracketXStart,
+          width - round1Length,
+          state.bracket.group3.round1.roundMatchups,
+          state.bracket.group4.round1.roundMatchups,
+          'right',
+          matchUpHeight,
+        );
 
-            round2(
-              offScreenCanvas,
-              55 + (matchUpHeight / 2),
-              bracketColor,
-              round1Length,
-              200 + 190,
-              state.bracket.group1.round2.roundMatchups,
-              state.bracket.group2.round2.roundMatchups,
-              "left",
-              (matchUpHeight * 1.5)
-            )
-            round2(
-              offScreenCanvas,
-              55 + (matchUpHeight / 2),
-              bracketColor,
-              width - (round1Length),
-              width - (420),
-              state.bracket.group3.round2.roundMatchups,
-              state.bracket.group4.round2.roundMatchups,
-              "right",
-              (matchUpHeight * 1.5)
-            );
+        round2(
+          offScreenCanvas,
+          55 + (matchUpHeight / 2),
+          bracketColor,
+          round1Length,
+          200 + 190,
+          state.bracket.group1.round2.roundMatchups,
+          state.bracket.group2.round2.roundMatchups,
+          'left',
+          (matchUpHeight * 1.5),
+        );
+        round2(
+          offScreenCanvas,
+          55 + (matchUpHeight / 2),
+          bracketColor,
+          width - (round1Length),
+          width - (420),
+          state.bracket.group3.round2.roundMatchups,
+          state.bracket.group4.round2.roundMatchups,
+          'right',
+          (matchUpHeight * 1.5),
+        );
 
-            round3(
-              offScreenCanvas,
-              55 + (matchUpHeight * 1.5),
-              bracketColor,
-              390,
-              640,
-              state.bracket.group1.round3.roundMatchups,
-              state.bracket.group2.round3.roundMatchups,
-              "left",
-              matchUpHeight * 2.5
-            );
+        round3(
+          offScreenCanvas,
+          55 + (matchUpHeight * 1.5),
+          bracketColor,
+          390,
+          640,
+          state.bracket.group1.round3.roundMatchups,
+          state.bracket.group2.round3.roundMatchups,
+          'left',
+          matchUpHeight * 2.5,
+        );
 
-            round3(
-              offScreenCanvas,
-              55 + (matchUpHeight * 1.5),
-              bracketColor,
-              width - 390,
-              width - 640,
-              state.bracket.group3.round3.roundMatchups,
-              state.bracket.group4.round3.roundMatchups,
-              "right",
-              matchUpHeight * 2.5
-            );
+        round3(
+          offScreenCanvas,
+          55 + (matchUpHeight * 1.5),
+          bracketColor,
+          width - 390,
+          width - 640,
+          state.bracket.group3.round3.roundMatchups,
+          state.bracket.group4.round3.roundMatchups,
+          'right',
+          matchUpHeight * 2.5,
+        );
 
-            round4(
-              offScreenCanvas,
-              55 + (matchUpHeight * 3),
-              bracketColor,
-              640,
-              900,
-              state.bracket.group1.round4.roundMatchups,
-              state.bracket.group2.round4.roundMatchups,
-              "left",
-              matchUpHeight * 5,
-              60
-            );
+        round4(
+          offScreenCanvas,
+          55 + (matchUpHeight * 3),
+          bracketColor,
+          640,
+          900,
+          state.bracket.group1.round4.roundMatchups,
+          state.bracket.group2.round4.roundMatchups,
+          'left',
+          matchUpHeight * 5,
+          60,
+        );
 
-            round4(
-              offScreenCanvas,
-              55 + (matchUpHeight * 3),
-              bracketColor,
-              width - 640,
-              width - 900,
-              state.bracket.group3.round4.roundMatchups,
-              state.bracket.group4.round4.roundMatchups,
-              "right",
-              matchUpHeight * 5,
-              60
-            );
+        round4(
+          offScreenCanvas,
+          55 + (matchUpHeight * 3),
+          bracketColor,
+          width - 640,
+          width - 900,
+          state.bracket.group3.round4.roundMatchups,
+          state.bracket.group4.round4.roundMatchups,
+          'right',
+          matchUpHeight * 5,
+          60,
+        );
 
-            round5(
-              offScreenCanvas,
-              55 + (matchUpHeight * 6),
-              bracketColor,
-              900,
-              1300,
-              state.championshipBracket.round5.roundMatchups,
-              "left",
-              matchUpHeight * 10,
-              0,
-              45
-            )
+        round5(
+          offScreenCanvas,
+          55 + (matchUpHeight * 6),
+          bracketColor,
+          900,
+          1300,
+          state.championshipBracket.round5.roundMatchups,
+          'left',
+          matchUpHeight * 10,
+          0,
+          45,
+        );
 
-            round5(
-              offScreenCanvas,
-              55 + (matchUpHeight * 6),
-              bracketColor,
-              width - 900,
-              width - 1300,
-              state.championshipBracket.round5.roundMatchups,
-              "right",
-              matchUpHeight * 10,
-              1,
-              45
-            );
+        round5(
+          offScreenCanvas,
+          55 + (matchUpHeight * 6),
+          bracketColor,
+          width - 900,
+          width - 1300,
+          state.championshipBracket.round5.roundMatchups,
+          'right',
+          matchUpHeight * 10,
+          1,
+          45,
+        );
 
-            round6(offScreenCanvas, height - (height * 0.05), 600, 600, bracketColor, state.championshipBracket.round5.roundMatchups);
+        round6(
+          offScreenCanvas,
+          height - (height * 0.05),
+          600,
+          600,
+          bracketColor,
+          state.championshipBracket.round5.roundMatchups,
+        );
 
-            winner(offScreenCanvas, state.champion);
-        }
+        winner(offScreenCanvas, state.champion);
+      }
     }
   }, [bracketDetails, state.values.artist_image, state]);
 
   useEffect(() => {
-      p5Ref.current = new p5(() => {}, document.createElement('div')); // Create a p5 instance without attaching to DOM
+    p5Ref.current = new p5(() => {}, document.createElement('div')); // Create a p5 instance without attaching to DOM
 
-      return () => {
-          if (p5Ref.current) {
-              p5Ref.current.remove();
-              p5Ref.current = null;
-          }
-      };
+    return () => {
+      if (p5Ref.current) {
+        p5Ref.current.remove();
+        p5Ref.current = null;
+      }
+    };
   }, []);
 
   return (
-    <>
-      <button onClick={generateAndDownload} className="btn btn-primary" type="button">Download your Bracket</button>
-    </>
+    <button onClick={generateAndDownload} className="btn btn-primary" type="button">Download your Bracket</button>
   );
 };
 
