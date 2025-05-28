@@ -206,24 +206,6 @@ CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 
-# CELERY_TASK_ALWAYS_EAGER = True
-# CELERY_WORKER_PREFETCH_MULTIPLIER = 1
-
-# CELERY_BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
-# CELERY_REDIS_BACKEND_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
-
-# CELERY_RESULT_EXPIRES = 3600
-
-# CELERY_RESULT_BACKEND_TRANSPORT_OPTIONS = {
-#  "ssl_cert_reqs": ssl.CERT_NONE
-# }
-
-# BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
-
-# CELERY_REDIS_BACKEND_USE_SSL = {
-#  "ssl_cert_reqs": ssl.CERT_NONE
-# }
-
 # Backend Expiration to clean celery results in 1 hour.
 CELERY_RESULT_EXPIRES = 3600
 
@@ -236,5 +218,5 @@ if os.environ.get("environment") == "production":
 else:
     # Development settings
     DEBUG = True
-    print("Development settings loaded")
+    print("Development settings loaded...")
     CELERY_TASKS_ALWAYS_EAGER = True
