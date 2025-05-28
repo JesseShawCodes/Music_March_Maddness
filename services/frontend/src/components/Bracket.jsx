@@ -150,7 +150,6 @@ const DownloadP5ImageHidden = (bracketDetails) => {
     }
 
     function round6(offScreenCanvas, yStart, xStart, xEnd, color, groupA) {
-      // stroke(color);
 
       bracketContentSong(offScreenCanvas, yStart, xStart, xEnd, groupA[0].attributes.song1.song.attributes.artwork.bgColor, groupA[0].attributes.song1.song.attributes.name, groupA[0].attributes.song1.song.attributes.artwork.textColor2, "left", 56, 100, 40);
 
@@ -159,10 +158,6 @@ const DownloadP5ImageHidden = (bracketDetails) => {
     if (p5Ref.current) {
         const p = p5Ref.current;
 
-        // const numRounds = Math.log2(numTeams);
-        // let rounds = [];
-        // let teams = [];
-
         const offscreenCanvas = p.createGraphics(width, height);
         offscreenCanvasRef.current = offscreenCanvas.canvas; // Store the canvas element for potential later use
 
@@ -170,140 +165,166 @@ const DownloadP5ImageHidden = (bracketDetails) => {
         
         offscreenCanvas.strokeWeight(bracketWeight);
 
-        let round1Length = 200;
-        let round2length;
-        let round3length;
-        let round4length;
+        let img; 
+        const targetImageWidth = 400;
 
-        round1(
-          offscreenCanvas, 
-          55, 
-          bracketColor, 
-          bracketXStart, 
-          round1Length + bracketXStart, 
-          state.bracket.group1.round1.roundMatchups, 
-          state.bracket.group2.round1.roundMatchups, 
-          "left", // Left or Right Side of Bracket
-          matchUpHeight
-        )
-        round1(
-          offscreenCanvas, 
-          55, 
-          bracketColor, 
-          width - bracketXStart, 
-          width - round1Length, 
-          state.bracket.group3.round1.roundMatchups, 
-          state.bracket.group4.round1.roundMatchups, 
-          "right", 
-          matchUpHeight
-        )
+        if (state.values.artist_image) {
+            img = p.loadImage(state.values.artist_image,
+                () => {
+                    
+                    const imgX = (width / 2) - (targetImageWidth / 2);
 
-        round2(
-          offscreenCanvas,
-          55 + (matchUpHeight / 2),
-          bracketColor,
-          round1Length,
-          200 + 190,
-          state.bracket.group1.round2.roundMatchups,
-          state.bracket.group2.round2.roundMatchups, 
-          "left",
-          (matchUpHeight * 1.5)
-        )
-        round2(
-          offscreenCanvas,
-          55 + (matchUpHeight / 2),
-          bracketColor,
-          width - (round1Length),
-          width - (420),
-          state.bracket.group3.round2.roundMatchups,
-          state.bracket.group4.round2.roundMatchups,
-          "right",
-          (matchUpHeight * 1.5)
-        );
+                    // Draw the image at the calculated centered position
+                    offscreenCanvas.image(img, imgX, 400, targetImageWidth, 400);
 
-        round3(
-          offscreenCanvas,
-          55 + (matchUpHeight * 1.5),
-          bracketColor,
-          390,
-          640,
-          state.bracket.group1.round3.roundMatchups,
-          state.bracket.group2.round3.roundMatchups,
-          "left",
-          matchUpHeight * 2.5
-        );
+                    // Continue with other drawing operations
+                    drawBracketContent(offscreenCanvas);
+                    offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
+                },
+                (event) => {
+                    console.error('Error loading image:', event);
+                    // If image fails to load, still draw the rest of the bracket
+                    drawBracketContent(offscreenCanvas);
+                    offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
+                }
+            );
+        } else {
+            console.warn('No header image URL provided.');
+            // If no image URL, just draw the bracket content
+            drawBracketContent(offscreenCanvas);
+            offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
+        }
 
-        round3(
-          offscreenCanvas,
-          55 + (matchUpHeight * 1.5),
-          bracketColor,
-          width - 390,
-          width - 640,
-          state.bracket.group3.round3.roundMatchups,
-          state.bracket.group4.round3.roundMatchups, 
-          "right",
-          matchUpHeight * 2.5
-        );
+        // --- Extracted bracket drawing logic into a new function ---
+        function drawBracketContent(offScreenCanvas) {
+            let round1Length = 200;
 
-        round4(
-          offscreenCanvas,
-          55 + (matchUpHeight * 3), 
-          bracketColor, 
-          640, 
-          900,
-          state.bracket.group1.round4.roundMatchups,
-          state.bracket.group2.round4.roundMatchups,
-          "left",
-          matchUpHeight * 5,
-          60
-        );
+            round1(
+              offScreenCanvas,
+              55,
+              bracketColor,
+              bracketXStart,
+              round1Length + bracketXStart,
+              state.bracket.group1.round1.roundMatchups,
+              state.bracket.group2.round1.roundMatchups,
+              "left", // Left or Right Side of Bracket
+              matchUpHeight
+            )
+            round1(
+              offScreenCanvas,
+              55,
+              bracketColor,
+              width - bracketXStart,
+              width - round1Length,
+              state.bracket.group3.round1.roundMatchups,
+              state.bracket.group4.round1.roundMatchups,
+              "right",
+              matchUpHeight
+            )
 
-        round4(
-          offscreenCanvas,
-          55 + (matchUpHeight * 3), 
-          bracketColor, 
-          width - 640, 
-          width - 900,
-          state.bracket.group3.round4.roundMatchups,
-          state.bracket.group4.round4.roundMatchups,
-          "right",
-          matchUpHeight * 5,
-          60
-        );
+            round2(
+              offScreenCanvas,
+              55 + (matchUpHeight / 2),
+              bracketColor,
+              round1Length,
+              200 + 190,
+              state.bracket.group1.round2.roundMatchups,
+              state.bracket.group2.round2.roundMatchups,
+              "left",
+              (matchUpHeight * 1.5)
+            )
+            round2(
+              offScreenCanvas,
+              55 + (matchUpHeight / 2),
+              bracketColor,
+              width - (round1Length),
+              width - (420),
+              state.bracket.group3.round2.roundMatchups,
+              state.bracket.group4.round2.roundMatchups,
+              "right",
+              (matchUpHeight * 1.5)
+            );
 
+            round3(
+              offScreenCanvas,
+              55 + (matchUpHeight * 1.5),
+              bracketColor,
+              390,
+              640,
+              state.bracket.group1.round3.roundMatchups,
+              state.bracket.group2.round3.roundMatchups,
+              "left",
+              matchUpHeight * 2.5
+            );
 
-        round5(
-          offscreenCanvas,
-          55 + (matchUpHeight * 6),
-          bracketColor,
-          900,
-          1300,
-          state.championshipBracket.round5.roundMatchups,
-          "left",
-          matchUpHeight * 10,
-          0,
-          45
-        )
+            round3(
+              offScreenCanvas,
+              55 + (matchUpHeight * 1.5),
+              bracketColor,
+              width - 390,
+              width - 640,
+              state.bracket.group3.round3.roundMatchups,
+              state.bracket.group4.round3.roundMatchups,
+              "right",
+              matchUpHeight * 2.5
+            );
 
-        round5(
-          offscreenCanvas,
-          55 + (matchUpHeight * 6), 
-          bracketColor, 
-          width - 900, 
-          width - 1300,
-          state.championshipBracket.round5.roundMatchups,
-          "right",
-          matchUpHeight * 10,
-          1,
-          45
-        );
+            round4(
+              offScreenCanvas,
+              55 + (matchUpHeight * 3),
+              bracketColor,
+              640,
+              900,
+              state.bracket.group1.round4.roundMatchups,
+              state.bracket.group2.round4.roundMatchups,
+              "left",
+              matchUpHeight * 5,
+              60
+            );
 
-        round6(offscreenCanvas, height - (height * 0.05), 600, 600, bracketColor, state.championshipBracket.round5.roundMatchups);
+            round4(
+              offScreenCanvas,
+              55 + (matchUpHeight * 3),
+              bracketColor,
+              width - 640,
+              width - 900,
+              state.bracket.group3.round4.roundMatchups,
+              state.bracket.group4.round4.roundMatchups,
+              "right",
+              matchUpHeight * 5,
+              60
+            );
 
+            round5(
+              offScreenCanvas,
+              55 + (matchUpHeight * 6),
+              bracketColor,
+              900,
+              1300,
+              state.championshipBracket.round5.roundMatchups,
+              "left",
+              matchUpHeight * 10,
+              0,
+              45
+            )
 
-        offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
+            round5(
+              offScreenCanvas,
+              55 + (matchUpHeight * 6),
+              bracketColor,
+              width - 900,
+              width - 1300,
+              state.championshipBracket.round5.roundMatchups,
+              "right",
+              matchUpHeight * 10,
+              1,
+              45
+            );
+
+            round6(offScreenCanvas, height - (height * 0.05), 600, 600, bracketColor, state.championshipBracket.round5.roundMatchups);
+        }
     }
-  }, []);
+  }, [bracketDetails, state.values.artist_image, state]);
 
   useEffect(() => {
       p5Ref.current = new p5(() => {}, document.createElement('div')); // Create a p5 instance without attaching to DOM
