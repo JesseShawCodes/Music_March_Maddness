@@ -26,8 +26,12 @@ def format_images(data):
     for result in result1['results']['artists']['data']:
         if "artwork" in result['attributes']:
           formatted_url = result['attributes']['artwork']['url']
-          formatted_url = formatted_url.replace('{w}', "400")
-          formatted_url = formatted_url.replace('{h}', "400")
-          result['attributes']['artwork']['url'] = formatted_url
+          result['attributes']['artwork']['url'] = format_image(formatted_url)
     return result1
+
+def format_image(url):
+    formatted_url = url.replace('{w}', "400")
+    formatted_url = formatted_url.replace('{h}', "400")
+    return formatted_url
+    
     
