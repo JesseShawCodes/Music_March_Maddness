@@ -1,3 +1,4 @@
+@use 'stylesheets/custom.scss';
 @use 'stylesheets/progress.scss';
 
 .App {
@@ -5,7 +6,7 @@
 }
 
 body {
-  transition: background-color 0.5s ease, color 0.5s ease;
+  transition: background-color 0.5s ease, color 0.5s ease, background-image 0.5s ease;
 }
 
 .list-container {
@@ -51,9 +52,7 @@ body {
 
 /*Back to Top*/
 
-
 #back_to_top_container {
-  // display: none;
   width: 100px;
   height: 100px;
   z-index: 100;
@@ -72,15 +71,13 @@ body {
       cursor: pointer;
       border-radius: 50px;
       backface-visibility: hidden;
-      //background-color: blue;
-      // color: var(--bs-light);
+
       margin: 20px 20px 4px;
       box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
       width: 55px;
   }
 
   .back_to_top_text {
-      // background-color: blue;
       color: var(--bs-light);
       text-align: center;
       cursor: pointer;
