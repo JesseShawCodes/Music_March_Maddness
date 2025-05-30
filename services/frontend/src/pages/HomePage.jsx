@@ -7,7 +7,7 @@ function HomePage({
   homeContent = 'Turn a musician’s discography into your own personal tournament. We rank the songs—your job is to pick the winners until one song is left standing. Once your bracket is complete, export and share it with friends.',
 }) {
   return (
-    <div className="min-vh-100 d-flex flex-column justify-content-center">
+    <div className="min-vh-100 d-flex flex-column justify-content-center bg-my-gradient">
       <div className="container">
         <h1>{homeHeading}</h1>
         <h2>{homeSubHeading}</h2>
