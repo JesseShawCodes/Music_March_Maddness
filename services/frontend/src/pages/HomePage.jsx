@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function HomePage({
-  homeHeading = 'Build the Ultimate Song Bracket for Your Favorite Artist',
+  homeHeading = 'Welcome to Dadgad. Build the Ultimate Song Bracket for Your Favorite Artist',
   homeSubHeading = 'Pick your favorites, round by round. Crown your winner. Share your bracket with the world.',
   homeContent = 'Turn a musician’s discography into your own personal tournament. We rank the songs—your job is to pick the winners until one song is left standing. Once your bracket is complete, export and share it with friends.',
 }) {
