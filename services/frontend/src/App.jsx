@@ -22,7 +22,7 @@ import DownloadableP5Image from './components/Bracket';
 
 function App() {
   return (
-    <BrowserRouter future={{v7_relativeSplatPath: true, v7_startTransition: true}}>
+    <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
       <ThemeProvider>
         <div className="App d-flex flex-column min-vh-100">
           <NavBar />
