@@ -12,3 +12,10 @@ test('renders header and footer', () => {
   expect(screen.getByRole('navigation')).toBeInTheDocument();
   expect(screen.getByRole('contentinfo')).toBeInTheDocument();
 });
+
+test('renders navigation links', () => {
+  render(<App />);
+  expect(screen.getByRole('link', { name: /Dadgad/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /About/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /Music Search/i })).toBeInTheDocument();
+});
