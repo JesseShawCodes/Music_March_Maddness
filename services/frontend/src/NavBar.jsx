@@ -4,7 +4,7 @@ import ThemeToggleButton from './components/ThemeToggleButton';
 
 function NavBar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
       <div className="container-fluid">
         <Link to="/" className="nav-link active navbar-brand">
           {process.env.REACT_APP_NAME}
