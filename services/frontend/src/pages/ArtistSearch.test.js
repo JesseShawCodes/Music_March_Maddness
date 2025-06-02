@@ -56,7 +56,6 @@ describe('ArtistSearch', () => {
     fireEvent.change(searchInput, { target: { value: 'test artist' } });
     expect(searchInput).toHaveValue('test artist');
   });
-  /*
 
   // --- Successful Search Flow ---
   test('handles successful search submission and polling for success', async () => {
@@ -66,14 +65,14 @@ describe('ArtistSearch', () => {
         artists: {
           data: [
             { id: '1', attributes: { name: 'Artist A', artwork: { url: 'image-a.jpg' } } },
-            { id: '2', attributes: { name: 'Artist B' } }, // No artwork
+            { id: '2', attributes: { name: 'Artist B' } },
           ],
         },
       },
     };
 
     // Mock the initial search mutation success
-    mockStartSearch.mockResolvedValueOnce({ task_id: mockTaskId });
+    mockStartSearch.mockResolvedValueOnce({task_id: 'ed068240-1482-4bbe-94b4-de2157168fe4', status: 'queued'});
     useStartSearchMutation.mockReturnValueOnce([mockStartSearch, { isLoading: false }]); // Reset after initial call
 
     render(<ArtistSearch />);
@@ -84,14 +83,18 @@ describe('ArtistSearch', () => {
     fireEvent.click(searchButton);
 
     // Expect startSearch to be called and loading message to appear
+    console.log(mockStartSearch);
     expect(mockStartSearch).toHaveBeenCalledWith('test');
-    expect(screen.getByText(/loading: submitting search.../i)).toBeInTheDocument();
+    screen.debug()
+    // Error is happneing here. I am seeing " Cannot read properties of undefined (reading 'unwrap')" in my console. But my component is showing the appropriate message
+    expect(screen.getByText(/Submitting search/i)).toBeInTheDocument();
+    /*
 
     // After startSearch resolves, check for taskId and polling initiation
     await waitFor(() => {
-      expect(screen.getByText(/loading: queued... waiting for results./i)).toBeInTheDocument();
+      // expect(screen.getByText(/queued/i)).toBeInTheDocument();
       // Polling should have started, but triggerStatus hasn't resolved yet
-      expect(mockTriggerStatus).toHaveBeenCalledWith(mockTaskId);
+      // expect(mockTriggerStatus).toHaveBeenCalledWith(mockTaskId);
     });
 
     // Simulate polling for PENDING status
@@ -124,7 +127,9 @@ describe('ArtistSearch', () => {
       jest.advanceTimersByTime(2000); // Try to trigger another poll
     });
     expect(mockTriggerStatus).toHaveBeenCalledTimes(3); // Should not have been called again after success
+    */
   });
+  /*
 
   // --- Error Handling ---
   test('handles search submission error', async () => {
