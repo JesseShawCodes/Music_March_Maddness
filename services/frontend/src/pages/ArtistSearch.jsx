@@ -27,19 +27,16 @@ export default function ArtistSearch() {
   const [triggerSearch, { data: artists, isLoading, isError, error, isSuccess }] = useLazyGetArtistsQuery();
 
   const handleChange = (event) => {
-    console.log("handleChange")
     setLocalSearchTerm(event.target.value);
   };
 
   const handleSubmit = async (event) => {
-    console.log("handleSubmit")
     setTaskId(null);
     setResults(null);
     event.preventDefault();
     if (localSearchTerm.trim()) {
       try {
         const result = await triggerSearch(localSearchTerm.trim()); // Trigger the API call with the search term
-        console.log(result.data.task_id);
         setTaskId(result.data.task_id);
       } catch (err) {
         console.error(err);
@@ -92,9 +89,9 @@ export default function ArtistSearch() {
   ));
 
   return (
-    <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '8px', maxWidth: '800px', margin: '20px auto' }}>
+    <div style={{ padding: '20px',  margin: '20px auto' }}>
       <h2>Artist Search</h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px' }}>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Search"

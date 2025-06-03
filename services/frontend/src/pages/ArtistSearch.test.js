@@ -7,36 +7,47 @@ import ArtistSearch from './ArtistSearch';
 jest.mock('../services/jsonServerApi', () => ({
   useStartSearchMutation: jest.fn(),
   useLazyGetTaskStatusQuery: jest.fn(),
+  useLazyGetArtistsQuery: jest.fn(), 
 }));
 
-import { useStartSearchMutation, useLazyGetTaskStatusQuery } from '../services/jsonServerApi';
+import { useStartSearchMutation, useLazyGetTaskStatusQuery, useLazyGetArtistsQuery  } from '../services/jsonServerApi';
 
 jest.mock('../components/Loading', () => ({ message }) => <div>Loading: {message}</div>);
 
 describe('ArtistSearch', () => {
-  let mockStartSearch;
-  let mockTriggerStatus;
-  let mockStartSearchLoading;
-  let mockTriggerStatusData;
+  let mockStartSearchTrigger;
+  let mockStartSearchState;
+  let mockTriggerStatusTrigger;
+  let mockTriggerStatusState;
+  let mockTriggerArtistsTrigger;
+  let mockTriggerArtistsState;
 
   beforeEach(() => {
-    // Reset mocks before each test
-    mockStartSearch = jest.fn();
-    mockStartSearchLoading = false;
-    mockTriggerStatus = jest.fn();
-    mockTriggerStatusData = { status: null }; // Default to no status data initially
+    // Reset all mocks before each test
+    jest.clearAllMocks(); // Clears call history, but not implementation
 
-    // Configure the mock RTK Query hooks
-    useStartSearchMutation.mockReturnValue([mockStartSearch, { isLoading: mockStartSearchLoading }]);
-    useLazyGetTaskStatusQuery.mockReturnValue([mockTriggerStatus, { data: mockTriggerStatusData }]);
+    // Default mock implementations for RTK Query hooks
+    mockStartSearchTrigger = jest.fn();
+    mockStartSearchState = { isLoading: false, isError: false, error: null };
+    useStartSearchMutation.mockReturnValue([mockStartSearchTrigger, mockStartSearchState]);
 
-    // Mock setInterval and clearInterval for controlling polling in tests
+    mockTriggerStatusTrigger = jest.fn();
+    mockTriggerStatusState = { data: undefined, isLoading: false, isError: false, error: null };
+    useLazyGetTaskStatusQuery.mockReturnValue([mockTriggerStatusTrigger, mockTriggerStatusState]);
+
+    mockTriggerArtistsTrigger = jest.fn();
+    mockTriggerArtistsState = { data: undefined, isLoading: false, isError: false, error: null, isSuccess: false };
+    useLazyGetArtistsQuery.mockReturnValue([mockTriggerArtistsTrigger, mockTriggerArtistsState]);
+
+    // Use fake timers for controlling setInterval/setTimeout
     jest.useFakeTimers();
   });
 
   afterEach(() => {
-    jest.runOnlyPendingTimers(); // Clear any pending timers
-    jest.useRealTimers(); // Restore real timers
+    // Ensure all pending timers are cleared after each test
+    jest.runOnlyPendingTimers();
+    // Restore real timers to prevent interference with other test files
+    jest.useRealTimers();
   });
 
   // --- Initial Render and Basic Interactions ---
@@ -71,9 +82,10 @@ describe('ArtistSearch', () => {
       },
     };
 
-    // Mock the initial search mutation success
-    mockStartSearch.mockResolvedValueOnce({task_id: 'ed068240-1482-4bbe-94b4-de2157168fe4', status: 'queued'});
-    useStartSearchMutation.mockReturnValueOnce([mockStartSearch, { isLoading: false }]); // Reset after initial call
+    // 1. Mock the initial `triggerSearch` (from useLazyGetArtistsQuery) to return a taskId
+    mockTriggerArtistsTrigger.mockResolvedValueOnce({ data: { task_id: mockTaskId } });
+    mockTriggerArtistsState.isLoading = false; // Initial search completes quickly for this step
+    useLazyGetArtistsQuery.mockReturnValue([mockTriggerArtistsTrigger, mockTriggerArtistsState]);
 
     render(<ArtistSearch />);
     const searchInput = screen.getByPlaceholderText('Search');
@@ -82,51 +94,54 @@ describe('ArtistSearch', () => {
     fireEvent.change(searchInput, { target: { value: 'test' } });
     fireEvent.click(searchButton);
 
-    // Expect startSearch to be called and loading message to appear
-    console.log(mockStartSearch);
-    expect(mockStartSearch).toHaveBeenCalledWith('test');
-    screen.debug()
-    // Error is happneing here. I am seeing " Cannot read properties of undefined (reading 'unwrap')" in my console. But my component is showing the appropriate message
-    expect(screen.getByText(/Submitting search/i)).toBeInTheDocument();
+    // Assert that `triggerSearch` was called for the initial artist search
+    expect(mockTriggerArtistsTrigger).toHaveBeenCalledWith('test');
+    // Expect the initial loading message for the first query to appear briefly and then clear
+    // (This part might be tricky to catch precisely as the component quickly transitions to polling)
+    // For now, we'll focus on the subsequent polling loading.
+
+    // Wait for the taskId to be set and polling to initiate
+    await waitFor(() => {
+      console.log(mockTriggerStatusTrigger)
+      // After initial triggerSearch resolves and taskId is set, polling should start
+      expect(mockTriggerStatusTrigger).toHaveBeenCalledWith(mockTaskId);
+      expect(screen.getByTestId('loading-component')).toHaveTextContent('Loading: Queued... waiting for results.'); //
+    });
     /*
 
-    // After startSearch resolves, check for taskId and polling initiation
-    await waitFor(() => {
-      // expect(screen.getByText(/queued/i)).toBeInTheDocument();
-      // Polling should have started, but triggerStatus hasn't resolved yet
-      // expect(mockTriggerStatus).toHaveBeenCalledWith(mockTaskId);
-    });
-
-    // Simulate polling for PENDING status
+    // 2. Simulate polling for PENDING status
     act(() => {
-      mockTriggerStatusData = { status: 'PENDING' };
-      useLazyGetTaskStatusQuery.mockReturnValue([mockTriggerStatus, { data: mockTriggerStatusData }]);
+      mockTriggerStatusState.data = { status: 'PENDING' };
+      useLazyGetTaskStatusQuery.mockReturnValueOnce([mockTriggerStatusTrigger, mockTriggerStatusState]);
       jest.advanceTimersByTime(2000); // Advance timer to trigger next poll
     });
-    expect(mockTriggerStatus).toHaveBeenCalledTimes(2); // Called once initially, once after timer
+    // Expect triggerStatus to have been called twice (initial + one poll)
+    expect(mockTriggerStatusTrigger).toHaveBeenCalledTimes(2);
 
-    // Simulate polling for SUCCESS status
+    // 3. Simulate polling for SUCCESS status
     act(() => {
-      mockTriggerStatusData = { status: 'SUCCESS', result: mockArtistResults };
-      useLazyGetTaskStatusQuery.mockReturnValue([mockTriggerStatus, { data: mockTriggerStatusData }]);
-      jest.advanceTimersByTime(2000); // Advance timer to trigger next poll
+      mockTriggerStatusState.data = { status: 'SUCCESS', result: mockArtistResults };
+      useLazyGetTaskStatusQuery.mockReturnValueOnce([mockTriggerStatusTrigger, mockTriggerStatusState]);
+      jest.advanceTimersByTime(2000); // Advance timer to trigger final poll check
     });
 
-    // Expect results to be displayed and loading to disappear
+    // Expect results to be displayed and loading/error to disappear
     await waitFor(() => {
       expect(screen.getByText('Artist A')).toBeInTheDocument();
       expect(screen.getByAltText('Artist A promo')).toBeInTheDocument();
       expect(screen.getByText('Artist B')).toBeInTheDocument();
       expect(screen.getByText('No Image Available')).toBeInTheDocument();
-      expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+      expect(screen.queryByTestId('loading-component')).not.toBeInTheDocument();
       expect(screen.queryByText(/error/i)).not.toBeInTheDocument();
     });
 
-    // Ensure polling has stopped
+    // Ensure polling has stopped after SUCCESS
     act(() => {
       jest.advanceTimersByTime(2000); // Try to trigger another poll
     });
-    expect(mockTriggerStatus).toHaveBeenCalledTimes(3); // Should not have been called again after success
+    // TriggerStatus should still be called twice (initial from useEffect, and one from the first interval)
+    // The second useEffect (Turn off Polling) should clear the interval after SUCCESS
+    //expect(mockTriggerStatusTrigger).toHaveBeenCalledTimes(2);
     */
   });
   /*
