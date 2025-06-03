@@ -37,4 +37,5 @@ export const {
   useGetTaskStatusQuery,
   useLazyGetTaskStatusQuery,
   useStartSearchMutation,
+  useLazyGetArtistsQuery,
 } = jsonServerApi;
