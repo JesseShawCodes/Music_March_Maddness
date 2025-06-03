@@ -26,53 +26,6 @@ function DownloadP5ImageHidden(bracketDetails) {
   const bracketXStart = 10;
 
   const generateAndDownload = useCallback(() => {
-    function bracketContent(
-      offScreenCanvas,
-      yStart,
-      group,
-      iteration,
-      lineStartX,
-      lineEndX,
-      color,
-      position,
-      height,
-      fontSize = 45,
-      rectangleHeight = 40,
-    ) {
-      var songAttrs = getSongAttributes(group, iteration, 'song1');
-      offScreenCanvas.stroke(color);
-      offScreenCanvas.strokeWeight(bracketWeight);
-      offScreenCanvas.line(lineStartX, yStart, lineEndX, yStart);
-      offScreenCanvas.line(lineEndX, yStart, lineEndX, yStart + height);
-      offScreenCanvas.line(lineEndX, yStart + height, lineStartX, yStart + height);
-      offScreenCanvas.textSize(fontSize);
-      bracketContentSong(
-        offScreenCanvas,
-        yStart,
-        lineStartX,
-        lineEndX,
-        songAttrs.artwork.bgColor,
-        songAttrs.name,
-        songAttrs.artwork.textColor2,
-        position,
-        fontSize,
-        rectangleHeight,
-      );
-      songAttrs = getSongAttributes(group, iteration, 'song2');
-      bracketContentSong(
-        offScreenCanvas,
-        yStart + height,
-        lineStartX,
-        lineEndX,
-        songAttrs.artwork.bgColor,
-        songAttrs.name,
-        songAttrs.artwork.textColor2,
-        position,
-        fontSize,
-        rectangleHeight,
-      );
-    }
-
     function bracketContentSong(
       offScreenCanvas,
       yStart,
@@ -84,19 +37,19 @@ function DownloadP5ImageHidden(bracketDetails) {
       position,
       fontSize = 18,
       rectangleHeight = 40,
-      yStartSong = 10
+      // yStartSong = 10
     ) {
+      let endX;
+      if (position === 'right') {
+        const canvasWidth = offScreenCanvas.width || width;
+        endX = (canvasWidth) - 10 - (canvasWidth - rectStart);
+        rectStart = endX - rectWidth;
+      }
       offScreenCanvas.textSize(fontSize);
 
       const padding = 10;
 
-      let rectWidth = offScreenCanvas.textWidth(songName) + 2 * padding;
-
-      if (position === "right") {
-        let canvasWidth = offScreenCanvas.width || width;
-        var endX = (canvasWidth) - 10 - (canvasWidth - rectStart);
-        rectStart = endX - rectWidth;
-      }
+      const rectWidth = offScreenCanvas.textWidth(songName) + 2 * padding;
 
       offScreenCanvas.noStroke();
       offScreenCanvas.fill(`#${bgColor}`);
@@ -108,10 +61,10 @@ function DownloadP5ImageHidden(bracketDetails) {
       offScreenCanvas.fill(`#${textColor}`);
 
       // Calculate the vertical center of the rectangle
-      let textY = rectY + actualRectangleHeight / 2;
+      const textY = rectY + actualRectangleHeight / 2;
       
       // Calculate the horizontal center of the rectangle
-      let textX = rectStart + rectWidth / 2;
+      const textX = rectStart + rectWidth / 2;
 
       // Set text alignment to center both horizontally and vertically
       offScreenCanvas.textAlign(offScreenCanvas.CENTER, offScreenCanvas.CENTER);
@@ -126,24 +79,42 @@ function DownloadP5ImageHidden(bracketDetails) {
       return group[iteration].attributes[songKey]?.song?.attributes;
     }
 
-    function round1(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height) {
-        const groups = [groupA, groupB]
-        for (let i = 0; i < groups.length; i++) {
-          for (let r = 0; r < groups[i].length; r++) {
-            bracketContent(offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, color, position, height);
-            yStart += matchUpHeight + matchUpSpace;
-          }
-        }
-    }
-    function round2(offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height) {
+    function round1(
+      offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height,
+    ) {
       const groups = [groupA, groupB];
       for (let i = 0; i < groups.length; i++) {
         for (let r = 0; r < groups[i].length; r++) {
-          bracketContent(offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, color, position, height);
+          bracketContent(
+            offScreenCanvas,
+            yStart,
+            groups[i],
+            r,
+            lineStartX,
+            lineEndX,
+            color,
+            position,
+            height
+          );
+          yStart += matchUpHeight + matchUpSpace;
+        }
+      }
+    }
+
+    function round2(
+      offScreenCanvas, yStart, color, lineStartX, lineEndX, groupA, groupB, position, height,
+    ) {
+      const groups = [groupA, groupB];
+      for (let i = 0; i < groups.length; i++) {
+        for (let r = 0; r < groups[i].length; r++) {
+          bracketContent(
+            offScreenCanvas, yStart, groups[i], r, lineStartX, lineEndX, color, position, height,
+          );
           yStart += (matchUpHeight * 2) + (matchUpSpace * 2);
         }
       }
     }
+
     function round3(
       offScreenCanvas,
       yStart,
@@ -184,6 +155,53 @@ function DownloadP5ImageHidden(bracketDetails) {
       bracketContentSong(offScreenCanvas, yStart, width - xEnd, width - xStart, groupA[1].attributes.song2.song.attributes.artwork.bgColor, groupA[1].attributes.song2.song.attributes.name, groupA[1].attributes.song2.song.attributes.artwork.textColor2, "right", 56, 100, 40);
     }
 
+    function bracketContent(
+      offScreenCanvas,
+      yStart,
+      group,
+      iteration,
+      lineStartX,
+      lineEndX,
+      color,
+      position,
+      height,
+      fontSize = 45,
+      rectangleHeight = 40,
+    ) {
+      let songAttrs = getSongAttributes(group, iteration, 'song1');
+      offScreenCanvas.stroke(color);
+      offScreenCanvas.strokeWeight(bracketWeight);
+      offScreenCanvas.line(lineStartX, yStart, lineEndX, yStart);
+      offScreenCanvas.line(lineEndX, yStart, lineEndX, yStart + height);
+      offScreenCanvas.line(lineEndX, yStart + height, lineStartX, yStart + height);
+      offScreenCanvas.textSize(fontSize);
+      bracketContentSong(
+        offScreenCanvas,
+        yStart,
+        lineStartX,
+        lineEndX,
+        songAttrs.artwork.bgColor,
+        songAttrs.name,
+        songAttrs.artwork.textColor2,
+        position,
+        fontSize,
+        rectangleHeight,
+      );
+      songAttrs = getSongAttributes(group, iteration, 'song2');
+      bracketContentSong(
+        offScreenCanvas,
+        yStart + height,
+        lineStartX,
+        lineEndX,
+        songAttrs.artwork.bgColor,
+        songAttrs.name,
+        songAttrs.artwork.textColor2,
+        position,
+        fontSize,
+        rectangleHeight,
+      );
+    }
+
     if (p5Ref.current) {
         const p = p5Ref.current;
 
@@ -206,19 +224,7 @@ function DownloadP5ImageHidden(bracketDetails) {
           offScreenCanvas.text(winner.song.attributes.name, width - (width * 0.5), height - (height * 0.2));
           offScreenCanvas.textAlign(p.LEFT);
         }
-
-        function newImageTab(board, artistName) {
-          let imageDataUrl = board.canvas.toDataURL('image/png');
-
-          const link = document.createElement('a');
-          link.href = imageDataUrl;
-          // link.target = '_blank'; 
-          link.download = `Dadgad_${artistName}_bracket.png`;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
-
+        // Add artist image
         if (state.values.artist_image) {
             img = p.loadImage(state.values.artist_image,
                 () => {
@@ -230,25 +236,45 @@ function DownloadP5ImageHidden(bracketDetails) {
                     offscreenCanvas.image(img, imgX, 400, targetImageWidth, 400);
 
                     // Continue with other drawing operations
-                    drawBracketContent(offscreenCanvas);
-                    newImageTab(offscreenCanvas, bracketDetails.artistName);
-                    /// offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
+                    downloadBracket(offscreenCanvas, bracketDetails.artistName)
                 },
                 (event) => {
                     console.error('Error loading image:', event);
                     // If image fails to load, still draw the rest of the bracket
                     drawBracketContent(offscreenCanvas);
-                    // offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
-                    newImageTab(offscreenCanvas, bracketDetails.artistName);
+                    downloadBracket(offscreenCanvas, bracketDetails.artistName)
                 },
             );
         } else {
           console.warn('No header image URL provided.');
           // If no image URL, just draw the bracket content
           drawBracketContent(offscreenCanvas);
-          // offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
-          newImageTab(offscreenCanvas, bracketDetails.artistName);
+          downloadBracket(offscreenCanvas, bracketDetails.artistName)
         }
+      
+      function downloadBracket(offScreenCanvas, artistName) {
+        // You can choose 'png', 'jpg', or 'webp' as the format.
+        // For iOS compatibility, PNG is generally a good choice.
+        debugger;
+        const imageData = offScreenCanvas.canvas.toDataURL('image/png');
+        if (
+            /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+            !window.MSStream
+        ) {
+          console.log("Option 1");
+          window.open(imageData, '_blank');
+        } else {
+          console.log("Option 2");
+          // Trigger the download for non-iOS devices
+          // document.body.appendChild(link);
+          // link.click();
+          // document.body.removeChild(link);
+          offScreenCanvas.save(`dadgad_${artistName}_bracket.png`);
+        }
+
+        console.log(imageData);
+        // offScreenCanvas.save(`dadgad_${artistName}_bracket.png`);
+      }
 
       // --- Extracted bracket drawing logic into a new function ---
       function drawBracketContent(offScreenCanvas) {
