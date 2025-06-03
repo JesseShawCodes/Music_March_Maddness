@@ -102,7 +102,6 @@ describe('ArtistSearch', () => {
 
     // Wait for the taskId to be set and polling to initiate
     await waitFor(() => {
-      console.log(mockTriggerStatusTrigger)
       // After initial triggerSearch resolves and taskId is set, polling should start
       expect(mockTriggerStatusTrigger).toHaveBeenCalledWith(mockTaskId);
       expect(screen.getByTestId('loading-component')).toHaveTextContent('Loading: Queued... waiting for results.'); //
