@@ -219,7 +219,18 @@ function DownloadP5ImageHidden(bracketDetails) {
 
                     // Continue with other drawing operations
                     drawBracketContent(offscreenCanvas);
-                    offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
+                    debugger;
+                    console.log(offscreenCanvas);
+                    let imageDataUrl = offscreenCanvas.canvas.toDataURL('image/png');
+
+                    const link = document.createElement('a');
+                    link.href = imageDataUrl;
+                    link.target = '_blank'; // Open in a new tab
+                    link.download = `Dadgad_${bracketDetails.artistName}_bracket.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    /// offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
                 },
                 (event) => {
                     console.error('Error loading image:', event);
