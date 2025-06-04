@@ -19,6 +19,7 @@ import { ThemeProvider } from './ThemeContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import DownloadableP5Image from './components/Bracket';
+import Testp5Sketch from './pages/TestP5Sketch';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
               <Route path="/bracket" element={<DownloadableP5Image />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/create_account" element={<CreateAccountPage />} />
+              <Route path="/test-sketch" element={<Testp5Sketch />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </main>
