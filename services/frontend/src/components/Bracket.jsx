@@ -208,7 +208,6 @@ function DownloadP5ImageHidden(bracketDetails) {
         }
 
         function newImageTab(board, artistName) {
-          debugger;
           let imageDataUrl = board.canvas.toDataURL('image/png');
 
           const link = document.createElement('a');
