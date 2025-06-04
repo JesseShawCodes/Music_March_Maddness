@@ -207,6 +207,19 @@ function DownloadP5ImageHidden(bracketDetails) {
           offScreenCanvas.textAlign(p.LEFT);
         }
 
+        function newImageTab(board, artistName) {
+          debugger;
+          let imageDataUrl = board.canvas.toDataURL('image/png');
+
+          const link = document.createElement('a');
+          link.href = imageDataUrl;
+          link.target = '_blank'; // Open in a new tab
+          link.download = `Dadgad_${artistName}_bracket.png`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+
         if (state.values.artist_image) {
             img = p.loadImage(state.values.artist_image,
                 () => {
@@ -219,31 +232,23 @@ function DownloadP5ImageHidden(bracketDetails) {
 
                     // Continue with other drawing operations
                     drawBracketContent(offscreenCanvas);
-                    debugger;
-                    console.log(offscreenCanvas);
-                    let imageDataUrl = offscreenCanvas.canvas.toDataURL('image/png');
-
-                    const link = document.createElement('a');
-                    link.href = imageDataUrl;
-                    link.target = '_blank'; // Open in a new tab
-                    link.download = `Dadgad_${bracketDetails.artistName}_bracket.png`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
+                    newImageTab(offscreenCanvas, bracketDetails.artistName);
                     /// offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
                 },
                 (event) => {
                     console.error('Error loading image:', event);
                     // If image fails to load, still draw the rest of the bracket
                     drawBracketContent(offscreenCanvas);
-                    offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
+                    // offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
+                    newImageTab(offscreenCanvas, bracketDetails.artistName);
                 },
             );
         } else {
           console.warn('No header image URL provided.');
           // If no image URL, just draw the bracket content
           drawBracketContent(offscreenCanvas);
-          offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
+          // offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
+          newImageTab(offscreenCanvas, bracketDetails.artistName);
         }
 
       // --- Extracted bracket drawing logic into a new function ---
