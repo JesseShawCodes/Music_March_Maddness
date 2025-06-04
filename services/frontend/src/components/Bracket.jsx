@@ -213,7 +213,7 @@ function DownloadP5ImageHidden(bracketDetails) {
 
           const link = document.createElement('a');
           link.href = imageDataUrl;
-          link.target = '_blank'; // Open in a new tab
+          // link.target = '_blank'; 
           link.download = `Dadgad_${artistName}_bracket.png`;
           document.body.appendChild(link);
           link.click();
