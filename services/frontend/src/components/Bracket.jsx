@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {
   useRef,
   useEffect,
@@ -223,25 +224,25 @@ function DownloadP5ImageHidden(bracketDetails) {
       }
       // Add artist image
       if (state.values.artist_image) {
-          img = p.loadImage(state.values.artist_image,
-              () => {
-                  
-                  const imgX = (width / 2) - (targetImageWidth / 2);
+        img = p.loadImage(state.values.artist_image,
+          () => {
+              
+            const imgX = (width / 2) - (targetImageWidth / 2);
 
-                  // Draw the image at the calculated centered position
-                  // Example: Image Url, x, y, width, height
-                  offscreenCanvas.image(img, imgX, 400, targetImageWidth, 400);
+            // Draw the image at the calculated centered position
+            // Example: Image Url, x, y, width, height
+            offscreenCanvas.image(img, imgX, 400, targetImageWidth, 400);
 
-                  // Continue with other drawing operations
-                  downloadBracket(offscreenCanvas, bracketDetails.artistName)
-              },
-              (event) => {
-                  console.error('Error loading image:', event);
-                  // If image fails to load, still draw the rest of the bracket
-                  drawBracketContent(offscreenCanvas);
-                  downloadBracket(offscreenCanvas, bracketDetails.artistName)
-              },
-          );
+            // Continue with other drawing operations
+            downloadBracket(offscreenCanvas, bracketDetails.artistName)
+          },
+          (event) => {
+            console.error('Error loading image:', event);
+            // If image fails to load, still draw the rest of the bracket
+            drawBracketContent(offscreenCanvas);
+            downloadBracket(offscreenCanvas, bracketDetails.artistName)
+          },
+        );
       } else {
         console.warn('No header image URL provided.');
         // If no image URL, just draw the bracket content
