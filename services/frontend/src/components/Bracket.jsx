@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {
   useRef,
   useEffect,
@@ -26,6 +27,9 @@ function DownloadP5ImageHidden(bracketDetails) {
   const bracketXStart = 10;
 
   const generateAndDownload = useCallback(() => {
+    const p = p5Ref.current;
+    const offscreenCanvas = p.createGraphics(width, canvasHeight);
+
     function bracketContentSong(
       offScreenCanvas,
       yStart,
@@ -135,7 +139,7 @@ function DownloadP5ImageHidden(bracketDetails) {
       groupB,
       position,
       height,
-      heightRatio =1,
+      heightRatio = 1,
       fontSize = 24,
     ) {
       const groups = [groupA, groupB];
@@ -151,29 +155,19 @@ function DownloadP5ImageHidden(bracketDetails) {
             color,
             position,
             height,
-            fontSize
+            fontSize,
           );
           yStart += (matchUpHeight * heightRatio) + (matchUpSpace * heightRatio);
         }
       }
     }
 
-    function winner(offScreenCanvas, winner) {
-      offScreenCanvas.noStroke();
-      offScreenCanvas.textSize(50);
-      offScreenCanvas.textAlign(p.CENTER);
-      offScreenCanvas.fill(`#000`);
-      offScreenCanvas.text("Winner:", width - (width * 0.5), height - (height * 1.25));
-      offScreenCanvas.text(winner.song.attributes.name, width - (width * 0.5), height - (height * 0.2));
-      offScreenCanvas.textAlign(p.LEFT);
-    }
     // Add artist image
     function newImageTab(board, artistName) {
-      let imageDataUrl = board.canvas.toDataURL('image/png');
+      const imageDataUrl = board.canvas.toDataURL('image/png');
 
       const link = document.createElement('a');
       link.href = imageDataUrl;
-      // link.target = '_blank'; 
       link.download = `dadgad_${artistName}_bracket.png`;
       document.body.appendChild(link);
       link.click();
@@ -217,7 +211,7 @@ function DownloadP5ImageHidden(bracketDetails) {
         state.bracket.group2.round2.roundMatchups,
         'left',
         (matchUpHeight * 1.5),
-        2
+        2,
       );
       round(
         offScreenCanvas,
@@ -229,7 +223,7 @@ function DownloadP5ImageHidden(bracketDetails) {
         state.bracket.group4.round2.roundMatchups,
         'right',
         (matchUpHeight * 1.5),
-        2
+        2,
       );
 
       round(
@@ -242,7 +236,7 @@ function DownloadP5ImageHidden(bracketDetails) {
         state.bracket.group2.round3.roundMatchups,
         'left',
         matchUpHeight * 2.5,
-        4
+        4,
       );
 
       round(
@@ -255,7 +249,7 @@ function DownloadP5ImageHidden(bracketDetails) {
         state.bracket.group4.round3.roundMatchups,
         'right',
         matchUpHeight * 2.5,
-        4
+        4,
       );
 
       round(
@@ -287,8 +281,8 @@ function DownloadP5ImageHidden(bracketDetails) {
       );
 
       bracketContent(
-        offScreenCanvas, 
-        55 + (matchUpHeight * 6), 
+        offScreenCanvas,
+        55 + (matchUpHeight * 6),
         state.championshipBracket.round5.roundMatchups,
         0,
         900,
@@ -296,12 +290,12 @@ function DownloadP5ImageHidden(bracketDetails) {
         bracketColor,
         'left',
         matchUpHeight * 10,
-        45
+        45,
       );
 
       bracketContent(
-        offScreenCanvas, 
-        55 + (matchUpHeight * 6), 
+        offScreenCanvas,
+        55 + (matchUpHeight * 6),
         state.championshipBracket.round5.roundMatchups,
         1,
         width - 900,
@@ -320,11 +314,11 @@ function DownloadP5ImageHidden(bracketDetails) {
         state.championshipBracket.round5.roundMatchups[0].attributes.song1.song.attributes.artwork.bgColor,
         state.championshipBracket.round5.roundMatchups[0].attributes.song1.song.attributes.name,
         state.championshipBracket.round5.roundMatchups[0].attributes.song1.song.attributes.artwork.textColor2,
-        "left",
+        'left',
         56,
         100,
         40
-      )
+      );
 
       bracketContentSong(
         offScreenCanvas,
@@ -338,10 +332,9 @@ function DownloadP5ImageHidden(bracketDetails) {
         56,
         100,
         40
-      )
+      );
 
       // winner(offScreenCanvas, state.champion);
-      debugger;
       bracketContentSong(
         offScreenCanvas,
         1000,
@@ -353,13 +346,13 @@ function DownloadP5ImageHidden(bracketDetails) {
         "right", 
         60,
         100,
-      )
+      );
     }
 
     function placeArtistImage(artistImage, artistName) {
-      let img; 
       const targetImageWidth = 400;
-      img = p.loadImage(artistImage,
+      const img = p.loadImage(
+        artistImage,
         () => {
           const imgX = (width / 2) - (targetImageWidth / 2);
           // Draw the image at the calculated centered position
@@ -379,9 +372,7 @@ function DownloadP5ImageHidden(bracketDetails) {
         },
       );
     }
-    const p = p5Ref.current;
 
-    const offscreenCanvas = p.createGraphics(width, canvasHeight);
     offscreenCanvasRef.current = offscreenCanvas.canvas; // Store the canvas element for potential later use
 
     offscreenCanvas.background(255, 255, 255);
@@ -389,7 +380,7 @@ function DownloadP5ImageHidden(bracketDetails) {
     offscreenCanvas.strokeWeight(bracketWeight);
 
     if (state.values.artist_image) {
-      placeArtistImage(state.values.artist_image);
+      placeArtistImage(state.values.artist_image, state.values.artist_name);
     } else {
       console.warn('No header image URL provided.');
       // If no image URL, just draw the bracket content
