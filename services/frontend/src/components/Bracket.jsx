@@ -200,17 +200,17 @@ function DownloadP5ImageHidden(bracketDetails) {
     }
 
     if (p5Ref.current) {
-        const p = p5Ref.current;
+      const p = p5Ref.current;
 
-        const offscreenCanvas = p.createGraphics(width, height);
-        offscreenCanvasRef.current = offscreenCanvas.canvas; // Store the canvas element for potential later use
+      const offscreenCanvas = p.createGraphics(width, height);
+      offscreenCanvasRef.current = offscreenCanvas.canvas; // Store the canvas element for potential later use
 
-        offscreenCanvas.background(255, 255, 255);
-        
-        offscreenCanvas.strokeWeight(bracketWeight);
+      offscreenCanvas.background(255, 255, 255);
+      
+      offscreenCanvas.strokeWeight(bracketWeight);
 
-        let img; 
-        const targetImageWidth = 400;
+      let img; 
+      const targetImageWidth = 400;
 
       function winner(offScreenCanvas, winner) {
         offScreenCanvas.noStroke();
