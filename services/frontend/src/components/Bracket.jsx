@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {
   useRef,
   useEffect,
@@ -149,9 +148,7 @@ function DownloadP5ImageHidden(bracketDetails) {
     }
 
     function round6(offScreenCanvas, yStart, xStart, xEnd, color, groupA) {
-
       bracketContentSong(offScreenCanvas, yStart, xStart, xEnd, groupA[0].attributes.song1.song.attributes.artwork.bgColor, groupA[0].attributes.song1.song.attributes.name, groupA[0].attributes.song1.song.attributes.artwork.textColor2, "left", 56, 100, 40);
-
       bracketContentSong(offScreenCanvas, yStart, width - xEnd, width - xStart, groupA[1].attributes.song2.song.attributes.artwork.bgColor, groupA[1].attributes.song2.song.attributes.name, groupA[1].attributes.song2.song.attributes.artwork.textColor2, "right", 56, 100, 40);
     }
 
@@ -215,56 +212,55 @@ function DownloadP5ImageHidden(bracketDetails) {
         let img; 
         const targetImageWidth = 400;
 
-        function winner(offScreenCanvas, winner) {
-          offScreenCanvas.noStroke();
-          offScreenCanvas.textSize(50);
-          offScreenCanvas.textAlign(p.CENTER);
-          offScreenCanvas.fill(`#${winner.song.attributes.artwork.textColor2}`);
-          offScreenCanvas.text("Winner:", width - (width * 0.5), height - (height * 0.25));
-          offScreenCanvas.text(winner.song.attributes.name, width - (width * 0.5), height - (height * 0.2));
-          offScreenCanvas.textAlign(p.LEFT);
-        }
-        // Add artist image
-        if (state.values.artist_image) {
-            img = p.loadImage(state.values.artist_image,
-                () => {
-                    
-                    const imgX = (width / 2) - (targetImageWidth / 2);
+      function winner(offScreenCanvas, winner) {
+        offScreenCanvas.noStroke();
+        offScreenCanvas.textSize(50);
+        offScreenCanvas.textAlign(p.CENTER);
+        offScreenCanvas.fill(`#${winner.song.attributes.artwork.textColor2}`);
+        offScreenCanvas.text("Winner:", width - (width * 0.5), height - (height * 0.25));
+        offScreenCanvas.text(winner.song.attributes.name, width - (width * 0.5), height - (height * 0.2));
+        offScreenCanvas.textAlign(p.LEFT);
+      }
+      // Add artist image
+      if (state.values.artist_image) {
+          img = p.loadImage(state.values.artist_image,
+              () => {
+                  
+                  const imgX = (width / 2) - (targetImageWidth / 2);
 
-                    // Draw the image at the calculated centered position
-                    // Example: Image Url, x, y, width, height
-                    offscreenCanvas.image(img, imgX, 400, targetImageWidth, 400);
+                  // Draw the image at the calculated centered position
+                  // Example: Image Url, x, y, width, height
+                  offscreenCanvas.image(img, imgX, 400, targetImageWidth, 400);
 
-                    // Continue with other drawing operations
-                    downloadBracket(offscreenCanvas, bracketDetails.artistName)
-                },
-                (event) => {
-                    console.error('Error loading image:', event);
-                    // If image fails to load, still draw the rest of the bracket
-                    drawBracketContent(offscreenCanvas);
-                    downloadBracket(offscreenCanvas, bracketDetails.artistName)
-                },
-            );
-        } else {
-          console.warn('No header image URL provided.');
-          // If no image URL, just draw the bracket content
-          drawBracketContent(offscreenCanvas);
-          downloadBracket(offscreenCanvas, bracketDetails.artistName)
-        }
-      
+                  // Continue with other drawing operations
+                  downloadBracket(offscreenCanvas, bracketDetails.artistName)
+              },
+              (event) => {
+                  console.error('Error loading image:', event);
+                  // If image fails to load, still draw the rest of the bracket
+                  drawBracketContent(offscreenCanvas);
+                  downloadBracket(offscreenCanvas, bracketDetails.artistName)
+              },
+          );
+      } else {
+        console.warn('No header image URL provided.');
+        // If no image URL, just draw the bracket content
+        drawBracketContent(offscreenCanvas);
+        downloadBracket(offscreenCanvas, bracketDetails.artistName);
+      }
+
       function downloadBracket(offScreenCanvas, artistName) {
         // You can choose 'png', 'jpg', or 'webp' as the format.
         // For iOS compatibility, PNG is generally a good choice.
-        debugger;
         const imageData = offScreenCanvas.canvas.toDataURL('image/png');
         if (
-            /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-            !window.MSStream
+          /iPad|iPhone|iPod/.test(navigator.userAgent)
+          && !window.MSStream
         ) {
-          console.log("Option 1");
+          console.log('Option 1');
           window.open(imageData, '_blank');
         } else {
-          console.log("Option 2");
+          console.log('Option 2');
           // Trigger the download for non-iOS devices
           // document.body.appendChild(link);
           // link.click();
@@ -430,6 +426,6 @@ function DownloadP5ImageHidden(bracketDetails) {
   return (
     <button onClick={generateAndDownload} className="btn btn-primary" type="button">Download your Bracket</button>
   );
-};
+}
 
 export default DownloadP5ImageHidden;
