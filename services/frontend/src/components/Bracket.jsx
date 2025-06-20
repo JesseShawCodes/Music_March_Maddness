@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {
   useRef,
   useEffect,
@@ -309,7 +310,8 @@ function DownloadP5ImageHidden(bracketDetails) {
       );
 
       const champion = state.championshipBracket.round5.roundMatchups;
-
+      debugger;
+      /*
       bracketContentSong(
         offScreenCanvas,
         canvasHeight - (canvasHeight * 0.05),
@@ -337,6 +339,7 @@ function DownloadP5ImageHidden(bracketDetails) {
         100,
         40,
       );
+      */
 
       // winner(offScreenCanvas, state.champion);
       bracketContentSong(
