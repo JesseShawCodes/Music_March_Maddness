@@ -8,10 +8,13 @@ import React, {
 import p5 from 'p5';
 
 import { Context } from '../context/BracketContext';
+import { bracket } from '../services/bracketService';
 
-function DownloadP5ImageHidden(bracketDetails) {
-  const p5Ref = useRef(null);
-  const offscreenCanvasRef = useRef(null);
+function DownloadP5ImageHidden() {
+  const p5ContainerRef = useRef();
+  const p5InstanceRef = useRef();
+  // const p5Ref = useRef(null);
+  // const offscreenCanvasRef = useRef(null);
   const value = useContext(Context);
   const [state] = value;
 
@@ -19,400 +22,87 @@ function DownloadP5ImageHidden(bracketDetails) {
   const width = 4200;
   const canvasHeight = 3800;
 
-  const bracketWeight = 5;
-  const bracketColor = '#000';
-  const matchUpSpace = 60;
-  const matchUpHeight = 160;
+  // const bracketWeight = 5;
+  // const bracketColor = '#000';
+  // const matchUpSpace = 60;
+  // const matchUpHeight = 160;
 
-  const bracketXStart = 10;
+  // const bracketXStart = 10;
 
   const generateAndDownload = useCallback(() => {
-    const p = p5Ref.current;
-    const offscreenCanvas = p.createGraphics(width, canvasHeight);
+    if (p5InstanceRef.current) {
+      const p = p5InstanceRef.current;
 
-    function bracketContentSong(
-      offScreenCanvas,
-      yStart,
-      rectStart,
-      rectEnd,
-      bgColor,
-      songName,
-      textColor,
-      position,
-      fontSize = 18,
-      rectangleHeight = 40,
-    ) {
-      offScreenCanvas.textSize(fontSize);
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-      const padding = 10;
-
-      const rectWidth = offScreenCanvas.textWidth(songName) + 2 * padding;
-
-      let finalRectStart = rectStart;
-
-      if (position === 'right') {
-        const canvasWidth = offScreenCanvas.width || width;
-        const endX = (canvasWidth) - 10 - (canvasWidth - rectStart);
-        finalRectStart = endX - rectWidth;
-      }
-
-      offScreenCanvas.noStroke();
-      offScreenCanvas.fill(`#${bgColor}`);
-
-      const rectY = yStart - 20;
-      const actualRectangleHeight = rectangleHeight + 10;
-      offScreenCanvas.rect(finalRectStart, rectY, rectWidth, actualRectangleHeight, 12, 12, 12, 12);
-
-      offScreenCanvas.fill(`#${textColor}`);
-
-      // Calculate the vertical center of the rectangle
-      const textY = rectY + actualRectangleHeight / 2;
-
-      // Calculate the horizontal center of the rectangle
-      const textX = finalRectStart + rectWidth / 2;
-
-      // Set text alignment to center both horizontally and vertically
-      offScreenCanvas.textAlign(offScreenCanvas.CENTER, offScreenCanvas.CENTER);
-
-      offScreenCanvas.text(songName, textX, textY);
-
-      // reset textAlign
-      offScreenCanvas.textAlign(offScreenCanvas.LEFT, offScreenCanvas.TOP);
-    }
-
-    function getSongAttributes(group, iteration, songKey) {
-      return group[iteration].attributes[songKey]?.song?.attributes;
-    }
-
-    function bracketContent(
-      offScreenCanvas,
-      yStart,
-      group,
-      iteration,
-      lineStartX,
-      lineEndX,
-      color,
-      position,
-      height,
-      fontSize = 45,
-      rectangleHeight = 40,
-    ) {
-      let songAttrs = getSongAttributes(group, iteration, 'song1');
-      offScreenCanvas.stroke(color);
-      offScreenCanvas.strokeWeight(bracketWeight);
-      offScreenCanvas.line(lineStartX, yStart, lineEndX, yStart);
-      offScreenCanvas.line(lineEndX, yStart, lineEndX, yStart + height);
-      offScreenCanvas.line(lineEndX, yStart + height, lineStartX, yStart + height);
-      offScreenCanvas.textSize(fontSize);
-      bracketContentSong(
-        offScreenCanvas,
-        yStart,
-        lineStartX,
-        lineEndX,
-        songAttrs.artwork.bgColor,
-        songAttrs.name,
-        songAttrs.artwork.textColor2,
-        position,
-        fontSize,
-        rectangleHeight,
-      );
-      songAttrs = getSongAttributes(group, iteration, 'song2');
-      bracketContentSong(
-        offScreenCanvas,
-        yStart + height,
-        lineStartX,
-        lineEndX,
-        songAttrs.artwork.bgColor,
-        songAttrs.name,
-        songAttrs.artwork.textColor2,
-        position,
-        fontSize,
-        rectangleHeight,
-      );
-    }
-
-    function round(
-      offScreenCanvas,
-      yStart,
-      color,
-      lineStartX,
-      lineEndX,
-      groupA,
-      groupB,
-      position,
-      height,
-      heightRatio = 1,
-      fontSize = 24,
-    ) {
-      const groups = [groupA, groupB];
-      let yStartAdjusted = yStart;
-      for (let i = 0; i < groups.length; i += 1) {
-        for (let r = 0; r < groups[i].length; r += 1) {
-          bracketContent(
-            offScreenCanvas,
-            yStartAdjusted,
-            groups[i],
-            r,
-            lineStartX,
-            lineEndX,
-            color,
-            position,
-            height,
-            fontSize,
-          );
-          yStartAdjusted += (matchUpHeight * heightRatio) + (matchUpSpace * heightRatio);
+      if (isIOS) {
+        const canvas = p.canvas; // Access the canvas element directly from the p5 instance
+        if (canvas) {
+          const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+          const link = document.createElement('a');
+          link.download = 'my-p5-image.png';
+          link.href = image;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         }
+      } else {
+        p.saveCanvas('my-p5-image', 'png');
       }
     }
-
-    // Add artist image
-    function newImageTab(board, artistName) {
-      const imageDataUrl = board.canvas.toDataURL('image/png');
-
-      const link = document.createElement('a');
-      link.href = imageDataUrl;
-      link.download = `dadgad_${artistName}_bracket.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    // --- Extracted bracket drawing logic into a new function ---
-    function drawBracketContent(offScreenCanvas) {
-      const round1Length = 200;
-
-      round(
-        offScreenCanvas,
-        55,
-        bracketColor,
-        bracketXStart,
-        round1Length + bracketXStart,
-        state.bracket.group1.round1.roundMatchups,
-        state.bracket.group2.round1.roundMatchups,
-        'left',
-        matchUpHeight,
-      );
-      round(
-        offScreenCanvas,
-        55,
-        bracketColor,
-        width - bracketXStart,
-        width - round1Length,
-        state.bracket.group3.round1.roundMatchups,
-        state.bracket.group4.round1.roundMatchups,
-        'right',
-        matchUpHeight,
-      );
-
-      round(
-        offScreenCanvas,
-        55 + (matchUpHeight / 2),
-        bracketColor,
-        round1Length,
-        200 + 190,
-        state.bracket.group1.round2.roundMatchups,
-        state.bracket.group2.round2.roundMatchups,
-        'left',
-        (matchUpHeight * 1.5),
-        2,
-      );
-      round(
-        offScreenCanvas,
-        55 + (matchUpHeight / 2),
-        bracketColor,
-        width - (round1Length),
-        width - (420),
-        state.bracket.group3.round2.roundMatchups,
-        state.bracket.group4.round2.roundMatchups,
-        'right',
-        (matchUpHeight * 1.5),
-        2,
-      );
-
-      round(
-        offScreenCanvas,
-        55 + (matchUpHeight * 1.5),
-        bracketColor,
-        390,
-        640,
-        state.bracket.group1.round3.roundMatchups,
-        state.bracket.group2.round3.roundMatchups,
-        'left',
-        matchUpHeight * 2.5,
-        4,
-      );
-
-      round(
-        offScreenCanvas,
-        55 + (matchUpHeight * 1.5),
-        bracketColor,
-        width - 390,
-        width - 640,
-        state.bracket.group3.round3.roundMatchups,
-        state.bracket.group4.round3.roundMatchups,
-        'right',
-        matchUpHeight * 2.5,
-        4,
-      );
-
-      round(
-        offScreenCanvas,
-        55 + (matchUpHeight * 3),
-        bracketColor,
-        640,
-        900,
-        state.bracket.group1.round4.roundMatchups,
-        state.bracket.group2.round4.roundMatchups,
-        'left',
-        matchUpHeight * 5,
-        8,
-        60,
-      );
-
-      round(
-        offScreenCanvas,
-        55 + (matchUpHeight * 3),
-        bracketColor,
-        width - 640,
-        width - 900,
-        state.bracket.group3.round4.roundMatchups,
-        state.bracket.group4.round4.roundMatchups,
-        'right',
-        matchUpHeight * 5,
-        8,
-        60,
-      );
-
-      bracketContent(
-        offScreenCanvas,
-        55 + (matchUpHeight * 6),
-        state.championshipBracket.round5.roundMatchups,
-        0,
-        900,
-        1300,
-        bracketColor,
-        'left',
-        matchUpHeight * 10,
-        45,
-      );
-
-      bracketContent(
-        offScreenCanvas,
-        55 + (matchUpHeight * 6),
-        state.championshipBracket.round5.roundMatchups,
-        1,
-        width - 900,
-        width - 1300,
-        bracketColor,
-        'right',
-        matchUpHeight * 10,
-        45,
-      );
-
-      const champion = state.championshipBracket.round5.roundMatchups;
-      debugger;
-      /*
-      bracketContentSong(
-        offScreenCanvas,
-        canvasHeight - (canvasHeight * 0.05),
-        600,
-        600,
-        champion[0].attributes.song1.song.attributes.artwork.bgColor,
-        champion[0].attributes.song1.song.attributes.name,
-        champion[0].attributes.song1.song.attributes.artwork.textColor2,
-        'left',
-        56,
-        100,
-        40,
-      );
-
-      bracketContentSong(
-        offScreenCanvas,
-        canvasHeight - (canvasHeight * 0.05),
-        width - 600,
-        width - 600,
-        champion[1].attributes.song1.song.attributes.artwork.bgColor,
-        champion[1].attributes.song1.song.attributes.name,
-        champion[1].attributes.song1.song.attributes.artwork.textColor2,
-        'right',
-        56,
-        100,
-        40,
-      );
-      */
-
-      // winner(offScreenCanvas, state.champion);
-      bracketContentSong(
-        offScreenCanvas,
-        1000,
-        width / 2,
-        3000,
-        state.champion.song.attributes.artwork.textColor3,
-        state.champion.song.attributes.name,
-        state.champion.song.attributes.artwork.bgColor,
-        'right',
-        60,
-        100,
-      );
-    }
-
-    function placeArtistImage(artistImage, artistName) {
-      const targetImageWidth = 400;
-      const img = p.loadImage(
-        artistImage,
-        () => {
-          const imgX = (width / 2) - (targetImageWidth / 2);
-          // Draw the image at the calculated centered position
-          // Example: Image Url, x, y, width, height
-          offscreenCanvas.image(img, imgX, 400, targetImageWidth, 400);
-          // Continue with other drawing operations
-          drawBracketContent(offscreenCanvas);
-          newImageTab(offscreenCanvas, artistName);
-          /// offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
-        },
-        (event) => {
-          console.error('Error loading image:', event);
-          // If image fails to load, still draw the rest of the bracket
-          drawBracketContent(offscreenCanvas);
-          // offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
-          newImageTab(offscreenCanvas, artistName);
-        },
-      );
-    }
-
-    // Store the canvas element for potential later use
-    offscreenCanvasRef.current = offscreenCanvas.canvas;
-
-    offscreenCanvas.background(255, 255, 255);
-
-    offscreenCanvas.strokeWeight(bracketWeight);
-
-    if (state.values.artist_image) {
-      placeArtistImage(state.values.artist_image, state.values.artist_name);
-    } else {
-      console.warn('No header image URL provided.');
-      // If no image URL, just draw the bracket content
-      drawBracketContent(offscreenCanvas);
-      const { artistName } = bracketDetails;
-      // offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
-      newImageTab(offscreenCanvas, artistName);
-    }
-  }, [bracketDetails, state.values.artist_image, state]);
-
-  useEffect(() => {
-    // eslint-disable-next-line new-cap
-    p5Ref.current = new p5(() => {}, document.createElement('div')); // Create a p5 instance without attaching to DOM
-
-    return () => {
-      if (p5Ref.current) {
-        p5Ref.current.remove();
-        p5Ref.current = null;
-      }
-    };
   }, []);
 
+  const drawBracket = (p) => {
+    p.text("It's just what it is", p.width / 2, p.height / 2);
+    bracket(state, p);
+  }
+
+  // This is your p5.js sketch logic, defined as a function
+  // It takes the p5 instance 'p' as an argument, so you can call p.createCanvas, p.background, etc.
+  const sketch = useCallback((p) => {
+    p.setup = () => {
+      // Create the canvas and attach it to the div referenced by p5ContainerRef
+      // .parent() places the canvas inside specific React div
+      p.createCanvas(width, canvasHeight).parent(p5ContainerRef.current);
+      p.background(220);
+      p.noLoop(); // Draw once
+    };
+
+
+    p.draw = () => {
+      p.fill(p.random(255), p.random(255), p.random(255));
+      for (let i = 0; i < 100; i++) {
+        p.ellipse(p.random(p.width), p.random(p.height), 200, 200);
+      }
+      /*
+      p.fill(0);
+      p.textSize(194);
+      p.textAlign(p.CENTER, p.CENTER);
+      */
+      // p.text("Hello p5.js!", p.width / 2, p.height / 2);
+      drawBracket(p);
+
+    }
+
+    // Store the p5 instance in the ref, so it can be accessed outside the sketch
+    p5InstanceRef.current = p;
+
+  }, []); // Empty dependency array: this sketch function is stable and won't re-create
+
+  useEffect(() => {
+    /* eslint ignore-next-line */
+    const myP5 = new p5(sketch, p5ContainerRef.current);
+
+    return () => {
+      myP5.remove();
+    };
+  }, [sketch]);
+
   return (
-    <button onClick={generateAndDownload} className="btn btn-primary" type="button">Download your Bracket</button>
+    <>
+      <div ref={p5ContainerRef} className="bracket-canvas-continer" style={{ border: '1px solid black', display: 'inline-block', width: '90%' }} />
+      <button onClick={generateAndDownload} className="btn btn-primary" type="button">Download your Bracket</button>
+    </>
   );
 }
 
