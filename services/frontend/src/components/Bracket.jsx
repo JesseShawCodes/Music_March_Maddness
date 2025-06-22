@@ -8,13 +8,11 @@ import React, {
 import p5 from 'p5';
 
 import { Context } from '../context/BracketContext';
-import { bracket } from '../services/bracketService';
+import bracket from '../services/bracketService';
 
 function DownloadP5ImageHidden() {
   const p5ContainerRef = useRef();
   const p5InstanceRef = useRef();
-  // const p5Ref = useRef(null);
-  // const offscreenCanvasRef = useRef(null);
   const value = useContext(Context);
   const [state] = value;
 
@@ -22,12 +20,6 @@ function DownloadP5ImageHidden() {
   const width = 4200;
   const canvasHeight = 3800;
 
-  // const bracketWeight = 5;
-  // const bracketColor = '#000';
-  // const matchUpSpace = 60;
-  // const matchUpHeight = 160;
-
-  // const bracketXStart = 10;
 
   const generateAndDownload = useCallback(() => {
     if (p5InstanceRef.current) {
@@ -53,7 +45,6 @@ function DownloadP5ImageHidden() {
   }, []);
 
   const drawBracket = (p) => {
-    p.text("It's just what it is", p.width / 2, p.height / 2);
     bracket(state, p);
   }
 
@@ -61,8 +52,6 @@ function DownloadP5ImageHidden() {
   // It takes the p5 instance 'p' as an argument, so you can call p.createCanvas, p.background, etc.
   const sketch = useCallback((p) => {
     p.setup = () => {
-      // Create the canvas and attach it to the div referenced by p5ContainerRef
-      // .parent() places the canvas inside specific React div
       p.createCanvas(width, canvasHeight).parent(p5ContainerRef.current);
       p.background(220);
       p.noLoop(); // Draw once
@@ -70,18 +59,14 @@ function DownloadP5ImageHidden() {
 
 
     p.draw = () => {
-      p.fill(p.random(255), p.random(255), p.random(255));
+      /*
+      p.fill(p.random(255), p.random(255), p.random(255), 0.5);
       for (let i = 0; i < 100; i++) {
         p.ellipse(p.random(p.width), p.random(p.height), 200, 200);
       }
-      /*
-      p.fill(0);
-      p.textSize(194);
-      p.textAlign(p.CENTER, p.CENTER);
       */
-      // p.text("Hello p5.js!", p.width / 2, p.height / 2);
-      drawBracket(p);
 
+      drawBracket(p);
     }
 
     // Store the p5 instance in the ref, so it can be accessed outside the sketch
@@ -100,6 +85,7 @@ function DownloadP5ImageHidden() {
 
   return (
     <>
+      <p>Image may appear smaller on mobile. Click the button below to download to your device.</p>
       <div ref={p5ContainerRef} className="bracket-canvas-continer" style={{ border: '1px solid black', display: 'inline-block', width: '90%' }} />
       <button onClick={generateAndDownload} className="btn btn-primary" type="button">Download your Bracket</button>
     </>

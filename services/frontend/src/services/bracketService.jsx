@@ -110,7 +110,7 @@ function bracketContent(
   );
 }
 
-export const round = (
+const round = (
   offScreenCanvas,
   yStart,
   color,
@@ -144,19 +144,115 @@ export const round = (
   }
 };
 
-export const bracket = (state, offScreenCanvas) => {
-  console.log(state);
-  console.log(offScreenCanvas);
+export default function bracket(state, offScreenCanvas) {
+  const rounds = [
+    // Round 1
+    {
+      yStart: 55,
+      color: bracketColor,
+      lineStartX: bracketXStart,
+      lineEndX: round1Length + bracketXStart,
+      groupA: state.bracket.group1.round1.roundMatchups,
+      groupB: state.bracket.group2.round1.roundMatchups,
+      position: 'left',
+      height: matchUpHeight,
+    },
+    {
+      yStart: 55,
+      color: bracketColor,
+      lineStartX: width - bracketXStart,
+      lineEndX: width - round1Length,
+      groupA: state.bracket.group1.round1.roundMatchups,
+      groupB: state.bracket.group2.round1.roundMatchups,
+      position: 'right',
+      height: matchUpHeight,
+    },
+    // Round 2
+    {
+      yStart: 55 + (matchUpHeight / 2),
+      color: bracketColor,
+      lineStartX: round1Length,
+      lineEndX: 200 + 190,
+      groupA: state.bracket.group1.round2.roundMatchups,
+      groupB: state.bracket.group2.round2.roundMatchups,
+      position: 'left',
+      height: (matchUpHeight * 1.5),
+      heightRatio: 2,
+    },
+    {
+      yStart: 55 + (matchUpHeight / 2),
+      color: bracketColor,
+      lineStartX: width - round1Length,
+      lineEndX: width - (200 + 190),
+      groupA: state.bracket.group3.round2.roundMatchups,
+      groupB: state.bracket.group4.round2.roundMatchups,
+      position: 'right',
+      height: (matchUpHeight * 1.5),
+      heightRatio: 2,
+    },
+    // Round 3
+    {
+      yStart: 55 + (matchUpHeight * 1.5),
+      color: bracketColor,
+      lineStartX: 390,
+      lineEndX: 640,
+      groupA: state.bracket.group1.round3.roundMatchups,
+      groupB: state.bracket.group2.round3.roundMatchups,
+      position: 'left',
+      height: (matchUpHeight * 2.5),
+      heightRatio: 4,
+    },
+    {
+      yStart: 55 + (matchUpHeight * 1.5),
+      color: bracketColor,
+      lineStartX: width - 390,
+      lineEndX: width - 650,
+      groupA: state.bracket.group3.round2.roundMatchups,
+      groupB: state.bracket.group4.round2.roundMatchups,
+      position: 'right',
+      height: (matchUpHeight * 2.5),
+      heightRatio: 4,
+    },
+    // Round 4
+    {
+      yStart: 55 + (matchUpHeight * 3),
+      color: bracketColor,
+      lineStartX: 640,
+      lineEndX: 900,
+      groupA: state.bracket.group1.round3.roundMatchups,
+      groupB: state.bracket.group2.round3.roundMatchups,
+      position: 'left',
+      height: (matchUpHeight * 5),
+      heightRatio: 8,
+      fontSize: 60,
+    },
+    {
+      yStart: 55 + (matchUpHeight * 3),
+      color: bracketColor,
+      lineStartX: width - 640,
+      lineEndX: width - 900,
+      groupA: state.bracket.group3.round2.roundMatchups,
+      groupB: state.bracket.group4.round2.roundMatchups,
+      position: 'right',
+      height: (matchUpHeight * 5),
+      heightRatio: 8,
+      fontSize: 60,
+    },
+  ];
 
-  round(
-    offScreenCanvas,
-    55,
-    bracketColor,
-    bracketXStart,
-    round1Length + bracketXStart,
-    state.bracket.group1.round1.roundMatchups,
-    state.bracket.group2.round1.roundMatchups,
-    'left',
-    matchUpHeight,
-  );
-};
+  for (let i = 0; i < rounds.length; i += 1) {
+    round(
+      offScreenCanvas,
+      rounds[i].yStart,
+      bracketColor,
+      rounds[i].lineStartX,
+      rounds[i].lineEndX,
+      rounds[i].groupA,
+      rounds[i].groupB,
+      rounds[i].position,
+      rounds[i].height,
+      rounds[i].heightRatio,
+      rounds[i].fontSize,
+    );
+  }
+}
