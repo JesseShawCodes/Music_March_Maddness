@@ -10,7 +10,7 @@ import p5 from 'p5';
 import { Context } from '../context/BracketContext';
 import bracket from '../services/bracketService';
 
-function DownloadP5ImageHidden() {
+function P5Image() {
   const p5ContainerRef = useRef();
   const p5InstanceRef = useRef();
   const value = useContext(Context);
@@ -100,4 +100,4 @@ function DownloadP5ImageHidden() {
   );
 }
 
-export default DownloadP5ImageHidden;
+export default P5Image;
