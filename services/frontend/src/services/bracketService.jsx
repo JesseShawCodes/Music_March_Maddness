@@ -148,36 +148,9 @@ const round = (
 };
 
 const placeImage = (offScreenCanvas, imageLocation) => {
-  console.log('PLACE IMAGE');
-  console.log(imageLocation);
   const targetImageWidth = 400;
   const imgX = (width / 2) - (targetImageWidth / 2);
-  console.log(imgX);
-  console.log(imageLocation);
-  // offScreenCanvas.image(imageLocation, imgX, 400, targetImageWidth, 400);
-  /*
-  const img = p.loadImage(
-    artistImage,
-    () => {
-      const imgX = (width / 2) - (targetImageWidth / 2);
-      // Draw the image at the calculated centered position
-      // Example: Image Url, x, y, width, height
-      offscreenCanvas.image(img, imgX, 400, targetImageWidth, 400);
-      // Continue with other drawing operations
-      drawBracketContent(offscreenCanvas);
-      newImageTab(offscreenCanvas, artistName);
-      /// offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
-    },
-    (event) => {
-      console.error('Error loading image:', event);
-      // If image fails to load, still draw the rest of the bracket
-      drawBracketContent(offscreenCanvas);
-      // offscreenCanvas.save(`dadgad_${bracketDetails.artistName}_bracket.png`);
-      newImageTab(offscreenCanvas, artistName);
-    },
-  );
-
-  */
+  offScreenCanvas.image(imageLocation, imgX, 400, targetImageWidth, 400);
 };
 
 export default function bracket(state, offScreenCanvas, canvasHeight, image) {
@@ -353,7 +326,7 @@ export default function bracket(state, offScreenCanvas, canvasHeight, image) {
   bracketContentSong(
     offScreenCanvas,
     1000,
-    width / 2,
+    (width / 2) + 400,
     3000,
     state.champion.song.attributes.artwork.textColor3,
     state.champion.song.attributes.name,
@@ -363,6 +336,5 @@ export default function bracket(state, offScreenCanvas, canvasHeight, image) {
     100,
   );
 
-  // placeImage(offScreenCanvas, image);
-  // offScreenCanvas.image(image, 400, 400, 400, 400);
+  placeImage(offScreenCanvas, image);
 }
