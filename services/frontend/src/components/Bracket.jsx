@@ -44,13 +44,27 @@ function DownloadP5ImageHidden() {
     }
   }, []);
 
-  const drawBracket = (p) => {
-    bracket(state, p);
+  const drawBracket = (p, imageUrl) => {
+    bracket(state, p, canvasHeight, imageUrl);
   }
 
   // This is your p5.js sketch logic, defined as a function
   // It takes the p5 instance 'p' as an argument, so you can call p.createCanvas, p.background, etc.
   const sketch = useCallback((p) => {
+    let img;
+    const imageUrl = state.values.artist_image;
+
+    p.preload = () => {
+      console.log("Preload");
+      
+
+      if (imageUrl) {
+        img = p.loadImage(imageUrl,
+          () => console.log('Image loaded successfully!'),
+          (event) => console.error('Error loading image:', event)
+        );
+      }
+    }
     p.setup = () => {
       p.createCanvas(width, canvasHeight).parent(p5ContainerRef.current);
       p.background(220);
@@ -59,14 +73,8 @@ function DownloadP5ImageHidden() {
 
 
     p.draw = () => {
-      /*
-      p.fill(p.random(255), p.random(255), p.random(255), 0.5);
-      for (let i = 0; i < 100; i++) {
-        p.ellipse(p.random(p.width), p.random(p.height), 200, 200);
-      }
-      */
-
-      drawBracket(p);
+      // drawBracket(p, imageUrl);
+      bracket(state, p, canvasHeight, imageUrl);
     }
 
     // Store the p5 instance in the ref, so it can be accessed outside the sketch
