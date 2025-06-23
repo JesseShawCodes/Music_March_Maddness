@@ -26,37 +26,30 @@ function P5Image() {
       const p = p5InstanceRef.current;
 
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
+      console.log(isIOS);
       if (isIOS) {
-        const canvas = p.canvas; // Access the canvas element directly from the p5 instance
+        const canvas = p.canvas;
         if (canvas) {
           const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
           const link = document.createElement('a');
-          link.download = 'my-p5-image.png';
+          link.download = `Dadgad_${state.values.artist_name}_bracket`;
           link.href = image;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
         }
       } else {
-        p.saveCanvas('my-p5-image', 'png');
+        p.saveCanvas(`Dadgad_${state.values.artist_name}_bracket`, 'png');
       }
     }
   }, []);
 
-  const drawBracket = (p, imageUrl) => {
-    bracket(state, p, canvasHeight, imageUrl);
-  }
-
-  // This is your p5.js sketch logic, defined as a function
-  // It takes the p5 instance 'p' as an argument, so you can call p.createCanvas, p.background, etc.
   const sketch = useCallback((p) => {
-    let img;
-    const imageUrl = state.values.artist_image;
+    let img; // Declare img here so it's accessible within the sketch scope
+    const imageUrl = state.values.artist_image; // Keep imageUrl for loading
 
     p.preload = () => {
       console.log("Preload");
-      
 
       if (imageUrl) {
         img = p.loadImage(imageUrl,
@@ -73,17 +66,15 @@ function P5Image() {
 
 
     p.draw = () => {
-      // drawBracket(p, imageUrl);
-      bracket(state, p, canvasHeight, imageUrl);
+      bracket(state, p, canvasHeight, img); // <--- CHANGE IS HERE: Passing 'img' instead of 'imageUrl'
     }
 
     // Store the p5 instance in the ref, so it can be accessed outside the sketch
     p5InstanceRef.current = p;
 
-  }, []); // Empty dependency array: this sketch function is stable and won't re-create
+  }, [state]);
 
   useEffect(() => {
-    /* eslint ignore-next-line */
     const myP5 = new p5(sketch, p5ContainerRef.current);
 
     return () => {
