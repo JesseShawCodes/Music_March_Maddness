@@ -26,24 +26,10 @@ import P5Image from './components/Bracket';
 
 export default function Home() {
   return (
-    <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
-      <ThemeProvider>
-        <div className="App d-flex flex-column min-vh-100">
-          <NavBar />
-          <main className="flex-grow-1">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/about" element={<AboutPage heading={content.aboutPage.aboutPageHeading} aboutPageContent={content.aboutPage.aboutPageContent} />} />
-              <Route path="/music_search" element={<ArtistSearch />} />
-              <Route path="/artist/:handle" element={<ArtistPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/create_account" element={<CreateAccountPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </ThemeProvider>
-    </BrowserRouter>
+    <div className="container d-flex flex-column min-vh-100">
+      <main className="flex-grow-1">
+        <HomePage />
+      </main>
+    </div>
   );
 }
