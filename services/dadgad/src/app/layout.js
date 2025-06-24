@@ -2,6 +2,8 @@ import "./globals.css";
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import NavBar from "./NavBar";
 import { ReduxProvider } from "./ReduxProvider";
+import { ThemeProvider } from "./ThemeContext";
+import Footer from "./components/Footer";
 
 export const metadata = {
   title: "Create Next App",
@@ -13,7 +15,15 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <ReduxProvider>
-          {children}
+          <ThemeProvider> {/* Keep your ThemeProvider here if it wraps the whole app */}
+            <div className="d-flex flex-column min-vh-100">
+              <NavBar />
+              <main className="container flex-grow-1">
+                {children} {/* This is where your page content will be rendered */}
+              </main>
+              <Footer />
+            </div>
+          </ThemeProvider>
         </ReduxProvider>
       </body>
     </html>
