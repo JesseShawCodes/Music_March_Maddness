@@ -26,7 +26,6 @@
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^7.6.2",
     "react-scripts": "^5.0.1",
     "sass": "^1.86.0",
     "socket.io": "^4.5.1",
@@ -34,8 +33,8 @@
     "web-vitals": "^5.0.3"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
     "eslint": "^9",
-    "eslint-config-next": "15.3.4",
-    "@eslint/eslintrc": "^3"
+    "eslint-config-next": "15.3.4"
   }
 }

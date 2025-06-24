@@ -1,6 +1,5 @@
 "use client"
 import { React } from 'react';
-import { Link } from 'react-router-dom';
 import ThemeToggleButton from './components/ThemeToggleButton';
 
 function NavBar() {
@@ -8,7 +7,7 @@ function NavBar() {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
       <div className="container-fluid">
         <Link to="/" className="nav-link active navbar-brand">
-          {process.env.REACT_APP_NAME}
+          {process.env.NEXT_PUBLIC_NAME}
         </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon" />
