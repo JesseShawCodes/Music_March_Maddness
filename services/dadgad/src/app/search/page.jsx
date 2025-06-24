@@ -78,7 +78,8 @@ function SearchPage() {
 
   return (
     <ReduxProvider store={store}>
-      <div className="my-4 w-90 mx-auto d-flex justify-content-center">
+      <div className="my-4 w-90 mx-auto">
+        <div className='d-flex justify-content-center'>
         <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
           <input
             type="text"
@@ -88,6 +89,7 @@ function SearchPage() {
           />
           <button onClick={handleSearch} disabled={isSubmitting} className="btn btn-primary" type="submit">Search</button>
         </form>
+        </div>
   
         {error && <p>{error.message}</p>}
   
