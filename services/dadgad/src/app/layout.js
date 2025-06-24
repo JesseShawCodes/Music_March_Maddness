@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./App.scss";
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import NavBar from "./NavBar";
 import { ReduxProvider } from "./ReduxProvider";
@@ -18,7 +19,7 @@ export default function RootLayout({ children }) {
           <ThemeProvider> {/* Keep your ThemeProvider here if it wraps the whole app */}
             <div className="d-flex flex-column min-vh-100">
               <NavBar />
-              <main className="container flex-grow-1">
+              <main className="flex-grow-1">
                 {children} {/* This is where your page content will be rendered */}
               </main>
               <Footer />

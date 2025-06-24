@@ -26,7 +26,7 @@ import P5Image from './components/Bracket';
 
 export default function Home() {
   return (
-    <div className="container d-flex flex-column min-vh-100">
+    <div className="d-flex flex-column min-vh-100">
       <main className="flex-grow-1">
         <HomePage />
       </main>

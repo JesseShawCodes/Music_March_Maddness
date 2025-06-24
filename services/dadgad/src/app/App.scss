@@ -1,10 +1,6 @@
-// @use 'stylesheets/custom.scss';
-// @use 'stylesheets/progress.scss';
-// @use 'stylesheets/p5js.scss';
-
-.App {
-  text-align: center;
-}
+@use 'stylesheets/custom.scss';
+@use 'stylesheets/progress.scss';
+@use 'stylesheets/p5js.scss';
 
 body {
   transition: background-color 0.5s ease, color 0.5s ease, background-image 0.5s ease;
