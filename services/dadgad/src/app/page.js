@@ -3,12 +3,12 @@ import Image from "next/image";
 import styles from "./page.module.css";
 
 import { React } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './App.scss';
 import NavBar from './NavBar';
 import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
+import AboutPage from './about/page';
 import LoginPage from './pages/LoginPage';
 import CreateAccountPage from './pages/CreateAccountPage';
 import Footer from './components/Footer';
