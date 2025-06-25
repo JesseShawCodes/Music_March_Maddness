@@ -100,7 +100,7 @@ function SearchPage() {
         )}
   
         {results && (
-          <div className="grid d-flex flex-wrap justify-content-center">
+          <div className="container grid d-flex flex-wrap justify-content-center">
             {artistList(results)}
           </div>
         )}
