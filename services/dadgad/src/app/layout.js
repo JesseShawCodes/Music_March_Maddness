@@ -5,6 +5,7 @@ import NavBar from "./NavBar";
 import { ReduxProvider } from "./ReduxProvider";
 import { ThemeProvider } from "./ThemeContext";
 import Footer from "./components/Footer";
+import { BracketContext } from "./context/BracketContext";
 
 export const metadata = {
   title: "Dadgad",
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <ReduxProvider>
+          <BracketContext>
           <ThemeProvider> {/* Keep your ThemeProvider here if it wraps the whole app */}
             <div className="d-flex flex-column min-vh-100">
               <NavBar />
@@ -30,6 +32,7 @@ export default function RootLayout({ children }) {
               <Footer />
             </div>
           </ThemeProvider>
+          </BracketContext>
         </ReduxProvider>
       </body>
     </html>

@@ -1,10 +1,10 @@
 /* eslint-disable */
-"use client"
+"use client";
 import { React, createContext, useReducer } from 'react';
 
 export const Context = createContext();
 
-export const initialState = {
+const initialState = {
   values: [],
   bracket: {},
   championshipBracket: {},
@@ -23,7 +23,7 @@ export const initialState = {
   ],
 };
 
-export function bracketReducer(state, action) {
+function bracketReducer(state, action) {
   switch (action.type) {
     case 'setValues': {
       return {
@@ -81,11 +81,10 @@ export function bracketReducer(state, action) {
   }
 }
 
-function BracketContext({ children }) {
+export const BracketContext = ({ children }) => {
   const [state, dispatch] = useReducer(bracketReducer, initialState);
   return (
     <Context.Provider value={[state, dispatch]}>{children}</Context.Provider>
   );
 }
 
-export default BracketContext;

@@ -5,7 +5,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 function Loading({ message }) {
   return (
-    <div className="loading">
+    <div className="container loading">
       {message}
       <FontAwesomeIcon icon={faSpinner} className="fa-spin" />
     </div>
