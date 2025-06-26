@@ -1,5 +1,5 @@
-"use client"
-import { React, useContext, useEffect } from 'react';
+"use client";
+import React, { useContext, useEffect } from 'react';
 
 import { Context } from '@/app/context/BracketContext';
 import BracketTable from '@/app/components/BracketTable';
@@ -7,7 +7,8 @@ import { useGetArtistInfoQuery } from '@/app/services/jsonServerApi';
 import Loading from '@/app/components/Loading';
 
 function ArtistPageForm({ params }) {
-  const { handle } = params;
+  const unwrappedParams = React.use(params);
+  const { handle } = unwrappedParams;
   const value = useContext(Context);
   const [state, dispatch] = value;
 
@@ -99,7 +100,7 @@ function ArtistPageForm({ params }) {
   }
 
   return (
-    <div>
+    <div className='container'>
       {
         Object.keys(state.bracket).length === 0
           ? (
