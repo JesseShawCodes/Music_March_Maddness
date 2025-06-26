@@ -5,6 +5,7 @@ import { Context } from '../context/BracketContext';
 import BracketTable from './BracketTable';
 import { useGetArtistInfoQuery } from '../services/jsonServerApi';
 import Loading from './Loading';
+import { useParams } from 'next/navigation';
 
 function ArtistPageForm() {
   const { handle } = useParams();
