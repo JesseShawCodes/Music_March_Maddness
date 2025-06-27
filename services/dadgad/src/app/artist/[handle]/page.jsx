@@ -19,15 +19,21 @@ const ClientSideComponent = dynamic(
 
 function ArtistPage() {
   return (
+    <>
+    {/*
     <BracketContext>
       <ErrorBoundary>
         <div className="container-lg">
+          <BackToTop />
           <ArtistName />
           <ArtistPageForm />
           <TopTracks />
         </div>
       </ErrorBoundary>
     </BracketContext>
+    */}
+    <h1>TESTING</h1>
+    </>
   )
 }
 
