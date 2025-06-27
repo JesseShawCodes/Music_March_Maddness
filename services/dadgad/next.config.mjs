@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
+
+const backendConnectSrc = process.env.NEXT_PUBLIC_SERVER
+  ? new URL(process.env.NEXT_PUBLIC_SERVER).origin // Get just the origin (protocol + hostname + port)
+  : 'http://localhost:8000'; // Fallback for local dev if NEXT_PUBLIC_SERVER isn't set
+
 const nextConfig = {
   async headers() {
     return [
@@ -19,7 +24,7 @@ const nextConfig = {
               form-action 'self';
               frame-ancestors 'none';
               upgrade-insecure-requests;
-              connect-src 'self' http://localhost:8000;
+              connect-src 'self' ${backendConnectSrc};
             `
             .replace(/\s{2,}/g, ' ')
             .trim(),
