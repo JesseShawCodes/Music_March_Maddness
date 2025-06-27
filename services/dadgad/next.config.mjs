@@ -11,8 +11,9 @@ const nextConfig = {
               default-src 'self';
               script-src 'self' 'unsafe-eval' 'unsafe-inline';
               style-src 'self' 'unsafe-inline';
-              img-src 'self' blob: data:;
+
               font-src 'self';
+              img-src 'self' blob: data: https://is1-ssl.mzstatic.com;
               object-src 'none';
               base-uri 'self';
               form-action 'self';
