@@ -1,14 +1,21 @@
 /* eslint-disable */
+"use client";
 import React, {
   useRef,
   useEffect,
   useCallback,
   useContext,
 } from 'react';
-import p5 from 'p5';
+import dynamic from 'next/dynamic';
+// import p5 from 'p5';
 
 import { Context } from '../context/BracketContext';
 import bracket from '../services/bracketService';
+
+const P5Wrapper = dynamic(
+  () => import('./P5Wrapper'), // A new component to hold your p5 logic
+  { ssr: false }
+);
 
 function P5Image() {
   const p5ContainerRef = useRef();
