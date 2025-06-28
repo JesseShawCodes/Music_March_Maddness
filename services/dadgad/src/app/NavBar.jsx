@@ -19,7 +19,7 @@ function NavBar() {
               <Link href="/about" className="nav-link active">About</Link>
             </li>
             <li className="nav-item">
-              <Link href="/search" className="nav-link active">Music Search</Link>
+              <Link href="/search" className="nav-link active">Search</Link>
             </li>
             <li className="nav-item">
               <ThemeToggleButton />
