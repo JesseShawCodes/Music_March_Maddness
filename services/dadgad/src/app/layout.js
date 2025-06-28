@@ -6,6 +6,7 @@ import { ReduxProvider } from "./ReduxProvider";
 import { ThemeProvider } from "./ThemeContext";
 import Footer from "./components/Footer";
 import { BracketContext } from "./context/BracketContext";
+import BootstrapClient from "./components/BootstrapClient";
 
 export const metadata = {
   title: "Dadgad",
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
               </main>
               <Footer />
             </div>
+            <BootstrapClient />
           </ThemeProvider>
           </BracketContext>
         </ReduxProvider>
