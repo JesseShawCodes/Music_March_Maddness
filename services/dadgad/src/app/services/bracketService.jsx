@@ -150,7 +150,8 @@ const round = (
 const placeImage = (offScreenCanvas, imageLocation) => {
   const targetImageWidth = 400;
   const imgX = (width / 2) - (targetImageWidth / 2);
-  offScreenCanvas.image(imageLocation, imgX, 400, targetImageWidth, 400);
+  // Temporarily dropped image placement. Will add back later
+  // offScreenCanvas.image(imageLocation, imgX, 400, targetImageWidth, 400);
 };
 
 export default function bracket(state, offScreenCanvas, canvasHeight, image) {

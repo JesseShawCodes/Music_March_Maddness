@@ -7,13 +7,12 @@ import React, {
   useContext,
 } from 'react';
 import dynamic from 'next/dynamic';
-// import p5 from 'p5';
 
 import { Context } from '../context/BracketContext';
 import bracket from '../services/bracketService';
 
 const P5Wrapper = dynamic(
-  () => import('./P5Wrapper'), // A new component to hold your p5 logic
+  () => import('./P5Wrapper'),
   { ssr: false }
 );
 
@@ -26,7 +25,6 @@ function P5Image() {
   // Image dimensions
   const width = 4200;
   const canvasHeight = 3800;
-
 
   const generateAndDownload = useCallback(() => {
     if (p5InstanceRef.current) {
@@ -49,15 +47,14 @@ function P5Image() {
         p.saveCanvas(`Dadgad_${state.values.artist_name}_bracket`, 'png');
       }
     }
-  }, []);
+  }, [state]);
 
   const sketch = useCallback((p) => {
-    let img; // Declare img here so it's accessible within the sketch scope
-    const imageUrl = state.values.artist_image; // Keep imageUrl for loading
+    let img;
+    const imageUrl = state.values.artist_image;
 
     p.preload = () => {
       console.log("Preload");
-
       if (imageUrl) {
         img = p.loadImage(imageUrl,
           () => console.log('Image loaded successfully!'),
@@ -68,31 +65,23 @@ function P5Image() {
     p.setup = () => {
       p.createCanvas(width, canvasHeight).parent(p5ContainerRef.current);
       p.background(220);
-      p.noLoop(); // Draw once
+      p.noLoop();
     };
 
-
     p.draw = () => {
-      bracket(state, p, canvasHeight, img); // <--- CHANGE IS HERE: Passing 'img' instead of 'imageUrl'
+      bracket(state, p, canvasHeight, img);
     }
 
-    // Store the p5 instance in the ref, so it can be accessed outside the sketch
     p5InstanceRef.current = p;
 
   }, [state]);
 
-  useEffect(() => {
-    const myP5 = new p5(sketch, p5ContainerRef.current);
-
-    return () => {
-      myP5.remove();
-    };
-  }, [sketch]);
 
   return (
     <>
       <p>Image may appear smaller on mobile. Click the button below to download to your device.</p>
-      <div ref={p5ContainerRef} className="bracket-canvas-continer" style={{ border: '1px solid black', display: 'inline-block', width: '100%' }} />
+      {/* Pass the sketch and container ref to P5Wrapper */}
+      <P5Wrapper sketch={sketch} p5ContainerRef={p5ContainerRef} />
       <button onClick={generateAndDownload} className="btn btn-primary" type="button">Download your Bracket</button>
     </>
   );
