@@ -44,9 +44,9 @@ function BracketTable() {
           : state.selectedGroup === 'all'
             ? groupsList.filter((group) => state.selectedGroup === 'all' || group.name === state.selectedGroup)
               .map((group) => (
-                <>
+                <div key={`group-container-${group.name}`}>
                   {groupContainer(group, state)}
-                </>
+                </div>
               ))
             : Object.entries(state.bracket).map(([group]) => (
               state.selectedGroup === group
