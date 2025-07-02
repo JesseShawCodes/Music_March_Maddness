@@ -12,18 +12,12 @@ const Sketch = dynamic(() => import('react-p5'), {
 const P5Sketch = ({ onSketchReady }) => {
   // debugger;
   const value = useContext(Context);
-  const [state, dispatch] = value;
+  const [state] = value;
   const p5InstanceRef = useRef(null); // Ref to store the p5 instance
-
-  var testVal = "Interesting";
-  useMemo(() => {
-    // console.log("USE MEMO - p5 ---")
-    testVal = "USE MEMO!"
-  }, [value]);
 
   const setup = (p5, canvasParentRef) => {
     p5InstanceRef.current = p5; // Store the p5 instance
-    p5.createCanvas(5000, 5000).parent(canvasParentRef);
+    p5.createCanvas(4200, 4000).parent(canvasParentRef);
     p5.background(220);
     p5.noLoop();
     
@@ -37,7 +31,6 @@ const P5Sketch = ({ onSketchReady }) => {
     // This draw function will run continuously if noLoop() is not called
     // or if you call loop() later.
     // For a static image, you might just draw once in setup.
-    p5.fill(255, 0, 0);
     bracket(state, p5, 4000, state.values.artist_image);
   };
 
