@@ -1,89 +1,66 @@
 /* eslint-disable */
 "use client";
 import React, {
-  useRef,
-  useEffect,
-  useCallback,
   useContext,
+  useEffect,
+  useRef,
+  useMemo
+  // useCallback,
+  // useContext,
 } from 'react';
 import dynamic from 'next/dynamic';
 
 import { Context } from '../context/BracketContext';
 import bracket from '../services/bracketService';
+import UpdateRef from './UpdateRef';
+import P5Sketch from './p5Sketch';
 
-const P5Wrapper = dynamic(
-  () => import('./P5Wrapper'),
-  { ssr: false }
-);
+const Sketch = dynamic(() => import('react-p5'), {
+  ssr: false,
+});
 
-function P5Image() {
-  const p5ContainerRef = useRef();
-  const p5InstanceRef = useRef();
-  const value = useContext(Context);
-  const [state] = value;
+function P5Image({ onSketchReady }) {
+  const sketchRef = useRef();
+  const bracketContext = useContext(Context);
+  const p5Ref = useRef(null); // Ref to hold the p5 instance from the sketch
 
-  // Image dimensions
-  const width = 4200;
-  const canvasHeight = 3800;
+  const handleSketchReady = (p5Instance) => {
+    p5Ref.current = p5Instance;
+  };
 
-  const generateAndDownload = useCallback(() => {
-    if (p5InstanceRef.current) {
-      const p = p5InstanceRef.current;
+  const generateAndDownload = () => {
+    console.log("generateAndDownload");
+  };
 
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      console.log(isIOS);
-      if (isIOS) {
-        const canvas = p.canvas;
-        if (canvas) {
-          const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-          const link = document.createElement('a');
-          link.download = `Dadgad_${state.values.artist_name}_bracket`;
-          link.href = image;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
-      } else {
-        p.saveCanvas(`Dadgad_${state.values.artist_name}_bracket`, 'png');
-      }
+  const updateBracket = () => {
+    if (p5Ref.current) {
+      console.log("p5.js sketch is ready");
+      p5Ref.current.saveCanvas('my-p5-image', 'png'); // Save as PNG
+    } else {
+      console.warn("p5.js sketch not ready yet.");
     }
-  }, [state]);
+  }
+  /*
+  useMemo(() => {
+    console.log("USE Memo...");
+  }, [bracketContext]);
+  */
 
-  const sketch = useCallback((p) => {
-    let img;
-    const imageUrl = state.values.artist_image;
-
-    p.preload = () => {
-      console.log("Preload");
-      if (imageUrl) {
-        img = p.loadImage(imageUrl,
-          () => console.log('Image loaded successfully!'),
-          (event) => console.error('Error loading image:', event)
-        );
-      }
-    }
-    p.setup = () => {
-      p.createCanvas(width, canvasHeight).parent(p5ContainerRef.current);
-      p.background(220);
-      p.noLoop();
-    };
-
-    p.draw = () => {
-      bracket(state, p, canvasHeight, img);
-    }
-
-    p5InstanceRef.current = p;
-
-  }, [state]);
-
+  const generateBracket =() => {
+    console.log("generateBracket");
+  }
 
   return (
-    <>
+    <div className='bracket-canvas-continer'>
       <p>Image may appear smaller on mobile. Click the button below to download to your device.</p>
-      {/* Pass the sketch and container ref to P5Wrapper */}
-      <P5Wrapper sketch={sketch} p5ContainerRef={p5ContainerRef} />
-      <button onClick={generateAndDownload} className="btn btn-primary" type="button">Download your Bracket</button>
-    </>
+      <button onClick={generateAndDownload} className="btn btn-primary mb-3" type="button">
+        Download your Bracket
+      </button>
+      <button onClick={updateBracket} className='btn btn-primary mb-3 ms-3'>
+        Generate Bracket
+      </button>
+      <P5Sketch onSketchReady={handleSketchReady}/>
+    </div>
   );
 }
 

@@ -4,7 +4,7 @@ import p5 from 'p5';
 import bracket from '../services/bracketService';
 import { Context } from '../context/BracketContext';
 
-const P5Wrapper = () => {
+const P5Wrapper = ({ containerRef }) => {
   // debugger;
   const sketchRef = useRef();
   const p5InstanceRef = useRef(); // To store the p5 instance
@@ -16,50 +16,52 @@ const P5Wrapper = () => {
   const canvasHeight = 3800;
 
   useEffect(() => {
-    // This code will only run on the client-side
-    if (sketchRef.current) {
-      // Define your p5 sketch
-      let img;
-      const imageUrl = state.values.artist_image;
-      console.log(imageUrl);
-      const sketch = (p) => {
-        p.preload = () => {
-          if (imageUrl) {
+    let p5Instance;
+
+    const img = state.values.artist_image;
+    // debugger;
+
+    const sketch = (p) => {
+      console.log("sketch...");
+
+      p.preload = () => {
+        if (true) {
             /*
             img = p.loadImage(imageUrl,
               () => console.log('Image loaded successfully!'),
               (event) => console.error('Error loading image:', event)
             );
             */
-          }
         }
-        p.setup = () => {
-          p.createCanvas(4000, 400);
-          p.background(220);
-          p.noLoop();
-        };
+      }
 
-        p.draw = () => {
-          // p.ellipse(p.mouseX, p.mouseY, 40, 40);
-          bracket(state, p, canvasHeight, img);
-        };
-      };
+      p.setup = () => {
+        console.log("p.setup");
+        p.createCanvas(4000, 4000);
+        p.background(200);
+      }
 
-      // Create a new p5 instance and attach it to the ref
-      p5InstanceRef.current = new p5(sketch, sketchRef.current);
+      p.draw = () => {
+        console.log("p.er");
+        bracket(state, p, canvasHeight, img);
+        p.noLoop();
+      }
     }
 
-    // Cleanup function to remove the p5 canvas when the component unmounts
-    return () => {
-      if (p5InstanceRef.current) {
-        p5InstanceRef.current.remove();
-      }
-    };
-  }, []); // Empty dependency array means this effect runs once after initial render
+    // initialize p5js instance mode
+    import('p5').then(p5Module => {
+      p5Instance = new p5Module.default(sketch);
+    })
 
-  return (
-    <div ref={sketchRef}></div>
-  );
+    return () => {
+      if (p5Instance) {
+        <h1>TESTING</h1>
+        p5Instance.remove();
+      }
+    }
+  }, [containerRef])
+
+  return null;
 };
 
 export default P5Wrapper;

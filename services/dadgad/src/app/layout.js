@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
             <div className="d-flex flex-column min-vh-100">
               <NavBar />
               <main className="flex-grow-1">
-                {children} {/* This is where your page content will be rendered */}
+                {children}
               </main>
               <Footer />
             </div>
