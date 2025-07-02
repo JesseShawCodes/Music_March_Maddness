@@ -302,9 +302,9 @@ export default function bracket(state, offScreenCanvas, canvasHeight, image) {
     canvasHeight - (canvasHeight * 0.05),
     600,
     600,
-    champion[0].attributes.song1.song.attributes.artwork.bgColor, // background color
-    champion[0].attributes.song1.song.attributes.name, // Song Name
-    champion[0].attributes.song1.song.attributes.artwork.textColor2, // Text Color
+    champion[0].attributes.winner.attributes.artwork.bgColor, // background color
+    champion[0].attributes.winner.attributes.name, // Song Name
+    champion[0].attributes.winner.attributes.artwork.textColor2, // Text Color
     'left',
     56, // Font Size
     100, // Height of Rectangle
@@ -315,9 +315,9 @@ export default function bracket(state, offScreenCanvas, canvasHeight, image) {
     canvasHeight - (canvasHeight * 0.05),
     width - 600,
     width - 600,
-    champion[1].attributes.song1.song.attributes.artwork.bgColor,
-    champion[1].attributes.song1.song.attributes.name,
-    champion[1].attributes.song1.song.attributes.artwork.textColor2,
+    champion[1].attributes.winner.attributes.artwork.bgColor,
+    champion[1].attributes.winner.attributes.name,
+    champion[1].attributes.winner.attributes.artwork.textColor2,
     'right',
     56,
     100,
