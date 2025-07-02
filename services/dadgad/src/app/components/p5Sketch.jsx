@@ -22,8 +22,6 @@ const P5Sketch = ({ onSketchReady }) => {
   }, [value]);
 
   const setup = (p5, canvasParentRef) => {
-    // console.log("setup");
-    // console.log(state);
     p5InstanceRef.current = p5; // Store the p5 instance
     p5.createCanvas(5000, 5000).parent(canvasParentRef);
     p5.background(220);
@@ -39,7 +37,6 @@ const P5Sketch = ({ onSketchReady }) => {
     // This draw function will run continuously if noLoop() is not called
     // or if you call loop() later.
     // For a static image, you might just draw once in setup.
-    console.log("DRAW...")
     p5.fill(255, 0, 0);
     bracket(state, p5, 4000, state.values.artist_image);
   };
