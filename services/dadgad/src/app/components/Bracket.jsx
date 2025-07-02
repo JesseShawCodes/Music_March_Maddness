@@ -40,11 +40,10 @@ function P5Image({ onSketchReady }) {
       console.warn("p5.js sketch not ready yet.");
     }
   }
-  /*
+
   useMemo(() => {
-    console.log("USE Memo...");
+    // console.log("USE Memo...");
   }, [bracketContext]);
-  */
 
   const generateBracket =() => {
     console.log("generateBracket");

@@ -2,6 +2,7 @@
 import { useRef, useEffect, useContext, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { Context } from '../context/BracketContext';
+import bracket from '../services/bracketService';
 
 // Dynamic import p5 to ensure it's loaded client-side
 const Sketch = dynamic(() => import('react-p5'), {
@@ -14,16 +15,17 @@ const P5Sketch = ({ onSketchReady }) => {
   const [state, dispatch] = value;
   const p5InstanceRef = useRef(null); // Ref to store the p5 instance
 
+  var testVal = "Interesting";
   useMemo(() => {
-    console.log("USE MEMO - p5 ---")
-    return <h1>USE MEMO!</h1>
+    // console.log("USE MEMO - p5 ---")
+    testVal = "USE MEMO!"
   }, [value]);
 
   const setup = (p5, canvasParentRef) => {
-    console.log("setup");
-    console.log(state);
+    // console.log("setup");
+    // console.log(state);
     p5InstanceRef.current = p5; // Store the p5 instance
-    p5.createCanvas(400, 400).parent(canvasParentRef);
+    p5.createCanvas(5000, 5000).parent(canvasParentRef);
     p5.background(220);
     p5.noLoop();
     
@@ -37,15 +39,16 @@ const P5Sketch = ({ onSketchReady }) => {
     // This draw function will run continuously if noLoop() is not called
     // or if you call loop() later.
     // For a static image, you might just draw once in setup.
-    // Example: Draw a circle
     console.log("DRAW...")
     p5.fill(255, 0, 0);
-    p5.text(state.champion.song.attributes.name, 10, 10);
-    p5.ellipse(p5.width / 2, p5.height / 2, 100, 100);
-
+    bracket(state, p5, 4000, state.values.artist_image);
   };
 
-  return <Sketch setup={setup} draw={draw} />;
+  return (
+    <>
+      <Sketch setup={setup} draw={draw} />
+    </> 
+  );
 };
 
 export default P5Sketch;
