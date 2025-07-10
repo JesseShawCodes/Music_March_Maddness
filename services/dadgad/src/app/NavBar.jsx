@@ -1,6 +1,8 @@
 "use client"
 import { React } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import myImage from './logo.png';
 import ThemeToggleButton from './components/ThemeToggleButton';
 
 function NavBar() {
@@ -8,6 +10,7 @@ function NavBar() {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
       <div className="container">
         <Link href="/" className="nav-link active navbar-brand">
+          <Image src={myImage} alt="Dadgad logo" role="presentation" className="me-2" style={{width: '30px', height: 'auto'}}/>
           {process.env.NEXT_PUBLIC_NAME}
         </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
