@@ -125,6 +125,7 @@ const round = (
   height,
   heightRatio = 1,
   fontSize = 24,
+  rectangleHeight = 50,
 ) => {
   const groups = [groupA, groupB];
   let yStartAdjusted = yStart;
@@ -141,6 +142,7 @@ const round = (
         position,
         height,
         fontSize,
+        rectangleHeight,
       );
       yStartAdjusted += (matchUpHeight * heightRatio) + (matchUpSpace * heightRatio);
     }
@@ -235,6 +237,7 @@ export default function bracket(state, offScreenCanvas, canvasHeight, image) {
       height: (matchUpHeight * 5),
       heightRatio: 8,
       fontSize: 60,
+      songHeight: 100,
     },
     {
       yStart: 55 + (matchUpHeight * 3),
@@ -247,6 +250,7 @@ export default function bracket(state, offScreenCanvas, canvasHeight, image) {
       height: (matchUpHeight * 5),
       heightRatio: 8,
       fontSize: 60,
+      songHeight: 100,
     },
   ];
 
@@ -263,6 +267,7 @@ export default function bracket(state, offScreenCanvas, canvasHeight, image) {
       rounds[i].height,
       rounds[i].heightRatio,
       rounds[i].fontSize,
+      rounds[i].songHeight,
     );
   }
 
@@ -335,7 +340,7 @@ export default function bracket(state, offScreenCanvas, canvasHeight, image) {
     state.champion.song.attributes.name,
     state.champion.song.attributes.artwork.bgColor,
     'right',
-    60,
+    70,
     100,
   );
 

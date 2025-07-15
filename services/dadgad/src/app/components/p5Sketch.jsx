@@ -1,5 +1,5 @@
 // components/P5Sketch.js
-import { useRef, useEffect, useContext, useMemo } from 'react';
+import { useRef, useContext } from 'react';
 import dynamic from 'next/dynamic';
 import { Context } from '../context/BracketContext';
 import bracket from '../services/bracketService';
@@ -28,9 +28,6 @@ const P5Sketch = ({ onSketchReady }) => {
   };
 
   const draw = (p5) => {
-    // This draw function will run continuously if noLoop() is not called
-    // or if you call loop() later.
-    // For a static image, you might just draw once in setup.
     bracket(state, p5, 4000, state.values.artist_image);
   };
 
