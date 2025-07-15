@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
           <ThemeProvider> {/* Keep your ThemeProvider here if it wraps the whole app */}
             <div className="d-flex flex-column min-vh-100">
               <NavBar />
-              <main className="flex-grow-1">
+              <main className="flex-grow-1 bg-my-gradient">
                 {children}
               </main>
               <Footer />

@@ -5,6 +5,7 @@ import { useStartSearchMutation, useLazyGetTaskStatusQuery } from '../services/j
 import Loading from '../components/Loading';
 import { ReduxProvider } from '../ReduxProvider';
 import store from '../store';
+import ArtistCardSkeleton from '../components/skeleton loaders/ArtistCardSkeleton';
 
 function SearchPage() {
   const intervalRef = useRef(null);
@@ -63,11 +64,11 @@ function SearchPage() {
   }, [statusData]);
 
   const artistList = (res) => res.results.artists.data.map((artistResult) => (
-    <div className="mt-4 mx-4 card border-secondary artist-search-card g-col-6 g-col-md-4" key={artistResult.id}>
+    <div className="mt-4 mx-4 card artist-search-card g-col-6 g-col-md-4" key={artistResult.id}>
       {
         Object.prototype.hasOwnProperty.call(artistResult.attributes, 'artwork') ? <img src={artistResult.attributes.artwork.url} className="card-img-top" alt={`${artistResult.attributes.name} promo`} /> : <p> No Image Available</p>
       }
-      <h2>
+      <h2 className='text-center'>
         {artistResult.attributes.name}
       </h2>
       <a href={`artist/${artistResult.id}`} className="btn btn-primary" id={artistResult.id}>
@@ -80,23 +81,29 @@ function SearchPage() {
     <ReduxProvider store={store}>
       <div className="my-4 w-90 mx-auto">
         <div className='d-flex justify-content-center'>
-        <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
-          <input
-            type="text"
-            placeholder="Search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <button onClick={handleSearch} disabled={isSubmitting} className="btn btn-primary" type="submit">Search</button>
-        </form>
+          <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
+            <input
+              type="text"
+              placeholder="Search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+            <button onClick={handleSearch} disabled={isSubmitting} className="btn btn-primary" type="submit">Search</button>
+          </form>
         </div>
   
         {error && <p>{error.message}</p>}
   
-        {(isSubmitting || isPolling) && <Loading message="Submitting Search..." />}
+        {(isSubmitting || isPolling) && 
+          <div className="container grid d-flex flex-wrap justify-content-center">
+            <Loading message="Submitting Search..." />
+          </div>
+        }
   
         {statusData && statusData.status === 'PENDING' && (
-          <Loading message="Queued... waiting for results." />
+          <div className="container grid d-flex flex-wrap justify-content-center">
+            <ArtistCardSkeleton />
+          </div>
         )}
   
         {results && (

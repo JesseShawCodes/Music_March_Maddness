@@ -1,6 +1,7 @@
 @use 'stylesheets/custom.scss';
 @use 'stylesheets/progress.scss';
 @use 'stylesheets/p5js.scss';
+@use 'stylesheets/skeleton_loaders.scss';
 
 body {
   transition: background-color 0.5s ease, color 0.5s ease, background-image 0.5s ease;
