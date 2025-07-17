@@ -5,7 +5,7 @@ import { useStartSearchMutation, useLazyGetTaskStatusQuery } from '../services/j
 import Loading from '../components/Loading';
 import { ReduxProvider } from '../ReduxProvider';
 import store from '../store';
-import ArtistCardSkeleton from '../components/skeleton loaders/ArtistCardSkeleton';
+import ArtistCardSkeleton from '../components/skeleton_loaders/ArtistCardSkeleton';
 
 function SearchPage() {
   const intervalRef = useRef(null);

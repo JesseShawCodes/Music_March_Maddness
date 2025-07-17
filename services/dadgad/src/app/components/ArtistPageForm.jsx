@@ -6,6 +6,7 @@ import BracketTable from './BracketTable';
 import { useGetArtistInfoQuery } from '../services/jsonServerApi';
 import Loading from './Loading';
 import { useParams } from 'next/navigation';
+import SongCardSkeleton from './skeleton_loaders/SongCardSkeleton';
 
 function ArtistPageForm() {
   const { handle } = useParams();
@@ -95,7 +96,13 @@ function ArtistPageForm() {
 
   if (!musicQuery.top_songs_list) {
     return (
-      <Loading message="Loading artist list of songs..." />
+      <div className='container mx-auto'>
+        <Loading message="Loading artist list of songs..." />
+        <SongCardSkeleton />
+        <SongCardSkeleton />
+        <SongCardSkeleton />
+        <SongCardSkeleton />
+      </div>
     );
   }
 
