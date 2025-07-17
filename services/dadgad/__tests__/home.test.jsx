@@ -1,5 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import Home from '@/app/page';
+import NavBar from '@/app/NavBar';
+import { ThemeProvider } from '@/app/ThemeContext';
+
 
 describe('Home Page', () => {
   it('renders a heading', () => {
@@ -13,24 +16,25 @@ describe('Home Page', () => {
     // Optionally, assert its text content
     expect(heading).toHaveTextContent('Dadgad');
   });
-  /*
+
   it('renders a paragraph with specific text', () => {
     render(<Home />);
 
     // Find the paragraph by its text content
-    const paragraph = screen.getByText(/This is the home page./i); // Case-insensitive regex
+    const paragraph = screen.getByText(/Turn a musician’s discography into your own personal tournament. We rank the songs—your job is to pick the winners until one song is left standing. Once your bracket is complete, export and share it with friends./i);
 
     expect(paragraph).toBeInTheDocument();
   });
 
-  it('renders a link to the about page', () => {
-    render(<Home />);
+  it('renders navbar', () => {
+    render(
+      <ThemeProvider>
+        <NavBar />
+      </ThemeProvider>
+    )
 
     // Find the link by its accessible name (text content) and role
-    const link = screen.getByRole('link', { name: /Go to About Page/i });
-
-    expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', '/about'); // Check the link's href attribute
+    expect(screen.getByRole('link', { name: 'About' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Search' })).toBeInTheDocument();
   });
-  */
 });
