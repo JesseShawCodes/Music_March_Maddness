@@ -1,22 +1,32 @@
 volumes:
-  db_mysql:
   redis:
+  db_postgres:
+  pgadmin_data:
 
 
 services:
-  mysql_db:
-    image: mysql:8.3.0
+  postgresql_db:
+    image: postgres
+    container_name: postgresql_db
     restart: always
-    container_name: mysql_db
-    ports:
-      - "3306:3306"
-    volumes:
-      - "db_mysql:/var/lib/mysql"
     environment:
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_USER: test
-      MYSQL_PASS: pass
-      MYSQL_DATABASE: maddness
+      POSTGRES_DB: maddness
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_postgres:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: JesseShawCodes@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: strong-password
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
   redis:
     image: "redis:7.0"
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
