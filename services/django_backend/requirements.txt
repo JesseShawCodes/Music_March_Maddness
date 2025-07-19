@@ -12,6 +12,7 @@ gunicorn
 kombu==5.5.2
 mysqlclient==2.1.1
 psycopg==3.2.9
+psycopg2-binary
 pyjwt>=2.0.0
 python-dotenv==1.1.0
 redis==5.2.1
