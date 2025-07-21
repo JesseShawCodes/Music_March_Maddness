@@ -14,10 +14,13 @@ from pathlib import Path
 import os
 import dj_database_url
 import ssl
+
+from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+# Load environment variables from .env file
+load_dotenv(os.path.join(BASE_DIR, '.env')) # This line loads the .env file
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -72,6 +75,7 @@ ACCOUNT_FORMS = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -126,11 +130,14 @@ WSGI_APPLICATION = 'madness_backend.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True # Important for Render PostgreSQL
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['database_name'],
+        'USER': os.environ['database_user'],
+        'HOST': os.environ['database_host'],
+        'PORT': 5432,
+        'PASSWORD': os.environ['database_password']
+    }
 }
 
 
@@ -198,8 +205,9 @@ ACCOUNT_EMAIL_VERIFICATION = "none"  # Simplify development; adjust for producti
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 
 # Celery Settings
-CELERY_BROKER_URL = os.environ.get("UPSTASH_REDIS_URL")
-CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_BROKER_URL = os.environ.get("UPSTASH_REDIS_URL")
+CELERY_BROKER_URL="redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
