@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
-import ssl
 
 from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -129,16 +128,24 @@ WSGI_APPLICATION = 'madness_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ['database_name'],
-        'USER': os.environ['database_user'],
-        'HOST': os.environ['database_host'],
-        'PORT': 5432,
-        'PASSWORD': os.environ['database_password']
-    }
-}
+if os.environ.get("environment") == "production":
+  DATABASES = {
+      'default': dj_database_url.config(
+          default=os.environ.get('DATABASE_URL'),
+          conn_max_age=600
+      )
+  }
+else:
+  DATABASES = {
+      'default': {
+          'ENGINE': 'django.db.backends.postgresql',
+          'NAME': os.environ['database_name'],
+          'USER': os.environ['database_user'],
+          'HOST': os.environ['database_host'],
+          'PORT': 5432,
+          'PASSWORD': os.environ['database_password']
+      }
+  }
 
 
 # Password validation
