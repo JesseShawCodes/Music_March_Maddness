@@ -58,7 +58,7 @@ const App = () => {
           Under Maintenance
         </h1>
         <p className="text-lg sm:text-xl text-gray-700 mb-8 leading-relaxed animate-fade-in">
-          We're performing some essential upgrades to improve your experience.
+          We are performing some essential upgrades to improve your experience.
           We apologize for any inconvenience this may cause.
         </p>
         <p className="text-md sm:text-lg text-gray-600 animate-fade-in delay-400">
