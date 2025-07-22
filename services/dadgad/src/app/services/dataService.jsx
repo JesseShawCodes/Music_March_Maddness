@@ -1,4 +1,3 @@
-/* eslint-disable */
 export function findObjectById(array, targetId) {
   return array.roundMatchups.find((obj) => obj.matchupId === targetId);
 }

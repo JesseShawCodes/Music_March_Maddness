@@ -1,4 +1,3 @@
-/* eslint-disable */
 import * as React from 'react';
 
 class ErrorBoundary extends React.Component {

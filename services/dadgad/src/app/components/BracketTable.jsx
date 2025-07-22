@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useContext } from 'react';
 import GroupSelect from './GroupSelect';
 import Group from './Group';
