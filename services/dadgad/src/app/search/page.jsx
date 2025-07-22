@@ -7,6 +7,8 @@ import { ReduxProvider } from '../ReduxProvider';
 import store from '../store';
 import ArtistCardSkeleton from '../components/skeleton_loaders/ArtistCardSkeleton';
 
+import { usePollingTask } from '../hooks/usePollingTask';
+
 function SearchPage() {
   const intervalRef = useRef(null);
   const [query, setQuery] = useState('');
@@ -32,6 +34,9 @@ function SearchPage() {
       setError(err);
     }
   };
+
+  usePollingTask(taskId, triggerStatus, statusData, 2000);
+  /*
 
   // Initiate Polling
   useEffect(() => {
@@ -62,7 +67,7 @@ function SearchPage() {
       }
     }
   }, [statusData]);
-
+  */
   const artistList = (res) => res.results.artists.data.map((artistResult) => (
     <div className="mt-4 mx-4 card artist-search-card g-col-6 g-col-md-4" key={artistResult.id}>
       {
