@@ -35,39 +35,15 @@ function SearchPage() {
     }
   };
 
-  usePollingTask(taskId, triggerStatus, statusData, 2000);
-  /*
+  usePollingTask(
+    taskId, 
+    triggerStatus, 
+    statusData, 
+    clearInterval,
+    setResults,
+    2000
+  );
 
-  // Initiate Polling
-  useEffect(() => {
-    if (!taskId) return undefined;
-    intervalRef.current = setInterval(() => {
-      triggerStatus(taskId);
-    }, 2000);
-
-    return () => {
-      // "Clearing polling interval"
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    };
-  }, [taskId, triggerStatus]);
-
-  // Turn off Polling
-  useEffect(() => {
-    if (statusData?.status === 'SUCCESS') {
-      setResults(statusData.result);
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    } else if (statusData?.status === 'FAILURE') {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    }
-  }, [statusData]);
-  */
   const artistList = (res) => res.results.artists.data.map((artistResult) => (
     <div className="mt-4 mx-4 card artist-search-card g-col-6 g-col-md-4" key={artistResult.id}>
       {
@@ -93,7 +69,7 @@ function SearchPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
-            <button onClick={handleSearch} disabled={isSubmitting} className="btn btn-primary" type="submit">Search</button>
+            <button disabled={isSubmitting} className="btn btn-primary" type="submit">Search</button>
           </form>
         </div>
   

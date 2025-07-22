@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export function usePollingTask(taskId, triggerStatus, data, interval = 2000) {
+export function usePollingTask(taskId, triggerStatus, data, clearInterval, setResults, interval = 2000) {
   const intervalRef = useRef(null);
 
   // Initiate Polling
