@@ -1,6 +1,3 @@
-/*
-eslint-disable
-*/
 const bracketWeight = 5;
 const bracketColor = '#000';
 const matchUpSpace = 60;

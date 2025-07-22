@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { React, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

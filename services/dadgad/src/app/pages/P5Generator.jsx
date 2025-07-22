@@ -1,4 +1,3 @@
-/* eslint-disable */
 import p5 from 'p5';
 
 const P5SketchGenerator = (width, height, sketchFunction) => {

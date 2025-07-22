@@ -1,4 +1,3 @@
-/*eslint-disable*/
 import { useContext, useRef } from "react";
 import { Context } from "./context";
 
