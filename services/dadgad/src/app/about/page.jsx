@@ -10,7 +10,9 @@ function AboutPage() {
       <div>
           {
             data.aboutPage.aboutPageContent.map((content, index) => (
-              <ReactMarkdown key={index} children={content} />
+              <ReactMarkdown key={index} >
+                {content}
+              </ReactMarkdown>
             ))
           }
       </div>
