@@ -5,7 +5,6 @@ export function usePollingTask(taskId, triggerStatus, data, clearInterval, setRe
 
   // Initiate Polling
   useEffect(() => {
-    console.log("Effect 1")
     if (!taskId) return undefined;
     intervalRef.current = setInterval(() => {
       triggerStatus(taskId);
@@ -20,7 +19,6 @@ export function usePollingTask(taskId, triggerStatus, data, clearInterval, setRe
 
   // Clear polling on unmount or when taskId changes
   useEffect(() => {
-    console.log("EFFECT 2");
     if (data?.status === 'SUCCESS') {
       setResults(data.result);
       if (intervalRef.current) {

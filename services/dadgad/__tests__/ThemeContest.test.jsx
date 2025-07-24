@@ -62,8 +62,6 @@ describe('ThemeContext', () => {
       </ThemeProvider>
     );
 
-    console.log("TESTINg ThemeProvider initialization");
-    console.log(localStorageMock.getItem.mock.calls);
 
     // Expect localStorage.getItem to be called once to check for stored theme
     // expect(localStorageMock.getItem).toHaveBeenCalledTimes(1);
