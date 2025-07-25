@@ -6,10 +6,12 @@ import React, {
 
 import { Context } from '../context/BracketContext';
 import P5Sketch from './p5Sketch';
+import CheckIsIos from '../services/CheckIsIos';
 
 function P5Image() {
   const [bracketContext] = useContext(Context);
   const p5Ref = useRef(null);
+  const isIOS = CheckIsIos();
 
   const handleSketchReady = (p5Instance) => {
     p5Ref.current = p5Instance;
@@ -21,7 +23,6 @@ function P5Image() {
       const canvas = p5Ref.current.canvas; // Get the raw canvas element
 
       if (isIOS) {
-        console.log("Detected iOS device, using workaround for image download.");
         // For iOS, open the image in a new tab
         const imgData = canvas.toDataURL('image/png'); // Get data URL of the canvas
         const newWindow = window.open(); // Open a new blank window

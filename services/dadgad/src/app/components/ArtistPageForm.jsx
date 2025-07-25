@@ -7,6 +7,8 @@ import { useGetArtistInfoQuery } from '../services/jsonServerApi';
 import Loading from './Loading';
 import { useParams } from 'next/navigation';
 import SongCardSkeleton from './skeleton_loaders/SongCardSkeleton';
+import CheckIsIos from '../services/CheckIsIos';
+import WarningMessage from './WarningMessage';
 
 function ArtistPageForm() {
   const { handle } = useParams();
@@ -115,6 +117,9 @@ function ArtistPageForm() {
               <p>
                 We have determined these to be the top songs for this artist.
               </p>
+              {
+                CheckIsIos() ? <WarningMessage message={"This feature may not work as expected on iOS devices. We are actively working to improve this experience"} /> : null
+              }
               <button type="button" className="btn btn-primary" onClick={generateBracket}>
                 Generate Bracket
               </button>

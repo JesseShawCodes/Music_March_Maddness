@@ -18,7 +18,7 @@ function Group({ groupName, matchups, round }) {
       </h2>
       <ul className="list-group">
         {groupMatchups.map((matchup, index) => (
-          <li className="list-group-item" key={matchup.matchupId}>
+          <li className="list-group-item border-0" key={matchup.matchupId}>
             <Matchup
               song1={matchup.attributes.song1}
               song2={matchup.attributes.song2}
