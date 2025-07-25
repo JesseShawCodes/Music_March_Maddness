@@ -17,7 +17,29 @@ function P5Image() {
 
   const downloadBracket = () => {
     if (p5Ref.current) {
-      p5Ref.current.saveCanvas(`dadgad_${bracketContext.values.artist_name}_bracket`, 'png'); // Save as PNG
+      const filename = `dadgad_${bracketContext.values.artist_name}_bracket.png`;
+      const canvas = p5Ref.current.canvas; // Get the raw canvas element
+
+      if (isIOS) {
+        console.log("Detected iOS device, using workaround for image download.");
+        // For iOS, open the image in a new tab
+        const imgData = canvas.toDataURL('image/png'); // Get data URL of the canvas
+        const newWindow = window.open(); // Open a new blank window
+        if (newWindow) {
+          newWindow.document.write(`<img src="${imgData}" style="max-width: 100%; height: auto;">`); // Write the image into the new window
+          newWindow.document.title = filename; // Set the title of the new tab
+          newWindow.document.close(); // Close the document stream
+        } else {
+          // Fallback if window.open is blocked (e.g., by a popup blocker)
+          console.warn("Could not open new window. Popup blocker might be active.");
+          // As a fallback, you could still try a direct download or alert the user
+          // For simplicity, we'll just log a warning here.
+        }
+      } else {
+        // For non-iOS devices (desktop, Android), use p5.js's saveCanvas for direct download
+        p5Ref.current.saveCanvas(`dadgad_${bracketContext.values.artist_name}_bracket`, 'png');
+      }
+
     } else {
       console.warn("p5.js sketch not ready yet.");
     }
