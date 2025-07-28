@@ -9,7 +9,7 @@ const Sketch = dynamic(() => import('react-p5'), {
   ssr: false, // This is crucial for p5.js as it needs the browser environment
 });
 
-const P5Sketch = ({ onSketchReady }) => {
+const P5Sketch = ({ onSketchReady, width = 4200, height = 4000 }) => {
   // debugger;
   const value = useContext(Context);
   const [state] = value;
@@ -17,7 +17,7 @@ const P5Sketch = ({ onSketchReady }) => {
 
   const setup = (p5, canvasParentRef) => {
     p5InstanceRef.current = p5; // Store the p5 instance
-    p5.createCanvas(4200, 4000).parent(canvasParentRef);
+    p5.createCanvas(width, height).parent(canvasParentRef);
     p5.background(0, 120, 0);
     p5.noLoop();
     
