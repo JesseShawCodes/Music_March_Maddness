@@ -9,7 +9,7 @@ const Sketch = dynamic(() => import('react-p5'), {
   ssr: false, // This is crucial for p5.js as it needs the browser environment
 });
 
-const P5Sketch = ({ onSketchReady, width = 4200, height = 4000 }) => {
+const P5Sketch = ({ onSketchReady, width = 3200, height = 3000 }) => {
   // debugger;
   const value = useContext(Context);
   const [state] = value;
