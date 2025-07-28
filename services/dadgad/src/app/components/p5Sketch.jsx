@@ -18,7 +18,7 @@ const P5Sketch = ({ onSketchReady }) => {
   const setup = (p5, canvasParentRef) => {
     p5InstanceRef.current = p5; // Store the p5 instance
     p5.createCanvas(4200, 4000).parent(canvasParentRef);
-    p5.background(220);
+    p5.background(0, 120, 0);
     p5.noLoop();
     
     // Call the callback to pass the p5 instance to the parent component
@@ -28,7 +28,8 @@ const P5Sketch = ({ onSketchReady }) => {
   };
 
   const draw = (p5) => {
-    bracket(state, p5, 4000, state.values.artist_image);
+    // bracket(state, p5, 4000, state.values.artist_image);
+    p5.fill(255); 
   };
 
   return (
