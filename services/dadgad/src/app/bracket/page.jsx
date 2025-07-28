@@ -52,9 +52,9 @@ function BracketTest() {
       <button onClick={downloadBracket} className='btn btn-primary mb-3 ms-3'>
         Download Bracket
       </button>
-      
-      <P5Sketch onSketchReady={handleSketchReady}/>
-      
+
+      <P5Sketch onSketchReady={handleSketchReady} width={3000} height={2000} />
+
     </div>
   );
 }
