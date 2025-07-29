@@ -5,6 +5,14 @@ const backendConnectSrc = process.env.NEXT_PUBLIC_SERVER
   : 'http://localhost:8000'; // Fallback for local dev if NEXT_PUBLIC_SERVER isn't set
 
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "is1-ssl.mzstatic.com"
+      }
+    ]
+  },
   async headers() {
     return [
       {
