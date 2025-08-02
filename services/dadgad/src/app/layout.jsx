@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import { BracketContext } from "./context/BracketContext";
 import BootstrapClient from "./components/BootstrapClient";
 import MaintenancePageContent from "./components/MaintenancePageContent";
+import Head from "next/head";
 
 export const metadata = {
   title: "Dadgad",
@@ -38,6 +39,12 @@ export default function RootLayout({ children }) {
   )
   return (
     <html lang="en">
+      <Head>
+        <meta name="theme-color" content="#ff06f8"/>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Dadgad"/>
+      </Head>
       <body>
         { process.env.NEXT_PUBLIC_MAINTENANCE_MODE ? <MaintenancePageContent /> : mainLayout}
       </body>
