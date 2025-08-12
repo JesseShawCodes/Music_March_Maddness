@@ -61,16 +61,19 @@ function SearchPage() {
   return (
     <ReduxProvider store={store}>
       <div className="my-4 w-90 mx-auto">
-        <div className='d-flex justify-content-center'>
-          <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
-            <input
-              type="text"
-              placeholder="Search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <button disabled={isSubmitting} className="btn btn-primary" type="submit">Search</button>
-          </form>
+        <div className='container d-flex justify-content-center'>
+          <div className=''>
+            <h1>Search for Artist</h1>
+            <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }} className='d-flex justify-content-center'>
+              <input
+                type="text"
+                placeholder="Search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <button disabled={isSubmitting} className="btn btn-primary" type="submit">Search</button>
+            </form>
+          </div>
         </div>
   
         {error && <p>{error.message}</p>}
