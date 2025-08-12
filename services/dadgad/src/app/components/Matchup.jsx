@@ -24,7 +24,7 @@ export default function Matchup({
 
   return (
     <>
-      <div className="d-flex justify-content-between mb-2 border-bottom">
+      <div className="d-flex justify-content-between mb-2">
       <MatchupSong
         thissong={song1}
         opponent={song2}
