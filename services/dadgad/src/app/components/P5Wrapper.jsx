@@ -5,7 +5,6 @@ import bracket from '../services/bracketService';
 import { Context } from '../context/BracketContext';
 
 const P5Wrapper = ({ containerRef }) => {
-  // debugger;
   const sketchRef = useRef();
   const p5InstanceRef = useRef(); // To store the p5 instance
   const value = useContext(Context);
@@ -19,20 +18,15 @@ const P5Wrapper = ({ containerRef }) => {
     let p5Instance;
 
     const img = state.values.artist_image;
-    // debugger;
 
     const sketch = (p) => {
-      console.log("sketch...");
 
       p.preload = () => {
-        if (true) {
-            /*
-            img = p.loadImage(imageUrl,
-              () => console.log('Image loaded successfully!'),
-              (event) => console.error('Error loading image:', event)
-            );
-            */
-        }
+        console.log('Preloading image...');
+        img = p.loadImage(imageUrl,
+          () => console.log('Image loaded successfully!'),
+          (event) => console.error('Error loading image:', event)
+        );
       }
 
       p.setup = () => {
