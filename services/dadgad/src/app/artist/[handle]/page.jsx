@@ -3,12 +3,12 @@ import {
   React,
 } from 'react';
 
-import { BracketContext } from '@/app/context/BracketContext';
-import ErrorBoundary from '@/app/boundary/ErrorBoundary';
-import BackToTop from '@/app/components/BackToTop';
-import ArtistName from '@/app/components/ArtistName';
-import ArtistPageForm from '@/app/components/ArtistPageForm';
-import TopTracks from '@/app/components/TopTracks';
+import { BracketContext } from '../../context/BracketContext';
+import ErrorBoundary from '../../boundary/ErrorBoundary';
+import BackToTop from '../../components/BackToTop';
+import ArtistName from '../../components/ArtistName';
+import ArtistPageForm from '../../components/ArtistPageForm';
+import TopTracks from '../../components/TopTracks';
 
 function ArtistPage() {
   return (
