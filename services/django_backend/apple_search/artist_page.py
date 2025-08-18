@@ -2,11 +2,16 @@
 import os
 import requests
 import concurrent.futures
-from apple_search.auth import get_auth_token, get_newest_auth
+from django.core.cache import cache
+from apple_search.auth import get_auth_token, get_newest_auth, apple_request
 from apple_search.artist_search import format_image
 
 def artist_content(artist_id):
     '''Final render of output to the page'''
+    cache_key = f"artist_page:{artist_id}"
+    cached = cache.get(cache_key)
+    if cached:
+        return cached
     output = {}
     with concurrent.futures.ThreadPoolExecutor() as executer:
         future_artist = executer.submit(get_artist_high_level_details, artist_id)
@@ -27,28 +32,33 @@ def artist_content(artist_id):
     else:
         output['featured_albums'] = albums
         output['top_songs_list'] = add_weight_to_songs(songs, albums['data'])
+    
+    # Cache result for 1 hour
+    cache.set(cache_key, output, timeout=3600)
     return output
 
 def get_artist_high_level_details(artist_id):
     '''Get High Level Artist Details including name and image URL'''
-    headers = {'Authorization': f'Bearer {get_newest_auth()}'}
-    artist = requests.get(
-        f"{os.environ['apple_artist_details_url']}artists/{artist_id}",
-        headers=headers,
-        timeout=5
-    )
-    if artist.status_code != 200:
-        headers = {'Authorization': f"Bearer  {get_auth_token()}"}
-        artist = requests.get(f"{os.environ['apple_artist_details_url']}artists/{artist_id}",
-                      headers=headers,
-                      timeout=5
-                    )
-    artist_data = artist.json()['data'][0]['attributes']
+    artist = apple_request(f"artists/{artist_id}")
+    artist_data = artist['data'][0]['attributes']
+    '''Both name and image_url should be strings'''
     return {
         'name': artist_data['name'],
         'image_url': artist_data['artwork']['url']
     }
 
+def dedupe_songs(songs):
+    """Remove duplicates efficiently using a set"""
+    seen = set()
+    final = []
+    for song in songs:
+        if song['type'] == 'music-videos':
+            continue
+        sid = song['id']
+        if sid not in seen:
+            seen.add(sid)
+            final.append(song)
+    return final
 
 def check_substrings(string, substrings):
     '''Substring check. Used to filter out playlists that do not have useful data.'''
@@ -57,6 +67,7 @@ def check_substrings(string, substrings):
 def top_songs_list_builder(artist_id):
     '''Create top songs list'''
     top_songs_list = []
+    playlists = apple_request(f"artists/{artist_id}/view/featured-playlists")
     headers = {'Authorization': f"Bearer {get_newest_auth()}"}
     # Add songs based on playlists in apple
     # Remove playlists with the following words in the name (video, influences, inspired)
@@ -98,36 +109,16 @@ def top_songs_list_builder(artist_id):
             top_songs_list.append(song)
 
     # Remove duplicates
-    final_top_songs_list = []
-    for song in top_songs_list:
-      # Do not add music-videos to list
-        if song['type'] == 'music-videos':
-            continue
-        if song not in final_top_songs_list:
-            final_top_songs_list.append(song)
-    return final_top_songs_list
+    return dedupe_songs(top_songs_list)
 
 def featured_album_details(artist_id):
-    '''This function gets album details for an artist'''
-    # {os.environ['apple_artist_details_url']}artists/15031628/albums
-    headers = {'Authorization': f'Bearer {get_newest_auth()}'}
-    albums = requests.get(
-        f"{os.environ['apple_artist_details_url']}artists/{artist_id}/view/featured-albums",
-        headers=headers,
-        timeout=5
-    )
-    return albums.json()
+    """Get featured album details for an artist"""
+    return apple_request(f"artists/{artist_id}/view/featured-albums")
 
 def add_weight_to_songs(songs_list, albums_list):
-    '''
-    Clean up of songs list
-    This method is here for situations where artist name does not line up appropriately.
-    '''
-    albums_name_list = []
-    for album in albums_list:
-        albums_name_list.append(album['attributes']['name'])
+    """Rank songs and mark if they are in featured albums"""
+    albums_name_list = {album['attributes']['name'] for album in albums_list}
     for idx, song in enumerate(songs_list):
         song['rank'] = idx + 1
         song['featured_album'] = song['attributes']['albumName'] in albums_name_list
-    # Remove objects with the attribute 'has_attribute' set to True
     return songs_list

@@ -1,6 +1,7 @@
 '''Apple Music API Authorization Related Functions'''
 import time
 import os
+import requests
 import jwt as pyjwt
 from apple_search.models import AppleAuth
 
@@ -28,3 +29,18 @@ def get_auth_token():
 def get_newest_auth():
     '''Get the newest auth token from database.'''
     return AppleAuth.objects.order_by('-created').first().auth
+
+def apple_request(endpoint, params=None):
+    """Make a request to Apple Music API"""
+    base_url = os.environ['apple_artist_details_url']
+    url = f"{base_url}{endpoint}"
+
+    headers = {'Authorization': f'Bearer {get_newest_auth()}'}
+    resp = requests.get(url, headers=headers, params=params, timeout=5)
+
+    if resp.status_code == 401:  # expired token
+        headers = {'Authorization': f'Bearer {get_auth_token()}'}
+        resp = requests.get(url, headers=headers, params=params, timeout=5)
+
+    resp.raise_for_status()
+    return resp.json()
