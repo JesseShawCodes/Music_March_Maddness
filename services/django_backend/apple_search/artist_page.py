@@ -1,26 +1,32 @@
 '''Data Collection for artist page'''
 import os
 import requests
+import concurrent.futures
 from apple_search.auth import get_auth_token, get_newest_auth
 from apple_search.artist_search import format_image
 
 def artist_content(artist_id):
     '''Final render of output to the page'''
     output = {}
-    artist_details = get_artist_high_level_details(artist_id)
+    with concurrent.futures.ThreadPoolExecutor() as executer:
+        future_artist = executer.submit(get_artist_high_level_details, artist_id)
+        future_albums = executer.submit(featured_album_details, artist_id)
+        future_songs = executer.submit(top_songs_list_builder, artist_id)
+        
+        artist_details = future_artist.result()
+        albums = future_albums.result()
+        songs = future_songs.result()
+
     output['artist_name'] = artist_details['name']
     output['artist_image'] = format_image(artist_details['image_url'])
-    output['featured_albums'] = featured_album_details(artist_id)
-    if "errors" in output['featured_albums']:
+    if "errors" in albums:
         output['top_songs_list'] = add_weight_to_songs(
-          top_songs_list_builder(artist_id),
+          songs,
           []
         )
     else:
-        output['top_songs_list'] = add_weight_to_songs(
-            top_songs_list_builder(artist_id),
-            output['featured_albums']['data']
-        )
+        output['featured_albums'] = albums
+        output['top_songs_list'] = add_weight_to_songs(songs, albums['data'])
     return output
 
 def get_artist_high_level_details(artist_id):
