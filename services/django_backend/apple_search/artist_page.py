@@ -68,15 +68,6 @@ def top_songs_list_builder(artist_id):
     '''Create top songs list'''
     top_songs_list = []
     playlists = apple_request(f"artists/{artist_id}/view/featured-playlists")
-    headers = {'Authorization': f"Bearer {get_newest_auth()}"}
-    # Add songs based on playlists in apple
-    # Remove playlists with the following words in the name (video, influences, inspired)
-    playlists_request = requests.get(
-      f"{os.environ['apple_artist_details_url']}artists/{artist_id}/view/featured-playlists",
-      headers=headers,
-      timeout=5
-    )
-    playlists = playlists_request.json()
     artist_playlist_ids = []
     if "errors" not in playlists:
         for item in playlists['data']:
@@ -86,26 +77,16 @@ def top_songs_list_builder(artist_id):
               ):
                 artist_playlist_ids.append(item['id'])
     # Get Multiple playlists
-    playlists_content = requests.get(
-       f'https://api.music.apple.com/v1/catalog/us/playlists?ids={",".join(artist_playlist_ids)}',
-       headers=headers,
-       timeout=5
-    )
-    # Add playlist content to top_songs_list
-    if playlists_content.status_code == 200:
-        for song_list in playlists_content.json()['data']:
-            for song in song_list['relationships']['tracks']['data']:
-                top_songs_list.append(song)
+    playlists_content = apple_request(f'playlists?ids={",".join(artist_playlist_ids)}')
+    for song_list in playlists_content['data']:
+        for song in song_list['relationships']['tracks']['data']:
+            top_songs_list.append(song)
     # loop by intervals of 10
-    for i in range(0,100,10):
-        r = requests.get(
-          f"{os.environ['apple_artist_details_url']}artists/{artist_id}/view/top-songs?offset={i}",
-          headers=headers,
-          timeout=5
-        )
-        if 'errors' in r.json().keys():
+    for page in range(0,100,10):
+        request = apple_request(f'artists/{artist_id}/view/top-songs?offset={page}')
+        if 'errors' in request.keys():
             break
-        for song in r.json()['data']:
+        for song in request['data']:
             top_songs_list.append(song)
 
     # Remove duplicates

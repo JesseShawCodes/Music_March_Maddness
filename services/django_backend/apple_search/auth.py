@@ -30,9 +30,8 @@ def get_newest_auth():
     '''Get the newest auth token from database.'''
     return AppleAuth.objects.order_by('-created').first().auth
 
-def apple_request(endpoint, params=None):
+def apple_request(endpoint, params=None, base_url=os.environ['apple_artist_details_url']):
     """Make a request to Apple Music API"""
-    base_url = os.environ['apple_artist_details_url']
     url = f"{base_url}{endpoint}"
 
     headers = {'Authorization': f'Bearer {get_newest_auth()}'}
