@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
   const mainLayout = (
     <ReduxProvider>
       <BracketContext>
-      <ThemeProvider> {/* Keep your ThemeProvider here if it wraps the whole app */}
+      <ThemeProvider>
         <div className="d-flex flex-column min-vh-100">
           <NavBar />
           <main className="flex-grow-1 bg-my-gradient">
