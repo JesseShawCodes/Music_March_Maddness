@@ -24,7 +24,7 @@ function getNextRoundMatchups(songList, round) {
       matchupId: `${songList[i].id}${songList[i + 1].id}`,
       round: round,
       attributes: {
-        complete: false,
+        matchupComplete: false,
         song1: {
           song: songList[i],
           groupRank: songList[i].rank,
@@ -79,7 +79,7 @@ export function generateNextRound(stateObject) {
     const finalMatchup = {
       matchupId: `${winnersGroup[0].id}${winnersGroup[1].id}`,
       attributes: {
-        complete: false,
+        matchupComplete: false,
         song1: {
           song: winnersGroup[0],
           groupRank: winnersGroup[0].rank,

@@ -9,6 +9,7 @@ import { BracketContext } from "./context/BracketContext";
 import BootstrapClient from "./components/BootstrapClient";
 import MaintenancePageContent from "./components/MaintenancePageContent";
 import Head from "next/head";
+import { ToastContainer } from "react-toastify";
 
 export const metadata = {
   title: "Dadgad",
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
       <ThemeProvider>
         <div className="d-flex flex-column min-vh-100">
           <NavBar />
+          <ToastContainer />
           <main className="flex-grow-1 bg-my-gradient">
             {children}
           </main>

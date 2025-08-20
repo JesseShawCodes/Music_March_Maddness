@@ -9,6 +9,7 @@ import { useParams } from 'next/navigation';
 import SongCardSkeleton from './skeleton_loaders/SongCardSkeleton';
 import CheckIsIos from '../services/CheckIsIos';
 import WarningMessage from './WarningMessage';
+import { ToastContainer, toast } from 'react-toastify';
 
 function ArtistPageForm() {
   const { handle } = useParams();
@@ -26,7 +27,7 @@ function ArtistPageForm() {
           matchupId: arr[i].id + arr[len - 1 - i].id,
           round: matchupRound,
           attributes: {
-            complete: false,
+            matchupComplete: false,
             song1: {
               song: arr[i],
               groupRank: i + 1,
@@ -81,8 +82,40 @@ function ArtistPageForm() {
   // generateBracket only runs on initial build of a bracket.
   const generateBracket = () => {
     const matchups = createMatchups(state.values.top_songs_list.slice(0, 64), 1);
+    localStorage.setItem("savedBrackets", JSON.stringify(matchups));
+    localStorage.setItem("savedArtist", handle);
     dispatch({ type: 'setBracket', payload: { bracket: matchups } });
   };
+
+  /* Check if bracket is in progress */
+  useEffect(() => {
+    const bracket = localStorage.getItem("savedBrackets");
+    if (bracket && handle == localStorage.getItem("savedArtist")) {
+      dispatch({ type: 'setBracket', payload: { bracket: JSON.parse(bracket) } });
+      dispatch({ type: 'setRound', payload: { round: 1 } });
+    }
+  }, [])
+  useEffect(() => {
+    const saveInterval = setInterval(() => {
+        try {
+            if (Object.keys(state.bracket).length === 0) {
+                return;
+            }
+
+            localStorage.setItem("savedBrackets", JSON.stringify(state.bracket));
+            /*
+            toast("Bracket saved!", {
+                type: "success",
+                autoClose: 20000,
+            });
+            */
+        } catch (error) {
+            console.error("Error saving to local storage:", error);
+        }
+    }, 10000);
+
+    return () => clearInterval(saveInterval); // Cleanup on unmount
+  }, [state]);
 
   const {
     data: musicQuery = {},
