@@ -86,7 +86,10 @@ function SearchPage() {
         )}
   
         {statusData && statusData.status === 'FAILURE' && (
-          <p className="text-danger">There was an error processing your search. Please try again.</p>
+          <div className="container grid d-flex flex-wrap justify-content-center">
+            <p className="text-danger">There was an error processing your search. Please try again.</p>
+            <p>{JSON.stringify(statusData)}</p>
+          </div>
         )}
       </div>
     </ReduxProvider>
