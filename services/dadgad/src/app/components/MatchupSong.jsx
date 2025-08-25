@@ -147,7 +147,7 @@ export default function MatchupSong({
 
     let completedProgress = 0;
     for (let i = 0; i < roundGroup.length; i += 1 ) {
-      roundGroup[i].attributes.complete ? completedProgress += 1 : null;
+      roundGroup[i].attributes.matchupComplete ? completedProgress += 1 : null;
     }
 
     if (!championship) {
