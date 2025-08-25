@@ -2,6 +2,12 @@ export function findObjectById(array, targetId) {
   return array.roundMatchups.find((obj) => obj.matchupId === targetId);
 }
 
+export const uniqueByKey = (arr: Array<object>, key: String) => {
+  return arr.filter((obj, index, self) =>
+    index === self.findIndex((o) => o[key] === obj[key])
+  );
+};
+
 export function isObjectEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
@@ -17,7 +23,7 @@ export function generateFinalRound(winnersList) {
   return nextRound;
 }
 
-function getNextRoundMatchups(songList, round) {
+function getNextRoundMatchups(songList = [], round) {
   const nextRound = [];
   for (let i = 0; i < songList.length; i += 2) {
     const matchup = {
@@ -129,7 +135,7 @@ function getFinalFourMatchup(finalFourSongs) {
   return getNextRoundMatchups(fourSongs);
 }
 
-function compileListOfWinners(matchups, winnersGroup = []) {
+function compileListOfWinners(matchups = [], winnersGroup = []) {
   for (let i = 0; i < matchups.length; i++) {
     typeof (matchups[i].attributes.winner) !== 'undefined' ? winnersGroup.push(matchups[i].attributes.winner) : null;
   }

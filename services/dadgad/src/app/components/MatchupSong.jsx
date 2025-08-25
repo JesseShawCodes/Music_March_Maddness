@@ -131,7 +131,7 @@ export default function MatchupSong({
     let findObject = findObjectById(objectToSearch, matchupId);
     findObject.attributes.winner = thissong.song;
     findObject.attributes.loser = opponent.song;
-    findObject.attributes.complete = true;
+    findObject.attributes.matchupComplete = true;
 
     // Round group is a list of matchups for the current round and the selected group
     let roundGroup;

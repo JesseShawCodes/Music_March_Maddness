@@ -1,11 +1,13 @@
 "use client";
-import { React, createContext, useReducer } from 'react';
+import { createContext, useReducer } from 'react';
+import { uniqueByKey } from '../services/dataService';
 
 export const Context = createContext();
 
 const initialState = {
   values: [],
   bracket: {},
+  userBracket: [],
   championshipBracket: {},
   round: 1,
   currentRoundProgres: 0,
@@ -29,7 +31,16 @@ function bracketReducer(state, action) {
         ...state,
         values: action.payload.values,
       };
-    }
+    };
+    case 'setUserBracket': {
+      debugger;
+      let array1 = [...state.userBracket, action.payload.userBracket];
+      let finalArray = uniqueByKey(array1, 'artist')
+      return {
+        ...state,
+        userBracket: [...state.userBracket, action.payload.userBracket],
+      }
+    };
     case 'setBracket':
       return {
         ...state,

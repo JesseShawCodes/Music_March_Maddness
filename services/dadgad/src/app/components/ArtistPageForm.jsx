@@ -16,7 +16,6 @@ function ArtistPageForm() {
   const value = useContext(Context);
   const [state, dispatch] = value;
 
-  // createMatchups runs each round
   const createMatchups = (arr, matchupRound) => {
     const matchups = [];
     const len = arr.length;
@@ -82,9 +81,8 @@ function ArtistPageForm() {
   // generateBracket only runs on initial build of a bracket.
   const generateBracket = () => {
     const matchups = createMatchups(state.values.top_songs_list.slice(0, 64), 1);
-    localStorage.setItem("savedBrackets", JSON.stringify(matchups));
-    localStorage.setItem("savedArtist", handle);
     dispatch({ type: 'setBracket', payload: { bracket: matchups } });
+    dispatch({ type: 'setUserBracket', payload: { userBracket: {artist: handle, bracket: state.bracket, round: state.round}}});
   };
 
   /* Check if bracket is in progress */
@@ -101,8 +99,7 @@ function ArtistPageForm() {
             if (Object.keys(state.bracket).length === 0) {
                 return;
             }
-
-            localStorage.setItem("savedBrackets", JSON.stringify(state.bracket));
+            dispatch({ type: 'setUserBracket', payload: { userBracket: {artist: handle, bracket: state.bracket, round: state.round}}});
             /*
             toast("Bracket saved!", {
                 type: "success",
