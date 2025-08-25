@@ -85,14 +85,6 @@ function ArtistPageForm() {
     dispatch({ type: 'setUserBracket', payload: { userBracket: {artist: handle, bracket: state.bracket, round: state.round}}});
   };
 
-  /* Check if bracket is in progress */
-  useEffect(() => {
-    const bracket = localStorage.getItem("savedBrackets");
-    if (bracket && handle == localStorage.getItem("savedArtist")) {
-      dispatch({ type: 'setBracket', payload: { bracket: JSON.parse(bracket) } });
-      dispatch({ type: 'setRound', payload: { round: 1 } });
-    }
-  }, [])
   useEffect(() => {
     const saveInterval = setInterval(() => {
         try {
