@@ -33,7 +33,6 @@ function bracketReducer(state, action) {
       };
     };
     case 'setUserBracket': {
-      debugger;
       let array1 = [...state.userBracket, action.payload.userBracket];
       let finalArray = uniqueByKey(array1, 'artist')
       return {
