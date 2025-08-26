@@ -1,4 +1,4 @@
-function checkForArtistBracket(artist, storedBrackets) {
+export function checkForArtistBracket(artist, storedBrackets) {
   if (storedBrackets.length == 0) {
     return false;
   } else {

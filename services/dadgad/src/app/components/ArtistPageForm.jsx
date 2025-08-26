@@ -9,6 +9,8 @@ import { useParams } from 'next/navigation';
 import SongCardSkeleton from './skeleton_loaders/SongCardSkeleton';
 import CheckIsIos from '../services/CheckIsIos';
 import WarningMessage from './WarningMessage';
+import {checkForArtistBracket} from '../services/userBracketLocalStorage';
+import InProgressBracket from './song_list/InProgressBracket';
 import { ToastContainer, toast } from 'react-toastify';
 
 function ArtistPageForm() {
@@ -84,6 +86,14 @@ function ArtistPageForm() {
     dispatch({ type: 'setBracket', payload: { bracket: matchups } });
   };
 
+  const CheckLocalBrackets = () => {
+    const localBrackets = JSON.parse(localStorage.getItem("userBracket"));
+    let initialLocalBracketCheck = checkForArtistBracket(handle, localBrackets);
+    if (initialLocalBracketCheck) {
+      return <InProgressBracket />
+    }
+  }
+
   useEffect(() => {
     const saveInterval = setInterval(() => {
         try {
@@ -145,6 +155,7 @@ function ArtistPageForm() {
               <button type="button" className="btn btn-primary" onClick={generateBracket}>
                 Generate Bracket
               </button>
+              <CheckLocalBrackets />            
               <div className="my-3 fst-italic">
                 {
                     Object.keys(state.values).length !== 0
