@@ -10,6 +10,7 @@ const initialState = {
   userBracket: [],
   championshipBracket: {},
   round: 1,
+  roundTotal: 1,
   currentRoundProgres: 0,
   selectedGroup: 'all',
   nonGroupPlay: false,
@@ -48,6 +49,7 @@ function bracketReducer(state, action) {
       return {
         ...state,
         round: action.payload.round,
+        roundTotal: Math.max(state.roundTotal, action.payload.round),
       };
     case 'setCurrentRoundProgres':
       return {

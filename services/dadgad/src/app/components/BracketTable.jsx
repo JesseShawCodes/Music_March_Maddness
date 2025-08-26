@@ -6,8 +6,8 @@ import { Context } from '../context/BracketContext';
 import { isObjectEmpty } from '../services/dataService';
 import ProgressCircle from './ProgressCircle';
 import Champion from './Champion';
-import bracket from '../services/bracketService';
-import PrettyPrintJson from '../utility/PrettyPrintJson';
+import BracketNavigation from './BracketNavigation';
+
 function BracketTable() {
   const value = useContext(Context);
   const [state] = value;
@@ -60,6 +60,7 @@ function BracketTable() {
       {
         state.champion ? <Champion /> : null
       }
+      <BracketNavigation />
     </>
   );
 }
