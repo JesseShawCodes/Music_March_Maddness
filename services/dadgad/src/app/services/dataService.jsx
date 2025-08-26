@@ -2,7 +2,12 @@ export function findObjectById(array, targetId) {
   return array.roundMatchups.find((obj) => obj.matchupId === targetId);
 }
 
-export const uniqueByKey = (arr: Array<object>, key: String) => {
+export const removeArtistBracket = () => {
+  console.log("removeArtistBracket");
+  
+}
+
+export const uniqueByKey = (arr, key) => {
   return arr.filter((obj, index, self) =>
     index === self.findIndex((o) => o[key] === obj[key])
   );

@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useReducer } from 'react';
-import { uniqueByKey } from '../services/dataService';
+import { updateUserBracketLocalStorage } from '../services/userBracketLocalStorage';
 
 export const Context = createContext();
 
@@ -33,8 +33,7 @@ function bracketReducer(state, action) {
       };
     };
     case 'setUserBracket': {
-      let array1 = [...state.userBracket, action.payload.userBracket];
-      let finalArray = uniqueByKey(array1, 'artist')
+      updateUserBracketLocalStorage(action.payload.userBracket);
       return {
         ...state,
         userBracket: [...state.userBracket, action.payload.userBracket],

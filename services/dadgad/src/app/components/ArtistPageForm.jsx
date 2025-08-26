@@ -82,7 +82,6 @@ function ArtistPageForm() {
   const generateBracket = () => {
     const matchups = createMatchups(state.values.top_songs_list.slice(0, 64), 1);
     dispatch({ type: 'setBracket', payload: { bracket: matchups } });
-    dispatch({ type: 'setUserBracket', payload: { userBracket: {artist: handle, bracket: state.bracket, round: state.round}}});
   };
 
   useEffect(() => {
@@ -91,7 +90,8 @@ function ArtistPageForm() {
             if (Object.keys(state.bracket).length === 0) {
                 return;
             }
-            dispatch({ type: 'setUserBracket', payload: { userBracket: {artist: handle, bracket: state.bracket, round: state.round}}});
+            dispatch({ type: 'setUserBracket', payload: { userBracket: {artist: handle, bracket: state.bracket, round: state.round, currentRoundProgres: state.currentRoundProgres}}});
+
             /*
             toast("Bracket saved!", {
                 type: "success",
@@ -103,7 +103,7 @@ function ArtistPageForm() {
         }
     }, 10000);
 
-    return () => clearInterval(saveInterval); // Cleanup on unmount
+    return () => clearInterval(saveInterval);
   }, [state]);
 
   const {

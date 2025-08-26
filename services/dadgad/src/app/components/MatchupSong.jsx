@@ -1,5 +1,6 @@
 "use client";
 import { React, useContext, useState } from 'react';
+import { useParams } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +10,7 @@ import { findObjectById, generateNextRound } from '../services/dataService';
 export default function MatchupSong({
   thissong, opponent, matchupId, round, group, winner,
 }) {
+  const { handle } = useParams();
   const value = useContext(Context);
   const [state, dispatch] = value;
   const championship = Object.keys(state.championshipBracket).length !== 0;
@@ -162,7 +164,7 @@ export default function MatchupSong({
       updatedBracket[`round${state.round}`].progress = completedProgress/roundGroup.length;
     }
 
-
+    dispatch({ type: 'setUserBracket', payload: { userBracket: {artist: handle, bracket: state.bracket, round: state.round, currentRoundProgres: state.currentRoundProgres}}});
     nextRound();
   };
 
