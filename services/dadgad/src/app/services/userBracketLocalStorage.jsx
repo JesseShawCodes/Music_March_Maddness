@@ -15,7 +15,6 @@ function checkForArtistBracket(artist, storedBrackets) {
 }
 
 function updateArtistBracket(artist, storedBrackets, newBracket) {
-  console.log("NEed to update bracket");
   return storedBrackets.map(bracket => 
     bracket.artist === artist ? { ...bracket, ...newBracket } : bracket
   );
