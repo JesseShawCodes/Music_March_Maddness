@@ -11,78 +11,16 @@ import CheckIsIos from '../services/CheckIsIos';
 import WarningMessage from './WarningMessage';
 import {checkForArtistBracket} from '../services/userBracketLocalStorage';
 import InProgressBracket from './song_list/InProgressBracket';
-import { ToastContainer, toast } from 'react-toastify';
+import { createMatchups } from '../services/createBracket';
 
 function ArtistPageForm() {
   const { handle } = useParams();
   const value = useContext(Context);
   const [state, dispatch] = value;
 
-  const createMatchups = (arr, matchupRound) => {
-    const matchups = [];
-    const len = arr.length;
-
-    for (let i = 0; i < Math.floor(len / 2); i += 1) {
-      matchups.push(
-        {
-          matchupId: arr[i].id + arr[len - 1 - i].id,
-          round: matchupRound,
-          attributes: {
-            matchupComplete: false,
-            song1: {
-              song: arr[i],
-              groupRank: i + 1,
-              winner: null,
-            },
-            song2: {
-              song: arr[len - 1 - i],
-              groupRank: arr[len - 1 - i].rank,
-              winner: null,
-            },
-          },
-        },
-      );
-    }
-
-    const currentRound = `round${state.round}`;
-
-    const groups = {
-      group1: {
-        [currentRound]: {
-          roundMatchups: [],
-          progress: null,
-        },
-      },
-      group2: {
-        [currentRound]: {
-          roundMatchups: [],
-          progress: null,
-        },
-      },
-      group3: {
-        [currentRound]: {
-          roundMatchups: [],
-          progress: null,
-        },
-      },
-      group4: {
-        [currentRound]: {
-          roundMatchups: [],
-          progress: null,
-        },
-      },
-    };
-
-    for (let i = 0; i < matchups.length; i += 1) {
-      groups[`group${(i % 4) + 1}`][`${currentRound}`].roundMatchups.push(matchups[i]);
-    }
-
-    return groups;
-  };
-
   // generateBracket only runs on initial build of a bracket.
   const generateBracket = () => {
-    const matchups = createMatchups(state.values.top_songs_list.slice(0, 64), 1);
+    const matchups = createMatchups(state.values.top_songs_list.slice(0, 64), 1, `round${state.round}`);
     dispatch({ type: 'setBracket', payload: { bracket: matchups } });
   };
 
@@ -97,19 +35,12 @@ function ArtistPageForm() {
   useEffect(() => {
     const saveInterval = setInterval(() => {
         try {
-            if (Object.keys(state.bracket).length === 0) {
-                return;
-            }
-            dispatch({ type: 'setUserBracket', payload: { userBracket: {artist: handle, bracket: state.bracket, round: state.round, currentRoundProgres: state.currentRoundProgres}}});
-
-            /*
-            toast("Bracket saved!", {
-                type: "success",
-                autoClose: 20000,
-            });
-            */
+          if (Object.keys(state.bracket).length === 0) {
+            return;
+          }
+          dispatch({ type: 'setUserBracket', payload: { userBracket: {artist: handle, bracket: state.bracket, round: state.round, currentRoundProgres: state.currentRoundProgres}}});
         } catch (error) {
-            console.error("Error saving to local storage:", error);
+          console.error("Error saving to local storage:", error);
         }
     }, 10000);
 

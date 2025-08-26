@@ -1,13 +1,19 @@
 import { React, useContext } from 'react';
+import { useParams } from 'next/navigation';
+
 import { Context } from '../../context/BracketContext';
 import WarningMessage from '../WarningMessage';
 
 function InProgressBracket() {
+  const { handle } = useParams();
   const value = useContext(Context);
-  const [state] = value;
+  const [state, dispatch] = value;
 
   const showInProgressBracket = () => {
-    console.log("SHOW IN PROGRESS BRACKET");
+    const inProgressBracket = JSON.parse(localStorage.getItem("userBracket")).find(item => item.artist == handle);
+    dispatch({ type: 'setRound', payload: { round: inProgressBracket.round}});
+    dispatch({ type: 'setBracket', payload: { bracket: inProgressBracket.bracket}});
+    dispatch({ type: 'setCurrentRoundProgres', payload: {currentRoundProgres: inProgressBracket.currentRoundProgres}});
   }
 
   return (
