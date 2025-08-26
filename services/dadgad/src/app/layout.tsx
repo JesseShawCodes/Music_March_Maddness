@@ -7,6 +7,7 @@ import { ThemeProvider } from "./ThemeContext";
 import Footer from "./components/Footer";
 import { BracketContext } from "./context/BracketContext";
 import BootstrapClient from "./components/BootstrapClient";
+import ThemeButton from "./components/ThemeButton";
 import MaintenancePageContent from "./components/MaintenancePageContent";
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
           <main className="flex-grow-1 bg-my-gradient">
             {children}
           </main>
+          <ThemeButton />
           <Footer />
         </div>
         <BootstrapClient />
