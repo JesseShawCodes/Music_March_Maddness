@@ -5,8 +5,8 @@ import ThemeButton from './ThemeButton';
 function FloatingControls() {
   return (
     <div className="floating-controls">
-      <ThemeButton />
       <BackToTop />
+      <ThemeButton />
     </div>
   );
 }

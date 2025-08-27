@@ -49,16 +49,20 @@ body {
   }
 }
 
-/*Back to Top*/
+/*
+Floating Controls Container
+
+Back to top button
+Theme change button
+*/
 
 .floating-controls {
+  position: fixed;
+  bottom: 30px; 
+  right: 30px;
+
   #back_to_top_container {
-    width: 100px;
-    height: 100px;
     z-index: 100;
-    position: fixed;
-    bottom: 30px; 
-    right: 30px;
     transition: opacity 1.4s ease-in-out;
     #back_to_top {
 
@@ -86,12 +90,6 @@ body {
   }
 
   #theme-container {
-    width: 100px;
-    height: 100px;
-    z-index: 100;
-    position: fixed;
-    bottom: 70px; 
-    right: 30px;
     transition: opacity 1.4s ease-in-out;
     #change-theme {
 
@@ -100,7 +98,7 @@ body {
         outline: none;
         padding: 15px; 
         font-size: 18px; 
-        transition: all 23s ease 0s;
+        transition: all 1.5s ease 0s;
         cursor: pointer;
         border-radius: 50px;
         backface-visibility: hidden;
