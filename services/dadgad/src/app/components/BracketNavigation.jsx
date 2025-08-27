@@ -8,12 +8,12 @@ function BracketNavigation() {
   const value = useContext(Context);
   const [state, dispatch] = value;
 
-  const [currentPage] = useState(0); // State to manage the current page/step
   const totalPages = state.roundTotal; // Define total number of pages
 
   // Function to navigate to the previous round
   const handlePrevious = () => {
     dispatch({ type: 'setRound', payload: { round: state.round - 1 } });
+    dispatch({ type: 'setCurrentRoundProgres', payload: { currentRoundProgres: 0.20 } });
   };
 
   // Function to navigate to the next round

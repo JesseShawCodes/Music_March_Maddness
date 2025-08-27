@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { Context } from '../context/BracketContext';
 import { findObjectById, generateNextRound } from '../services/dataService';
+import { progressCalculation } from '../services/progressCalculationService';
 
 export default function MatchupSong({
   thissong, opponent, matchupId, round, group, winner,
@@ -37,17 +38,12 @@ export default function MatchupSong({
     var groupProg = 0;
 
     if (!championship) {
-      for (const key in state.bracket) {
-        if (typeof state.bracket[key][`round${state.round}`].progress != undefined) {
-          groupProg += state.bracket[key][`round${state.round}`].progress;
-        }
-      }
-      var currentRoundProgres = groupProg/len;
+      var currentRoundProgres = progressCalculation(state, groupProg, len);
     } else {
       for (const key in state.championshipBracket) {
         groupProg += state.championshipBracket[key].progress;
       }
-      var currentRoundProgres = groupProg;
+      var currentRoundProgres = progressCalculation(state, groupProg, len, true);
     }
     
     dispatch(
