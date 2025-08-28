@@ -25,6 +25,7 @@ function ArtistPageForm() {
   };
 
   const CheckLocalBrackets = () => {
+    // Check brackets in local storage.
     const localBrackets = JSON.parse(localStorage.getItem("userBracket"));
     let initialLocalBracketCheck = checkForArtistBracket(handle, localBrackets);
     if (initialLocalBracketCheck) {

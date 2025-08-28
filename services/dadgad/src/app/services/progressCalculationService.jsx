@@ -1,5 +1,4 @@
 export function progressCalculation(state, groupProg=0, length, championship=false) {
-  console.log("progressCalculationService");
   if (championship) {
     for (const key in state.championshipBracket) {
       groupProg += state.championshipBracket[key].progress;

@@ -37,7 +37,7 @@ function bracketReducer(state, action) {
       updateUserBracketLocalStorage(action.payload.userBracket);
       return {
         ...state,
-        userBracket: [...state.userBracket, action.payload.userBracket],
+        userBracket: localStorage.getItem('userBracket') ? JSON.parse(localStorage.getItem('userBracket')) : action.payload.userBracket,
       }
     };
     case 'setBracket':

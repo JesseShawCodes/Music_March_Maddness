@@ -3,16 +3,16 @@ import { Context } from '../context/BracketContext';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { progressCalculation } from '../services/progressCalculationService';
 
 function BracketNavigation() {
   const value = useContext(Context);
   const [state, dispatch] = value;
 
-  const totalPages = state.roundTotal; // Define total number of pages
-
   // Function to navigate to the previous round
   const handlePrevious = () => {
     dispatch({ type: 'setRound', payload: { round: state.round - 1 } });
+    console.log(progressCalculation(state, 0, Object.keys(state.bracket).length));
     dispatch({ type: 'setCurrentRoundProgres', payload: { currentRoundProgres: 0.20 } });
   };
 
@@ -38,7 +38,7 @@ function BracketNavigation() {
             </button>
             <div className="text-center mb-4 p-4 bg-opacity-10">
               <h2 className="fs-4 text-white mb-2">
-                Round {state.round} of {totalPages}
+                Round {state.round}
               </h2>
             </div>
             <button

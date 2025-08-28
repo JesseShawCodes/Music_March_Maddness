@@ -4,9 +4,12 @@ import { useParams } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-import { Context } from '../context/BracketContext';
-import { findObjectById, generateNextRound } from '../services/dataService';
-import { progressCalculation } from '../services/progressCalculationService';
+
+import MatchupSongButton from './MatchupSongButton';
+import { Context } from '../../context/BracketContext';
+import { findObjectById, generateNextRound } from '../../services/dataService';
+import { progressCalculation } from '../../services/progressCalculationService';
+import { nextRound as nextRoundExternal } from '../../services/nextRound';
 
 export default function MatchupSong({
   thissong, opponent, matchupId, round, group, winner,
@@ -17,34 +20,23 @@ export default function MatchupSong({
   const championship = Object.keys(state.championshipBracket).length !== 0;
   const [boxShadow, setBoxShadow] = useState('none');
   let finalTwo;
+  let currentPositionBracket;
 
   if (championship) {
     if (state.championshipBracket.round6) {
       finalTwo = state.championshipBracket.round6.roundMatchups ? true : null;
     }
-  } 
-  let currentPositionBracket;
-
-  if (championship) {
     currentPositionBracket = state.championshipBracket;
   } else {
     currentPositionBracket = state.bracket;
   }
 
-  const bgColor = thissong.song.attributes.artwork.bgColor;
-
   const nextRound = () => {
+    nextRoundExternal();
     var len = Object.keys(currentPositionBracket).length;
     var groupProg = 0;
 
-    if (!championship) {
-      var currentRoundProgres = progressCalculation(state, groupProg, len);
-    } else {
-      for (const key in state.championshipBracket) {
-        groupProg += state.championshipBracket[key].progress;
-      }
-      var currentRoundProgres = progressCalculation(state, groupProg, len, true);
-    }
+    var currentRoundProgres = progressCalculation(state, groupProg, len, championship);
     
     dispatch(
       { type: 'setCurrentRoundProgres', payload: {currentRoundProgres: currentRoundProgres}},
@@ -167,19 +159,7 @@ export default function MatchupSong({
   winner = typeof (winner) !== "undefined" ? winner.id : null
 
   return (
-    <button className="w-50 user-select-none btn" 
-      style={{ 
-        color: `#${thissong.song.attributes.artwork.textColor1}`, 
-        backgroundColor: `#${bgColor}`,
-        boxShadow: boxShadow,
-      }}
-      onFocus={() =>
-        setBoxShadow(`0 0 10px #${bgColor}, 0 0 10px #${thissong.song.attributes.artwork.textColor1}`)
-      }
-      onBlur={() => setBoxShadow('none')}
-    data-song-id={thissong.song.id} onClick={selectWinner}>
-      {thissong.song.attributes.name} { winner == thissong.song.id ? <FontAwesomeIcon icon={faCheckCircle} className='text-success' /> : null }
-    </button>
+    <MatchupSongButton thissong={thissong} boxShadow={boxShadow} setBoxShadow={setBoxShadow} selectWinner={selectWinner} winner={winner}/>
   );
 }
 
