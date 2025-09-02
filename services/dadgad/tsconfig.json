@@ -28,8 +28,10 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/app/utility/PrettyPrintJson.jsx", "src/app/context/BracketContext.jsx", "src/app/services/dataService.jsx"  ],
+    "**/*.tsx",  
+    "src/app/context/BracketContext.jsx", 
+    "src/app/services/dataService.jsx"  
+  ],
   "exclude": [
     "node_modules"
   ]
