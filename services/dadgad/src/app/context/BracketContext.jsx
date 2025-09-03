@@ -12,6 +12,7 @@ const initialState = {
   round: 1,
   roundTotal: 1,
   currentRoundProgres: 0,
+  currentRound: 0,
   selectedGroup: 'all',
   nonGroupPlay: false,
   finalFour: false,
@@ -31,6 +32,12 @@ function bracketReducer(state, action) {
       return {
         ...state,
         values: action.payload.values,
+      };
+    };
+    case 'setCurrentRound': {
+      return {
+        ...state,
+        currentRound: action.payload.currentRound,
       };
     };
     case 'setUserBracket': {

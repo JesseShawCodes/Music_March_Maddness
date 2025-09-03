@@ -1,5 +1,5 @@
 export function checkForArtistBracket(artist, storedBrackets) {
-  if (storedBrackets.length == 0) {
+  if (!storedBrackets || storedBrackets.length == 0) {
     return false;
   } else {
     // Check if storedbracket contains a bracket with artist ID
